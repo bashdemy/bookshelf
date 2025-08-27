@@ -2,8 +2,11 @@ export interface Book {
   id: number;
   title: string;
   author: string;
-  status: 'reading' | 'completed' | 'to-read';
-  notes?: string | null;
+  status: 'to-read' | 'reading' | 'completed';
+  notes?: string;
+  rating?: number;
+  pages?: number;
+  genre?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -11,6 +14,10 @@ export interface Book {
 export interface NewBook {
   title: string;
   author: string;
-  status?: 'reading' | 'completed' | 'to-read';
-  notes?: string | null;
+  status?: 'to-read' | 'reading' | 'completed';
+  notes?: string;
+  rating?: number;
+  pages?: number;
+  genre?: string;
+  adminKey: string;
 }
