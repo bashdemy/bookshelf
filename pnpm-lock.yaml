@@ -20,6 +20,9 @@ importers:
       drizzle-orm:
         specifier: ^0.29.0
         version: 0.29.5(@cloudflare/workers-types@4.20250826.0)(@types/better-sqlite3@7.6.13)(@types/react@18.3.24)(better-sqlite3@9.6.0)(react@18.3.1)
+      lucide-react:
+        specifier: ^0.263.1
+        version: 0.263.1(react@18.3.1)
       next:
         specifier: ^14.0.0
         version: 14.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -2078,6 +2081,11 @@ packages:
 
   lru-queue@0.1.0:
     resolution: {integrity: sha512-BpdYkt9EvGl8OfWHDQPISVpcl5xZthb+XPsbELj5AQXxIC8IriDZIQYjBJPEm5rS420sjZ0TLEzRcq5KdBhYrQ==}
+
+  lucide-react@0.263.1:
+    resolution: {integrity: sha512-keqxAx97PlaEN89PXZ6ki1N8nRjGWtDa4021GFYLNj0RgruM5odbpl8GHTExj0hhPq3sF6Up0gnxt6TSHu+ovw==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
 
   magic-string@0.25.9:
     resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==}
@@ -4818,6 +4826,10 @@ snapshots:
   lru-queue@0.1.0:
     dependencies:
       es5-ext: 0.10.64
+
+  lucide-react@0.263.1(react@18.3.1):
+    dependencies:
+      react: 18.3.1
 
   magic-string@0.25.9:
     dependencies:

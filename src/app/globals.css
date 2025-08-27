@@ -3,21 +3,29 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --border: 214.3 31.8% 91.4%;
-  --muted: 210 40% 96%;
-  --muted-foreground: 215.4 16.3% 46.9%;
+  /* Deeper Dusty Pink Theme */
+  --background: #f5ebe9;
+  --foreground: #232020;
+  --border: 0 0% 90%;
+  --muted: 0 0% 96%;
+  --muted-foreground: #704a51;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --border: 217.2 32.6% 17.5%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-  }
+.dark {
+  --background: #f5ebe9;
+  --foreground: #232020;
+  --border: 0 0% 20%;
+  --muted: 0 0% 15%;
+  --muted-foreground: #704a51;
+}
+
+/* Ensure light mode is properly applied */
+.light {
+  --background: #f5ebe9;
+  --foreground: #232020;
+  --border: 0 0% 90%;
+  --muted: 0 0% 96%;
+  --muted-foreground: #704a51;
 }
 
 body {
@@ -27,9 +35,19 @@ body {
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-pink-200 dark:border-pink-800;
   }
   body {
     @apply bg-background text-foreground;
+  }
+  
+  /* Remove default focus outline and replace with pink */
+  *:focus {
+    outline: none;
+  }
+  
+  *:focus-visible {
+    outline: 2px solid theme('colors.pink.500');
+    outline-offset: 2px;
   }
 }

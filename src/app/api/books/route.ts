@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import type { NewBook } from '@/db/schema';
+import type { NewBook } from '@/types/book';
 
 export async function GET() {
   try {

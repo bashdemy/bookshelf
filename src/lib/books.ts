@@ -1,4 +1,4 @@
-import type { NewBook } from '@/db/schema';
+import type { NewBook } from '@/types/book';
 
 // This will be available in Cloudflare Pages Functions
 declare global {
