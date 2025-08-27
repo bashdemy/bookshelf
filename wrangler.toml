@@ -1,0 +1,22 @@
+name = "bookshelf"
+compatibility_date = "2023-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+[env.production]
+name = "bookshelf"
+route = "bookshelf.bashdemy.com/*"
+
+[env.production.d1_databases]
+DB = { binding = "DB", database_name = "bookshelf-db", database_id = "your-database-id" }
+
+[env.development]
+name = "bookshelf-dev"
+
+[env.development.d1_databases]
+DB = { binding = "DB", database_name = "bookshelf-dev", database_id = "your-dev-database-id" }
+
+[[env.production.vars]]
+ADMIN_KEY = "your-production-admin-key"
+
+[[env.development.vars]]
+ADMIN_KEY = "your-dev-admin-key"
