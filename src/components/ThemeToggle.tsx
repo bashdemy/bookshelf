@@ -8,13 +8,13 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="fixed top-4 right-4 z-50 p-3 rounded-full bg-white/90 backdrop-blur-sm border border-[#c9b7b4] shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group"
+      className="fixed top-4 right-4 z-50 p-3 rounded-full bg-background/90 backdrop-blur-sm border border-border shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group"
       aria-label="Toggle theme"
     >
       <div className="relative w-5 h-5">
         {/* Sun Icon */}
         <svg 
-          className={`absolute inset-0 w-5 h-5 text-[#b57281] transition-all duration-300 ${
+          className={`absolute inset-0 w-5 h-5 text-primary transition-all duration-300 ${
             theme === 'light' ? 'opacity-100 rotate-0' : 'opacity-0 -rotate-90'
           }`}
           fill="none"
@@ -34,7 +34,7 @@ export default function ThemeToggle() {
         
         {/* Moon Icon */}
         <svg 
-          className={`absolute inset-0 w-5 h-5 text-[#704a51] transition-all duration-300 ${
+          className={`absolute inset-0 w-5 h-5 text-primary transition-all duration-300 ${
             theme === 'dark' ? 'opacity-100 rotate-0' : 'opacity-0 rotate-90'
           }`}
           fill="none"

@@ -1,6 +1,6 @@
 import { db } from '@/db';
 import { books } from '@/db/schema';
-import { eq } from 'drizzle-orm';
+import { eq, desc } from 'drizzle-orm';
 
 // Mock data for development
 const mockBooks = [
@@ -32,7 +32,13 @@ const mockBooks = [
 
 export async function getBooks() {
   try {
-    const result = await db.select().from(books).orderBy(books.createdAt);
+    // Check if db is a mock database
+    if (!db.select || typeof db.select !== 'function') {
+      console.log('Using mock data for books');
+      return mockBooks;
+    }
+    
+    const result = await db.select().from(books).orderBy(desc(books.createdAt));
     return result;
   } catch (error) {
     console.error('Error fetching books:', error);
@@ -51,10 +57,12 @@ export async function addBook(bookData: {
 }) {
   try {
     const now = new Date();
+    const timestamp = Math.floor(now.getTime() / 1000); // Convert to Unix timestamp
+    
     const result = await db.insert(books).values({
       ...bookData,
-      createdAt: now,
-      updatedAt: now,
+      createdAt: timestamp,
+      updatedAt: timestamp,
     });
     return result;
   } catch (error) {
@@ -66,9 +74,12 @@ export async function addBook(bookData: {
 
 export async function updateBook(id: number, bookData: Partial<typeof books.$inferInsert>) {
   try {
+    const now = new Date();
+    const timestamp = Math.floor(now.getTime() / 1000); // Convert to Unix timestamp
+    
     const result = await db.update(books).set({
       ...bookData,
-      updatedAt: new Date(),
+      updatedAt: timestamp,
     }).where(eq(books.id, id));
     return result;
   } catch (error) {

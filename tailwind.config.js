@@ -11,37 +11,6 @@ module.exports = {
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
-  			border: 'hsl(var(--border))',
-  			muted: {
-  				DEFAULT: 'hsl(var(--muted))',
-  				foreground: 'hsl(var(--muted-foreground))'
-  			},
-  			pink: {
-  				'50': '#fdf2f8',
-  				'100': '#fce7f3',
-  				'200': '#fbcfe8',
-  				'300': '#f9a8d4',
-  				'400': '#f472b6',
-  				'500': '#ec4899',
-  				'600': '#db2777',
-  				'700': '#be185d',
-  				'800': '#9d174d',
-  				'900': '#831843',
-  				'950': '#500724'
-  			},
-  			dusty: {
-  				'50': '#fef7f7',
-  				'100': '#fdeeee',
-  				'200': '#fbdcdc',
-  				'300': '#f7c2c2',
-  				'400': '#f19a9a',
-  				'500': '#e76b6b',
-  				'600': '#d94a4a',
-  				'700': '#b83a3a',
-  				'800': '#9a3333',
-  				'900': '#7f3030',
-  				'950': '#441616'
-  			},
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'
@@ -58,6 +27,10 @@ module.exports = {
   				DEFAULT: 'hsl(var(--secondary))',
   				foreground: 'hsl(var(--secondary-foreground))'
   			},
+  			muted: {
+  				DEFAULT: 'hsl(var(--muted))',
+  				foreground: 'hsl(var(--muted-foreground))'
+  			},
   			accent: {
   				DEFAULT: 'hsl(var(--accent))',
   				foreground: 'hsl(var(--accent-foreground))'
@@ -66,6 +39,7 @@ module.exports = {
   				DEFAULT: 'hsl(var(--destructive))',
   				foreground: 'hsl(var(--destructive-foreground))'
   			},
+  			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
   			chart: {

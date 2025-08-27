@@ -1,6 +1,6 @@
 import { db } from '@/db';
 import { articles } from '@/db/schema';
-import { eq } from 'drizzle-orm';
+import { eq, desc } from 'drizzle-orm';
 
 // Mock data for development
 const mockArticles = [
@@ -34,7 +34,13 @@ const mockArticles = [
 
 export async function getArticles() {
   try {
-    const result = await db.select().from(articles).orderBy(articles.createdAt);
+    // Check if db is a mock database
+    if (!db.select || typeof db.select !== 'function') {
+      console.log('Using mock data for articles');
+      return mockArticles;
+    }
+    
+    const result = await db.select().from(articles).orderBy(desc(articles.createdAt));
     return result;
   } catch (error) {
     console.error('Error fetching articles:', error);
@@ -54,10 +60,12 @@ export async function addArticle(articleData: {
 }) {
   try {
     const now = new Date();
+    const timestamp = Math.floor(now.getTime() / 1000); // Convert to Unix timestamp
+    
     const result = await db.insert(articles).values({
       ...articleData,
-      createdAt: now,
-      updatedAt: now,
+      createdAt: timestamp,
+      updatedAt: timestamp,
     });
     return result;
   } catch (error) {
@@ -69,9 +77,12 @@ export async function addArticle(articleData: {
 
 export async function updateArticle(id: number, articleData: Partial<typeof articles.$inferInsert>) {
   try {
+    const now = new Date();
+    const timestamp = Math.floor(now.getTime() / 1000); // Convert to Unix timestamp
+    
     const result = await db.update(articles).set({
       ...articleData,
-      updatedAt: new Date(),
+      updatedAt: timestamp,
     }).where(eq(articles.id, id));
     return result;
   } catch (error) {

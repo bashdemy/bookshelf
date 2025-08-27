@@ -6,14 +6,17 @@ import * as schema from './schema';
 let db: any;
 
 try {
-  const sqlite = new Database('bookshelf.db');
+  const sqlite = new Database('./bookshelf.db');
   db = drizzle(sqlite, { schema });
+  console.log('Database connected successfully');
 } catch (error) {
   console.warn('Database not available, using mock data');
   // Mock database for development
   db = {
     select: () => ({
-      from: () => Promise.resolve([]),
+      from: () => ({
+        orderBy: () => Promise.resolve([]),
+      }),
     }),
     insert: () => ({
       values: () => Promise.resolve({}),
