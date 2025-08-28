@@ -13,7 +13,7 @@ export default function ThemeToggle() {
     >
       <div className="relative w-5 h-5">
         {/* Sun Icon */}
-        <svg 
+        <svg
           className={`absolute inset-0 w-5 h-5 text-primary transition-all duration-300 ${
             theme === 'light' ? 'opacity-100 rotate-0' : 'opacity-0 -rotate-90'
           }`}
@@ -31,9 +31,9 @@ export default function ThemeToggle() {
           <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
           <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
         </svg>
-        
+
         {/* Moon Icon */}
-        <svg 
+        <svg
           className={`absolute inset-0 w-5 h-5 text-primary transition-all duration-300 ${
             theme === 'dark' ? 'opacity-100 rotate-0' : 'opacity-0 rotate-90'
           }`}

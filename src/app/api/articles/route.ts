@@ -7,13 +7,16 @@ export async function GET() {
     const articles = await getArticles();
     return NextResponse.json(articles);
   } catch {
-    return NextResponse.json({ error: 'Failed to fetch articles' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch articles' },
+      { status: 500 }
+    );
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json() as NewArticle;
+    const body = (await request.json()) as NewArticle;
     const { adminKey, ...articleData } = body;
 
     // Simple admin key validation
@@ -24,6 +27,9 @@ export async function POST(request: NextRequest) {
     const result = await addArticle(articleData);
     return NextResponse.json(result, { status: 201 });
   } catch {
-    return NextResponse.json({ error: 'Failed to add article' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to add article' },
+      { status: 500 }
+    );
   }
 }

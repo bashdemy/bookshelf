@@ -9,7 +9,9 @@ export default function AddItemPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Add New Item</h1>
-        <p className="text-muted-foreground">Add a new book or article to your collection.</p>
+        <p className="text-muted-foreground">
+          Add a new book or article to your collection.
+        </p>
       </div>
 
       <Tabs defaultValue="book" className="space-y-6">

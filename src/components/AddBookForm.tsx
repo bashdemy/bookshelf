@@ -5,7 +5,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Plus, Loader2 } from 'lucide-react';
 
@@ -25,8 +31,12 @@ export default function AddBookForm() {
       author: formData.get('author') as string,
       status: formData.get('status') as string,
       notes: formData.get('notes') as string,
-      rating: formData.get('rating') ? parseInt(formData.get('rating') as string) : undefined,
-      pages: formData.get('pages') ? parseInt(formData.get('pages') as string) : undefined,
+      rating: formData.get('rating')
+        ? parseInt(formData.get('rating') as string)
+        : undefined,
+      pages: formData.get('pages')
+        ? parseInt(formData.get('pages') as string)
+        : undefined,
       genre: formData.get('genre') as string,
       adminKey: formData.get('adminKey') as string,
     };
@@ -70,7 +80,9 @@ export default function AddBookForm() {
             </div>
             <CardTitle>Add New Book</CardTitle>
           </div>
-          <Plus className={`w-6 h-6 transition-transform duration-300 ${isExpanded ? 'rotate-45' : 'rotate-0'}`} />
+          <Plus
+            className={`w-6 h-6 transition-transform duration-300 ${isExpanded ? 'rotate-45' : 'rotate-0'}`}
+          />
         </Button>
       </CardHeader>
 
@@ -88,7 +100,7 @@ export default function AddBookForm() {
                   placeholder="Enter book title..."
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="author">Author *</Label>
                 <Input
@@ -175,20 +187,18 @@ export default function AddBookForm() {
             </div>
 
             {message && (
-              <div className={`p-4 rounded-lg border ${
-                message.includes('Error') 
-                  ? 'bg-destructive/10 text-destructive border-destructive/20' 
-                  : 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800'
-              }`}>
+              <div
+                className={`p-4 rounded-lg border ${
+                  message.includes('Error')
+                    ? 'bg-destructive/10 text-destructive border-destructive/20'
+                    : 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800'
+                }`}
+              >
                 {message}
               </div>
             )}
 
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full"
-            >
+            <Button type="submit" disabled={isSubmitting} className="w-full">
               {isSubmitting ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />

@@ -11,19 +11,21 @@ export default function BookCard({ book }: BookCardProps) {
   const statusConfig = {
     reading: {
       variant: 'default' as const,
-      label: 'Reading'
+      label: 'Reading',
     },
     completed: {
       variant: 'secondary' as const,
-      label: 'Completed'
+      label: 'Completed',
     },
     'to-read': {
       variant: 'outline' as const,
-      label: 'To Read'
+      label: 'To Read',
     },
   };
 
-  const config = statusConfig[book.status as keyof typeof statusConfig] || statusConfig['to-read'];
+  const config =
+    statusConfig[book.status as keyof typeof statusConfig] ||
+    statusConfig['to-read'];
 
   return (
     <Card className="group hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
@@ -40,7 +42,7 @@ export default function BookCard({ book }: BookCardProps) {
           by {book.author}
         </p>
       </CardHeader>
-      
+
       <CardContent className="pt-0">
         {book.notes && (
           <div className="mb-4 p-3 bg-muted/50 rounded-lg border">
@@ -49,7 +51,7 @@ export default function BookCard({ book }: BookCardProps) {
             </p>
           </div>
         )}
-        
+
         <div className="flex items-center justify-between text-xs text-muted-foreground">
           <span>Added {book.createdAt?.toLocaleDateString()}</span>
           {book.rating && (
@@ -59,7 +61,7 @@ export default function BookCard({ book }: BookCardProps) {
             </div>
           )}
         </div>
-        
+
         {(book.pages || book.genre) && (
           <>
             <Separator className="my-3" />

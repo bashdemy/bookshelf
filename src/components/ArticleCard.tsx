@@ -13,19 +13,21 @@ export default function ArticleCard({ article }: ArticleCardProps) {
   const statusConfig = {
     reading: {
       variant: 'default' as const,
-      label: 'Reading'
+      label: 'Reading',
     },
     completed: {
       variant: 'secondary' as const,
-      label: 'Completed'
+      label: 'Completed',
     },
     'to-read': {
       variant: 'outline' as const,
-      label: 'To Read'
+      label: 'To Read',
     },
   };
 
-  const config = statusConfig[article.status as keyof typeof statusConfig] || statusConfig['to-read'];
+  const config =
+    statusConfig[article.status as keyof typeof statusConfig] ||
+    statusConfig['to-read'];
 
   return (
     <Card className="group hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
@@ -48,7 +50,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
           )}
         </div>
       </CardHeader>
-      
+
       <CardContent className="pt-0">
         {article.summary && (
           <div className="mb-4 p-3 bg-muted/50 rounded-lg border">
@@ -57,7 +59,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
             </p>
           </div>
         )}
-        
+
         {article.notes && (
           <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
             <p className="text-sm text-blue-700 dark:text-blue-300 line-clamp-3">
@@ -65,7 +67,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
             </p>
           </div>
         )}
-        
+
         <div className="flex items-center justify-between text-xs text-muted-foreground">
           <span>Added {article.createdAt?.toLocaleDateString()}</span>
           {article.url && (
@@ -77,7 +79,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
             </Button>
           )}
         </div>
-        
+
         {article.tags && (
           <>
             <Separator className="my-3" />

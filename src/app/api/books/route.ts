@@ -16,15 +16,12 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json() as NewBook;
+    const body = (await request.json()) as NewBook;
     const { adminKey, ...bookData } = body;
 
     // Validate admin key
     if (adminKey !== process.env.ADMIN_KEY) {
-      return NextResponse.json(
-        { error: 'Invalid admin key' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Invalid admin key' }, { status: 401 });
     }
 
     // Validate required fields
@@ -41,9 +38,6 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch {
-    return NextResponse.json(
-      { error: 'Failed to add book' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to add book' }, { status: 500 });
   }
 }

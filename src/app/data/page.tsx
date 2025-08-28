@@ -16,9 +16,15 @@ export default async function DataPage() {
     reading: books.filter((b: Book) => b.status === 'reading').length,
     completed: books.filter((b: Book) => b.status === 'completed').length,
     toRead: books.filter((b: Book) => b.status === 'to-read').length,
-    averageRating: books.filter((b: Book) => b.rating).length > 0 
-      ? (books.filter((b: Book) => b.rating).reduce((sum: number, b: Book) => sum + (b.rating || 0), 0) / books.filter((b: Book) => b.rating).length).toFixed(1)
-      : 'N/A'
+    averageRating:
+      books.filter((b: Book) => b.rating).length > 0
+        ? (
+            books
+              .filter((b: Book) => b.rating)
+              .reduce((sum: number, b: Book) => sum + (b.rating || 0), 0) /
+            books.filter((b: Book) => b.rating).length
+          ).toFixed(1)
+        : 'N/A',
   };
 
   const articleStats = {
@@ -31,20 +37,25 @@ export default async function DataPage() {
   // Calculate top genres
   const genreCounts = books
     .filter((b: Book) => b.genre)
-    .reduce((acc: Record<string, number>, book: Book) => {
-      acc[book.genre!] = (acc[book.genre!] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
+    .reduce(
+      (acc: Record<string, number>, book: Book) => {
+        acc[book.genre!] = (acc[book.genre!] || 0) + 1;
+        return acc;
+      },
+      {} as Record<string, number>
+    );
 
   const topGenres = Object.entries(genreCounts)
-    .sort(([,a], [,b]) => (b as number) - (a as number))
+    .sort(([, a], [, b]) => (b as number) - (a as number))
     .slice(0, 5);
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Data & Analytics</h1>
-        <p className="text-muted-foreground">Visualize your reading habits and track your progress.</p>
+        <p className="text-muted-foreground">
+          Visualize your reading habits and track your progress.
+        </p>
       </div>
 
       <Tabs defaultValue="overview" className="space-y-6">
@@ -58,7 +69,9 @@ export default async function DataPage() {
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Books</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Total Books
+                </CardTitle>
                 <BookOpen className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
@@ -71,24 +84,31 @@ export default async function DataPage() {
 
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Articles</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Total Articles
+                </CardTitle>
                 <FileText className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{articleStats.total}</div>
                 <p className="text-xs text-muted-foreground">
-                  {articleStats.completed} completed, {articleStats.reading} reading
+                  {articleStats.completed} completed, {articleStats.reading}{' '}
+                  reading
                 </p>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Items</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Total Items
+                </CardTitle>
                 <BarChart3 className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{bookStats.total + articleStats.total}</div>
+                <div className="text-2xl font-bold">
+                  {bookStats.total + articleStats.total}
+                </div>
                 <p className="text-xs text-muted-foreground">
                   Combined books and articles
                 </p>
@@ -97,14 +117,16 @@ export default async function DataPage() {
 
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Avg Book Rating</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Avg Book Rating
+                </CardTitle>
                 <TrendingUp className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{bookStats.averageRating}</div>
-                <p className="text-xs text-muted-foreground">
-                  Out of 5 stars
-                </p>
+                <div className="text-2xl font-bold">
+                  {bookStats.averageRating}
+                </div>
+                <p className="text-xs text-muted-foreground">Out of 5 stars</p>
               </CardContent>
             </Card>
           </div>
@@ -140,12 +162,20 @@ export default async function DataPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  {books.slice(-5).reverse().map((book: Book) => (
-                    <div key={book.id} className="flex justify-between items-center">
-                      <span className="text-sm truncate">{book.title}</span>
-                      <span className="text-xs text-muted-foreground">{book.status}</span>
-                    </div>
-                  ))}
+                  {books
+                    .slice(-5)
+                    .reverse()
+                    .map((book: Book) => (
+                      <div
+                        key={book.id}
+                        className="flex justify-between items-center"
+                      >
+                        <span className="text-sm truncate">{book.title}</span>
+                        <span className="text-xs text-muted-foreground">
+                          {book.status}
+                        </span>
+                      </div>
+                    ))}
                 </div>
               </CardContent>
             </Card>
@@ -164,7 +194,9 @@ export default async function DataPage() {
                       </div>
                     ))
                   ) : (
-                    <p className="text-sm text-muted-foreground">No genres added yet</p>
+                    <p className="text-sm text-muted-foreground">
+                      No genres added yet
+                    </p>
                   )}
                 </div>
               </CardContent>
@@ -202,12 +234,22 @@ export default async function DataPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  {articles.slice(-5).reverse().map((article: Article) => (
-                    <div key={article.id} className="flex justify-between items-center">
-                      <span className="text-sm truncate">{article.title}</span>
-                      <span className="text-xs text-muted-foreground">{article.status}</span>
-                    </div>
-                  ))}
+                  {articles
+                    .slice(-5)
+                    .reverse()
+                    .map((article: Article) => (
+                      <div
+                        key={article.id}
+                        className="flex justify-between items-center"
+                      >
+                        <span className="text-sm truncate">
+                          {article.title}
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                          {article.status}
+                        </span>
+                      </div>
+                    ))}
                 </div>
               </CardContent>
             </Card>

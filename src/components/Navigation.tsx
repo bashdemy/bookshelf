@@ -2,7 +2,12 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from '@/components/ui/navigation-menu';
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
 import { BookOpen, FileText, BarChart3, Plus } from 'lucide-react';
 
@@ -19,7 +24,7 @@ export default function Navigation() {
   return (
     <NavigationMenu className="max-w-none">
       <NavigationMenuList className="space-x-1">
-        {navigation.map((item) => {
+        {navigation.map(item => {
           const isActive = pathname === item.href;
           return (
             <NavigationMenuItem key={item.name}>

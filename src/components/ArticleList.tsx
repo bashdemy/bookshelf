@@ -8,7 +8,9 @@ export default async function ArticleList() {
   if (articles.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-muted-foreground">No articles yet. Add your first article!</p>
+        <p className="text-muted-foreground">
+          No articles yet. Add your first article!
+        </p>
       </div>
     );
   }

@@ -32,9 +32,7 @@ export default function RootLayout({
                 <Navigation />
               </div>
             </header>
-            <main>
-              {children}
-            </main>
+            <main>{children}</main>
           </div>
         </ThemeProvider>
       </body>

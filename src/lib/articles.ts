@@ -6,27 +6,27 @@ import { eq, desc } from 'drizzle-orm';
 const mockArticles = [
   {
     id: 1,
-    title: "The Future of Web Development",
-    url: "https://example.com/future-web-dev",
-    author: "Jane Smith",
-    publication: "Tech Blog",
-    summary: "An overview of emerging trends in web development",
-    notes: "Interesting insights about React Server Components",
-    tags: "web development, react, javascript",
-    status: "completed",
+    title: 'The Future of Web Development',
+    url: 'https://example.com/future-web-dev',
+    author: 'Jane Smith',
+    publication: 'Tech Blog',
+    summary: 'An overview of emerging trends in web development',
+    notes: 'Interesting insights about React Server Components',
+    tags: 'web development, react, javascript',
+    status: 'completed',
     createdAt: new Date('2024-01-10'),
     updatedAt: new Date('2024-01-10'),
   },
   {
     id: 2,
-    title: "Understanding TypeScript Generics",
-    url: "https://example.com/typescript-generics",
-    author: "John Doe",
-    publication: "Programming Weekly",
-    summary: "Deep dive into TypeScript generic types",
-    notes: "Great examples, need to practice more",
-    tags: "typescript, programming, generics",
-    status: "reading",
+    title: 'Understanding TypeScript Generics',
+    url: 'https://example.com/typescript-generics',
+    author: 'John Doe',
+    publication: 'Programming Weekly',
+    summary: 'Deep dive into TypeScript generic types',
+    notes: 'Great examples, need to practice more',
+    tags: 'typescript, programming, generics',
+    status: 'reading',
     createdAt: new Date('2024-01-20'),
     updatedAt: new Date('2024-01-20'),
   },
@@ -39,8 +39,11 @@ export async function getArticles() {
       console.log('Using mock data for articles');
       return mockArticles;
     }
-    
-    const result = await db.select().from(articles).orderBy(desc(articles.createdAt));
+
+    const result = await db
+      .select()
+      .from(articles)
+      .orderBy(desc(articles.createdAt));
     return result;
   } catch (error) {
     console.error('Error fetching articles:', error);
@@ -61,7 +64,7 @@ export async function addArticle(articleData: {
   try {
     const now = new Date();
     const timestamp = Math.floor(now.getTime() / 1000); // Convert to Unix timestamp
-    
+
     const result = await db.insert(articles).values({
       ...articleData,
       createdAt: timestamp,
@@ -75,15 +78,21 @@ export async function addArticle(articleData: {
   }
 }
 
-export async function updateArticle(id: number, articleData: Partial<typeof articles.$inferInsert>) {
+export async function updateArticle(
+  id: number,
+  articleData: Partial<typeof articles.$inferInsert>
+) {
   try {
     const now = new Date();
     const timestamp = Math.floor(now.getTime() / 1000); // Convert to Unix timestamp
-    
-    const result = await db.update(articles).set({
-      ...articleData,
-      updatedAt: timestamp,
-    }).where(eq(articles.id, id));
+
+    const result = await db
+      .update(articles)
+      .set({
+        ...articleData,
+        updatedAt: timestamp,
+      })
+      .where(eq(articles.id, id));
     return result;
   } catch (error) {
     console.error('Error updating article:', error);

@@ -8,7 +8,9 @@ export default async function BookList() {
   if (books.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-muted-foreground">No books yet. Add your first book!</p>
+        <p className="text-muted-foreground">
+          No books yet. Add your first book!
+        </p>
       </div>
     );
   }

@@ -6,25 +6,25 @@ import { eq, desc } from 'drizzle-orm';
 const mockBooks = [
   {
     id: 1,
-    title: "The Pragmatic Programmer",
-    author: "David Thomas & Andrew Hunt",
-    status: "completed",
-    notes: "Essential reading for any developer",
+    title: 'The Pragmatic Programmer',
+    author: 'David Thomas & Andrew Hunt',
+    status: 'completed',
+    notes: 'Essential reading for any developer',
     rating: 5,
     pages: 352,
-    genre: "Programming",
+    genre: 'Programming',
     createdAt: new Date('2024-01-15'),
     updatedAt: new Date('2024-01-15'),
   },
   {
     id: 2,
-    title: "Designing Data-Intensive Applications",
-    author: "Martin Kleppmann",
-    status: "reading",
-    notes: "Great insights into distributed systems",
+    title: 'Designing Data-Intensive Applications',
+    author: 'Martin Kleppmann',
+    status: 'reading',
+    notes: 'Great insights into distributed systems',
     rating: 4,
     pages: 616,
-    genre: "Computer Science",
+    genre: 'Computer Science',
     createdAt: new Date('2024-02-01'),
     updatedAt: new Date('2024-02-01'),
   },
@@ -37,7 +37,7 @@ export async function getBooks() {
       console.log('Using mock data for books');
       return mockBooks;
     }
-    
+
     const result = await db.select().from(books).orderBy(desc(books.createdAt));
     return result;
   } catch (error) {
@@ -58,7 +58,7 @@ export async function addBook(bookData: {
   try {
     const now = new Date();
     const timestamp = Math.floor(now.getTime() / 1000); // Convert to Unix timestamp
-    
+
     const result = await db.insert(books).values({
       ...bookData,
       createdAt: timestamp,
@@ -72,15 +72,21 @@ export async function addBook(bookData: {
   }
 }
 
-export async function updateBook(id: number, bookData: Partial<typeof books.$inferInsert>) {
+export async function updateBook(
+  id: number,
+  bookData: Partial<typeof books.$inferInsert>
+) {
   try {
     const now = new Date();
     const timestamp = Math.floor(now.getTime() / 1000); // Convert to Unix timestamp
-    
-    const result = await db.update(books).set({
-      ...bookData,
-      updatedAt: timestamp,
-    }).where(eq(books.id, id));
+
+    const result = await db
+      .update(books)
+      .set({
+        ...bookData,
+        updatedAt: timestamp,
+      })
+      .where(eq(books.id, id));
     return result;
   } catch (error) {
     console.error('Error updating book:', error);

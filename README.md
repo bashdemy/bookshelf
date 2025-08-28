@@ -15,6 +15,7 @@ Bookshelf is a personal reading management system that helps you:
 ## Key Features
 
 ### Book Management
+
 - Add books with comprehensive metadata (title, author, status, rating, pages, genre, notes)
 - Track reading status: "to-read", "reading", "completed"
 - Rate books on a 5-star scale
@@ -22,12 +23,14 @@ Bookshelf is a personal reading management system that helps you:
 - Add personal notes and thoughts
 
 ### Article Management
+
 - Save articles with URLs and publication information
 - Add summaries and personal notes
 - Tag articles for better organization
 - Track reading status similar to books
 
 ### Analytics Dashboard
+
 - Overview statistics for books and articles
 - Reading progress tracking
 - Genre analysis for books
@@ -35,6 +38,7 @@ Bookshelf is a personal reading management system that helps you:
 - Status distribution charts
 
 ### User Experience
+
 - Responsive design that works on desktop and mobile
 - Dark/light theme toggle
 - Clean, intuitive navigation
@@ -53,9 +57,11 @@ Bookshelf is a personal reading management system that helps you:
 ## How It Works
 
 ### Database Schema
+
 The app uses two main tables:
 
 **Books Table:**
+
 - `id`: Unique identifier
 - `title`: Book title
 - `author`: Author name
@@ -67,6 +73,7 @@ The app uses two main tables:
 - `createdAt`/`updatedAt`: Timestamps
 
 **Articles Table:**
+
 - `id`: Unique identifier
 - `title`: Article title
 - `url`: Article URL
@@ -79,6 +86,7 @@ The app uses two main tables:
 - `createdAt`/`updatedAt`: Timestamps
 
 ### Application Flow
+
 1. **Home Page**: Redirects to `/books` by default
 2. **Navigation**: Four main sections - Books, Articles, Data, Add Item
 3. **Adding Content**: Forms for adding books and articles with validation
@@ -86,6 +94,7 @@ The app uses two main tables:
 5. **Analytics**: Dashboard showing reading statistics and progress
 
 ### Security Model
+
 - **Read Access**: Public - anyone can view your reading list
 - **Write Access**: Protected by admin key - only you can add/edit items
 - **No User Accounts**: Simple key-based authentication for simplicity
@@ -94,7 +103,7 @@ The app uses two main tables:
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - Cloudflare account
 - Wrangler CLI (`npm install -g wrangler`)
 - pnpm (recommended) or npm
@@ -102,6 +111,7 @@ The app uses two main tables:
 ### Local Development
 
 1. **Clone and install dependencies:**
+
    ```bash
    git clone <your-repo>
    cd bookshelf
@@ -109,20 +119,23 @@ The app uses two main tables:
    ```
 
 2. **Set up environment variables:**
+
    ```bash
    cp env.example .env.local
    # Edit .env.local with your admin key
    ```
 
 3. **Create D1 database:**
+
    ```bash
    # Create D1 database
    wrangler d1 create bookshelf-db
-   
+
    # Update wrangler.toml with the database ID
    ```
 
 4. **Run database migrations:**
+
    ```bash
    pnpm run db:generate
    pnpm run db:migrate
@@ -136,11 +149,13 @@ The app uses two main tables:
 ### Deployment
 
 1. **Build the project:**
+
    ```bash
    pnpm run build
    ```
 
 2. **Deploy to Cloudflare Pages:**
+
    ```bash
    pnpm run deploy
    ```
@@ -189,6 +204,53 @@ pnpm run type-check   # Run TypeScript type checking
 
 # Linting
 pnpm run lint         # Run ESLint
+
+# Code formatting
+pnpm run format       # Format code with Prettier
+pnpm run format:check # Check code formatting
+
+# Run all checks
+pnpm run check-all    # Run type-check, lint, and format-check
+```
+
+## Pre-commit Hooks
+
+This project uses Husky and lint-staged to ensure code quality on every commit. The pre-commit hook automatically:
+
+- **Formats code** with Prettier
+- **Lints TypeScript/Next.js** code with ESLint
+- **Runs TypeScript type checking** to catch type errors
+- **Applies fixes** automatically when possible
+
+### Setup
+
+The pre-commit hooks are automatically configured when you run `pnpm install` (via the `prepare` script). The configuration includes:
+
+- **Husky**: Git hooks management
+- **lint-staged**: Run linters on staged files only
+- **Prettier**: Code formatting
+- **ESLint**: Code linting with Next.js and TypeScript rules
+
+### Configuration Files
+
+- **`.husky/pre-commit`**: Pre-commit hook script
+- **`.prettierrc`**: Prettier configuration
+- **`.prettierignore`**: Files to exclude from formatting
+- **`package.json`**: lint-staged configuration
+
+### Manual Usage
+
+You can run the same checks manually:
+
+```bash
+# Format all code
+pnpm run format
+
+# Check formatting without changing files
+pnpm run format:check
+
+# Run all quality checks
+pnpm run check-all
 ```
 
 ## Project Structure
@@ -257,6 +319,7 @@ src/
 ## Usage
 
 ### Adding Books
+
 1. Navigate to the Books page or Add Item page
 2. Fill out the book form with title, author, and optional metadata
 3. Set the reading status (to-read, reading, completed)
@@ -264,6 +327,7 @@ src/
 5. Submit to add to your collection
 
 ### Adding Articles
+
 1. Navigate to the Articles page or Add Item page
 2. Fill out the article form with title, URL, and optional metadata
 3. Add publication info, summary, or tags
@@ -271,12 +335,14 @@ src/
 5. Submit to add to your collection
 
 ### Viewing Analytics
+
 1. Navigate to the Data page
 2. View overview statistics
 3. Explore book and article-specific analytics
 4. Track your reading progress and habits
 
 ### Managing Your Collection
+
 - Update status as you progress through books/articles
 - Add ratings and notes as you complete items
 - Use the search and filtering to find specific items
@@ -285,6 +351,7 @@ src/
 ## Recent Updates
 
 ### Next.js 15 Upgrade
+
 - Upgraded from Next.js 14 to Next.js 15.5.2
 - Updated React to version 19.1.1
 - Updated TypeScript types for React 19
@@ -292,6 +359,7 @@ src/
 - Updated Next.js configuration for compatibility
 
 ### Code Quality Improvements
+
 - Fixed unused variable warnings in API routes
 - Improved error handling in form components
 - Enhanced TypeScript type safety
@@ -299,4 +367,4 @@ src/
 
 ## License
 
-MIT 
+MIT
