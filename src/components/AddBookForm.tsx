@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Plus, Loader2 } from 'lucide-react';
+import { Plus, Loader2, BookOpen } from 'lucide-react';
 
 export default function AddBookForm() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -51,7 +51,7 @@ export default function AddBookForm() {
       });
 
       if (response.ok) {
-        setMessage('Book added successfully!');
+        setMessage('Book added successfully! ✨');
         e.currentTarget.reset();
         setIsExpanded(false);
         window.location.reload();
@@ -67,18 +67,18 @@ export default function AddBookForm() {
   };
 
   return (
-    <Card>
+    <Card className="card-cute">
       <CardHeader>
         <Button
-          variant="ghost"
+          variant="cute-ghost"
           onClick={() => setIsExpanded(!isExpanded)}
-          className="flex items-center justify-between w-full p-0 h-auto"
+          className="flex items-center justify-between w-full p-0 h-auto rounded-2xl"
         >
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-primary rounded-lg">
-              <Plus className="w-5 h-5 text-primary-foreground" />
+            <div className="p-2 bg-primary rounded-xl shadow-cute">
+              <BookOpen className="w-5 h-5 text-primary-foreground" />
             </div>
-            <CardTitle>Add New Book</CardTitle>
+            <CardTitle className="font-cute text-xl">Add New Book</CardTitle>
           </div>
           <Plus
             className={`w-6 h-6 transition-transform duration-300 ${isExpanded ? 'rotate-45' : 'rotate-0'}`}
@@ -91,33 +91,41 @@ export default function AddBookForm() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="title">Title *</Label>
+                <Label htmlFor="title" className="font-cute">
+                  Title *
+                </Label>
                 <Input
                   type="text"
                   id="title"
                   name="title"
                   required
                   placeholder="Enter book title..."
+                  className="input-cute"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="author">Author *</Label>
+                <Label htmlFor="author" className="font-cute">
+                  Author *
+                </Label>
                 <Input
                   type="text"
                   id="author"
                   name="author"
                   required
                   placeholder="Enter author name..."
+                  className="input-cute"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="status">Status</Label>
+                <Label htmlFor="status" className="font-cute">
+                  Status
+                </Label>
                 <Select name="status" defaultValue="to-read">
-                  <SelectTrigger>
+                  <SelectTrigger className="input-cute">
                     <SelectValue placeholder="Select status" />
                   </SelectTrigger>
                   <SelectContent>
@@ -129,9 +137,11 @@ export default function AddBookForm() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="rating">Rating</Label>
+                <Label htmlFor="rating" className="font-cute">
+                  Rating
+                </Label>
                 <Select name="rating">
-                  <SelectTrigger>
+                  <SelectTrigger className="input-cute">
                     <SelectValue placeholder="Select rating" />
                   </SelectTrigger>
                   <SelectContent>
@@ -145,50 +155,62 @@ export default function AddBookForm() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="pages">Pages</Label>
+                <Label htmlFor="pages" className="font-cute">
+                  Pages
+                </Label>
                 <Input
                   type="number"
                   id="pages"
                   name="pages"
                   placeholder="Number of pages..."
+                  className="input-cute"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="genre">Genre</Label>
+              <Label htmlFor="genre" className="font-cute">
+                Genre
+              </Label>
               <Input
                 type="text"
                 id="genre"
                 name="genre"
                 placeholder="e.g., Fiction, Non-fiction, Science..."
+                className="input-cute"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="notes">Notes</Label>
+              <Label htmlFor="notes" className="font-cute">
+                Notes
+              </Label>
               <Textarea
                 id="notes"
                 name="notes"
                 rows={3}
                 placeholder="Any thoughts or notes about this book..."
+                className="input-cute resize-none"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="adminKey">Admin Key *</Label>
+              <Label htmlFor="adminKey" className="font-cute">
+                Admin Key *
+              </Label>
               <Input
                 type="password"
                 id="adminKey"
                 name="adminKey"
                 required
                 placeholder="Enter admin key to add book"
+                className="input-cute"
               />
             </div>
 
             {message && (
               <div
-                className={`p-4 rounded-lg border ${
+                className={`p-4 rounded-2xl border-2 font-cute ${
                   message.includes('Error')
                     ? 'bg-destructive/10 text-destructive border-destructive/20'
                     : 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800'
@@ -198,7 +220,13 @@ export default function AddBookForm() {
               </div>
             )}
 
-            <Button type="submit" disabled={isSubmitting} className="w-full">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full btn-cute"
+              variant="cute"
+              size="cute-lg"
+            >
               {isSubmitting ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />

@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, FileText, User, Calendar, Hash } from 'lucide-react';
 
 interface ArticleCardProps {
   article: Article;
@@ -14,14 +14,17 @@ export default function ArticleCard({ article }: ArticleCardProps) {
     reading: {
       variant: 'default' as const,
       label: 'Reading',
+      color: 'text-secondary',
     },
     completed: {
       variant: 'secondary' as const,
       label: 'Completed',
+      color: 'text-accent',
     },
     'to-read': {
       variant: 'outline' as const,
       label: 'To Read',
+      color: 'text-primary',
     },
   };
 
@@ -30,22 +33,33 @@ export default function ArticleCard({ article }: ArticleCardProps) {
     statusConfig['to-read'];
 
   return (
-    <Card className="group hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
+    <Card className="card-cute group hover:shadow-cute-hover transition-all duration-300 hover:scale-[1.02]">
       <CardHeader className="pb-3">
         <div className="flex justify-between items-start">
-          <CardTitle className="text-lg line-clamp-2 group-hover:text-primary transition-colors">
+          <CardTitle className="text-lg line-clamp-2 group-hover:text-secondary transition-colors font-cute">
             {article.title}
           </CardTitle>
-          <Badge variant={config.variant} className="text-xs">
+          <Badge
+            variant={config.variant}
+            className={`badge-cute font-cute ${config.color}`}
+          >
             {config.label}
           </Badge>
         </div>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          {article.author && <span>by {article.author}</span>}
+        <div className="flex items-center gap-2 text-sm text-muted-foreground font-cute">
+          {article.author && (
+            <span className="flex items-center gap-1">
+              <User className="w-3 h-3 text-secondary" />
+              by {article.author}
+            </span>
+          )}
           {article.publication && (
             <>
               <span>•</span>
-              <span>{article.publication}</span>
+              <span className="flex items-center gap-1">
+                <FileText className="w-3 h-3 text-secondary" />
+                {article.publication}
+              </span>
             </>
           )}
         </div>
@@ -53,25 +67,28 @@ export default function ArticleCard({ article }: ArticleCardProps) {
 
       <CardContent className="pt-0">
         {article.summary && (
-          <div className="mb-4 p-3 bg-muted/50 rounded-lg border">
-            <p className="text-sm text-muted-foreground line-clamp-3">
+          <div className="mb-4 p-3 bg-secondary/10 rounded-2xl border-2 border-secondary/20">
+            <p className="text-sm text-muted-foreground line-clamp-3 font-cute">
               {article.summary}
             </p>
           </div>
         )}
 
         {article.notes && (
-          <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
-            <p className="text-sm text-blue-700 dark:text-blue-300 line-clamp-3">
+          <div className="mb-4 p-3 bg-accent/10 rounded-2xl border-2 border-accent/20">
+            <p className="text-sm text-accent-foreground line-clamp-3 font-cute">
               {article.notes}
             </p>
           </div>
         )}
 
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <span>Added {article.createdAt?.toLocaleDateString()}</span>
+        <div className="flex items-center justify-between text-xs text-muted-foreground font-cute">
+          <span className="flex items-center gap-1">
+            <Calendar className="w-3 h-3" />
+            Added {article.createdAt?.toLocaleDateString()}
+          </span>
           {article.url && (
-            <Button variant="ghost" size="sm" asChild>
+            <Button variant="cute-outline" size="cute-sm" asChild>
               <a href={article.url} target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="w-3 h-3 mr-1" />
                 Read
@@ -85,7 +102,12 @@ export default function ArticleCard({ article }: ArticleCardProps) {
             <Separator className="my-3" />
             <div className="flex flex-wrap gap-1">
               {article.tags.split(',').map((tag, index) => (
-                <Badge key={index} variant="outline" className="text-xs">
+                <Badge
+                  key={index}
+                  variant="outline"
+                  className="badge-cute font-cute text-xs"
+                >
+                  <Hash className="w-3 h-3 mr-1" />
                   {tag.trim()}
                 </Badge>
               ))}

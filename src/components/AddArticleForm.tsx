@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Plus, Loader2 } from 'lucide-react';
+import { Plus, Loader2, FileText } from 'lucide-react';
 
 export default function AddArticleForm() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -48,7 +48,7 @@ export default function AddArticleForm() {
       });
 
       if (response.ok) {
-        setMessage('Article added successfully!');
+        setMessage('Article added successfully! ✨');
         e.currentTarget.reset();
         setIsExpanded(false);
         window.location.reload();
@@ -64,18 +64,18 @@ export default function AddArticleForm() {
   };
 
   return (
-    <Card>
+    <Card className="card-cute">
       <CardHeader>
         <Button
-          variant="ghost"
+          variant="cute-ghost"
           onClick={() => setIsExpanded(!isExpanded)}
-          className="flex items-center justify-between w-full p-0 h-auto"
+          className="flex items-center justify-between w-full p-0 h-auto rounded-2xl"
         >
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-primary rounded-lg">
-              <Plus className="w-5 h-5 text-primary-foreground" />
+            <div className="p-2 bg-secondary rounded-xl shadow-cute">
+              <FileText className="w-5 h-5 text-secondary-foreground" />
             </div>
-            <CardTitle>Add New Article</CardTitle>
+            <CardTitle className="font-cute text-xl">Add New Article</CardTitle>
           </div>
           <Plus
             className={`w-6 h-6 transition-transform duration-300 ${isExpanded ? 'rotate-45' : 'rotate-0'}`}
@@ -87,52 +87,66 @@ export default function AddArticleForm() {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="title">Title *</Label>
+              <Label htmlFor="title" className="font-cute">
+                Title *
+              </Label>
               <Input
                 type="text"
                 id="title"
                 name="title"
                 required
                 placeholder="Enter article title..."
+                className="input-cute"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="url">URL</Label>
+              <Label htmlFor="url" className="font-cute">
+                URL
+              </Label>
               <Input
                 type="url"
                 id="url"
                 name="url"
                 placeholder="https://example.com/article..."
+                className="input-cute"
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="author">Author</Label>
+                <Label htmlFor="author" className="font-cute">
+                  Author
+                </Label>
                 <Input
                   type="text"
                   id="author"
                   name="author"
                   placeholder="Enter author name..."
+                  className="input-cute"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="publication">Publication</Label>
+                <Label htmlFor="publication" className="font-cute">
+                  Publication
+                </Label>
                 <Input
                   type="text"
                   id="publication"
                   name="publication"
                   placeholder="e.g., Medium, TechCrunch..."
+                  className="input-cute"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="status">Status</Label>
+              <Label htmlFor="status" className="font-cute">
+                Status
+              </Label>
               <Select name="status" defaultValue="to-read">
-                <SelectTrigger>
+                <SelectTrigger className="input-cute">
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
                 <SelectContent>
@@ -144,49 +158,61 @@ export default function AddArticleForm() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="summary">Summary</Label>
+              <Label htmlFor="summary" className="font-cute">
+                Summary
+              </Label>
               <Textarea
                 id="summary"
                 name="summary"
                 rows={3}
                 placeholder="Brief summary of the article..."
+                className="input-cute resize-none"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="notes">Notes</Label>
+              <Label htmlFor="notes" className="font-cute">
+                Notes
+              </Label>
               <Textarea
                 id="notes"
                 name="notes"
                 rows={3}
                 placeholder="Your thoughts and notes about this article..."
+                className="input-cute resize-none"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="tags">Tags</Label>
+              <Label htmlFor="tags" className="font-cute">
+                Tags
+              </Label>
               <Input
                 type="text"
                 id="tags"
                 name="tags"
                 placeholder="tech, programming, ai (comma-separated)"
+                className="input-cute"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="adminKey">Admin Key *</Label>
+              <Label htmlFor="adminKey" className="font-cute">
+                Admin Key *
+              </Label>
               <Input
                 type="password"
                 id="adminKey"
                 name="adminKey"
                 required
                 placeholder="Enter admin key to add article"
+                className="input-cute"
               />
             </div>
 
             {message && (
               <div
-                className={`p-4 rounded-lg border ${
+                className={`p-4 rounded-2xl border-2 font-cute ${
                   message.includes('Error')
                     ? 'bg-destructive/10 text-destructive border-destructive/20'
                     : 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800'
@@ -196,7 +222,13 @@ export default function AddArticleForm() {
               </div>
             )}
 
-            <Button type="submit" disabled={isSubmitting} className="w-full">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full btn-cute"
+              variant="cute-secondary"
+              size="cute-lg"
+            >
               {isSubmitting ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />

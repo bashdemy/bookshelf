@@ -7,29 +7,40 @@ import { BookOpen, FileText } from 'lucide-react';
 export default function AddItemPage() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Add New Item</h1>
-        <p className="text-muted-foreground">
-          Add a new book or article to your collection.
+      <div className="mb-8 text-center">
+        <h1 className="text-4xl font-bold font-cute mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+          ✨ Add New Item
+        </h1>
+        <p className="text-lg text-muted-foreground font-cute">
+          Add a new book or article to your adorable collection! 📚
         </p>
       </div>
 
       <Tabs defaultValue="book" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="book" className="flex items-center gap-2">
+        <TabsList className="grid w-full grid-cols-2 rounded-2xl bg-muted p-1">
+          <TabsTrigger
+            value="book"
+            className="flex items-center gap-2 rounded-xl font-cute"
+          >
             <BookOpen className="w-4 h-4" />
             Book
           </TabsTrigger>
-          <TabsTrigger value="article" className="flex items-center gap-2">
+          <TabsTrigger
+            value="article"
+            className="flex items-center gap-2 rounded-xl font-cute"
+          >
             <FileText className="w-4 h-4" />
             Article
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="book">
-          <Card>
+          <Card className="card-cute bg-cute-gradient">
             <CardHeader>
-              <CardTitle>Add New Book</CardTitle>
+              <CardTitle className="font-cute text-2xl flex items-center gap-2">
+                <BookOpen className="text-primary" />
+                Add New Book
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <AddBookForm />
@@ -38,9 +49,12 @@ export default function AddItemPage() {
         </TabsContent>
 
         <TabsContent value="article">
-          <Card>
+          <Card className="card-cute bg-cute-gradient">
             <CardHeader>
-              <CardTitle>Add New Article</CardTitle>
+              <CardTitle className="font-cute text-2xl flex items-center gap-2">
+                <FileText className="text-secondary" />
+                Add New Article
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <AddArticleForm />
