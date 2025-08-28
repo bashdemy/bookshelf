@@ -25,6 +25,11 @@ export default function BookCard({ book }: BookCardProps) {
       label: 'To Read',
       color: 'text-primary',
     },
+    abandoned: {
+      variant: 'destructive' as const,
+      label: 'Abandoned',
+      color: 'text-destructive',
+    },
   };
 
   const config =
@@ -63,7 +68,10 @@ export default function BookCard({ book }: BookCardProps) {
         <div className="flex items-center justify-between text-xs text-muted-foreground font-cute">
           <span className="flex items-center gap-1">
             <Calendar className="w-3 h-3" />
-            Added {book.createdAt?.toLocaleDateString()}
+            Added{' '}
+            {book.created_at
+              ? new Date(book.created_at).toLocaleDateString()
+              : 'Unknown'}
           </span>
           {book.rating && (
             <div className="flex items-center gap-1 text-accent">

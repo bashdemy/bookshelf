@@ -1,9 +1,8 @@
 import type { Article } from '@/types/article';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, FileText, User, Calendar, Hash } from 'lucide-react';
+import { ExternalLink, FileText, User, Calendar } from 'lucide-react';
 
 interface ArticleCardProps {
   article: Article;
@@ -25,6 +24,11 @@ export default function ArticleCard({ article }: ArticleCardProps) {
       variant: 'outline' as const,
       label: 'To Read',
       color: 'text-primary',
+    },
+    archived: {
+      variant: 'destructive' as const,
+      label: 'Archived',
+      color: 'text-destructive',
     },
   };
 
@@ -85,7 +89,10 @@ export default function ArticleCard({ article }: ArticleCardProps) {
         <div className="flex items-center justify-between text-xs text-muted-foreground font-cute">
           <span className="flex items-center gap-1">
             <Calendar className="w-3 h-3" />
-            Added {article.createdAt?.toLocaleDateString()}
+            Added{' '}
+            {article.created_at
+              ? new Date(article.created_at).toLocaleDateString()
+              : 'Unknown'}
           </span>
           {article.url && (
             <Button variant="cute-outline" size="cute-sm" asChild>
@@ -96,24 +103,6 @@ export default function ArticleCard({ article }: ArticleCardProps) {
             </Button>
           )}
         </div>
-
-        {article.tags && (
-          <>
-            <Separator className="my-3" />
-            <div className="flex flex-wrap gap-1">
-              {article.tags.split(',').map((tag, index) => (
-                <Badge
-                  key={index}
-                  variant="outline"
-                  className="badge-cute font-cute text-xs"
-                >
-                  <Hash className="w-3 h-3 mr-1" />
-                  {tag.trim()}
-                </Badge>
-              ))}
-            </div>
-          </>
-        )}
       </CardContent>
     </Card>
   );

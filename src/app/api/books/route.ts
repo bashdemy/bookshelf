@@ -17,12 +17,24 @@ function getDb() {
   return drizzle(d1);
 }
 
+// Helper function to generate UUID
+function generateUUID(): string {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
 export async function GET() {
   try {
     const db = getDb();
 
     // Fetch all books ordered by creation date (newest first)
-    const result = await db.select().from(books).orderBy(desc(books.createdAt));
+    const result = await db
+      .select()
+      .from(books)
+      .orderBy(desc(books.created_at));
 
     return NextResponse.json(result);
   } catch (error) {
@@ -57,11 +69,41 @@ export async function POST(request: NextRequest) {
 
     const db = getDb();
 
-    // Insert new book into database (timestamps handled by database)
-    const result = await db.insert(books).values(bookData);
+    // Prepare book data with UUID and proper field mapping
+    const newBook = {
+      id: generateUUID(),
+      title: bookData.title,
+      author: bookData.author,
+      status: bookData.status || 'to-read',
+      notes: bookData.notes,
+      rating: bookData.rating,
+      pages: bookData.pages,
+      genre: bookData.genre,
+      isbn: bookData.isbn,
+      publisher: bookData.publisher,
+      publication_year: bookData.publication_year,
+      language: bookData.language || 'en',
+      format: bookData.format,
+      source: bookData.source,
+      purchase_price_cents: bookData.purchase_price_cents,
+      purchase_date: bookData.purchase_date,
+      start_date: bookData.start_date,
+      finish_date: bookData.finish_date,
+      reading_time_hours: bookData.reading_time_hours,
+      re_read_count: bookData.re_read_count || 0,
+      is_favorite: bookData.is_favorite ? 1 : 0,
+      is_recommended: bookData.is_recommended ? 1 : 0,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      created_by: 'system',
+      updated_by: 'system',
+    };
+
+    // Insert new book into database
+    await db.insert(books).values(newBook);
 
     return NextResponse.json(
-      { message: 'Book added successfully', book: result },
+      { message: 'Book added successfully', book: newBook },
       { status: 201 }
     );
   } catch (error) {

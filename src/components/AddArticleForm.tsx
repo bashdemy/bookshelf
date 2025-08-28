@@ -33,7 +33,6 @@ export default function AddArticleForm() {
       publication: formData.get('publication') as string,
       summary: formData.get('summary') as string,
       notes: formData.get('notes') as string,
-      tags: formData.get('tags') as string,
       status: formData.get('status') as string,
       adminKey: formData.get('adminKey') as string,
     };
@@ -102,12 +101,13 @@ export default function AddArticleForm() {
 
             <div className="space-y-2">
               <Label htmlFor="url" className="font-cute">
-                URL
+                URL *
               </Label>
               <Input
                 type="url"
                 id="url"
                 name="url"
+                required
                 placeholder="https://example.com/article..."
                 className="input-cute"
               />
@@ -180,19 +180,6 @@ export default function AddArticleForm() {
                 rows={3}
                 placeholder="Your thoughts and notes about this article..."
                 className="input-cute resize-none"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="tags" className="font-cute">
-                Tags
-              </Label>
-              <Input
-                type="text"
-                id="tags"
-                name="tags"
-                placeholder="tech, programming, ai (comma-separated)"
-                className="input-cute"
               />
             </div>
 

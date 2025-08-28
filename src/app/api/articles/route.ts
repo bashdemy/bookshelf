@@ -17,6 +17,15 @@ function getDb() {
   return drizzle(d1);
 }
 
+// Helper function to generate UUID
+function generateUUID(): string {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
 export async function GET() {
   try {
     const db = getDb();
@@ -25,7 +34,7 @@ export async function GET() {
     const result = await db
       .select()
       .from(articles)
-      .orderBy(desc(articles.createdAt));
+      .orderBy(desc(articles.created_at));
 
     return NextResponse.json(result);
   } catch (error) {
@@ -51,17 +60,46 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate required fields
-    if (!articleData.title) {
-      return NextResponse.json({ error: 'Title is required' }, { status: 400 });
+    if (!articleData.title || !articleData.url) {
+      return NextResponse.json(
+        { error: 'Title and URL are required' },
+        { status: 400 }
+      );
     }
 
     const db = getDb();
 
-    // Insert new article into database (timestamps handled by database)
-    const result = await db.insert(articles).values(articleData);
+    // Prepare article data with UUID and proper field mapping
+    const newArticle = {
+      id: generateUUID(),
+      title: articleData.title,
+      url: articleData.url,
+      author: articleData.author,
+      publication: articleData.publication,
+      summary: articleData.summary,
+      notes: articleData.notes,
+      status: articleData.status || 'to-read',
+      word_count: articleData.word_count,
+      reading_time_minutes: articleData.reading_time_minutes,
+      source: articleData.source,
+      category: articleData.category,
+      importance_level: articleData.importance_level,
+      is_bookmarked: articleData.is_bookmarked ? 1 : 0,
+      is_shared: articleData.is_shared ? 1 : 0,
+      share_date: articleData.share_date,
+      start_date: articleData.start_date,
+      finish_date: articleData.finish_date,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      created_by: 'system',
+      updated_by: 'system',
+    };
+
+    // Insert new article into database
+    await db.insert(articles).values(newArticle);
 
     return NextResponse.json(
-      { message: 'Article added successfully', article: result },
+      { message: 'Article added successfully', article: newArticle },
       { status: 201 }
     );
   } catch (error) {

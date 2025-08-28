@@ -132,6 +132,7 @@ export default function AddBookForm() {
                     <SelectItem value="to-read">To Read</SelectItem>
                     <SelectItem value="reading">Currently Reading</SelectItem>
                     <SelectItem value="completed">Completed</SelectItem>
+                    <SelectItem value="abandoned">Abandoned</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
