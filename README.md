@@ -1,21 +1,94 @@
-# bookshelf
+# Bookshelf
 
-Bookshelf is a lightweight, serverless reading tracker built with Next.js on Cloudflare Pages. It lets me catalog and share what I'm reading on bookshelf.bashdemy.com.
+Bookshelf is a lightweight, serverless reading tracker built with Next.js 15 on Cloudflare Pages. It lets you catalog and track both books and articles, with a beautiful interface for managing your reading collection.
+
+## What This App Does
+
+Bookshelf is a personal reading management system that helps you:
+
+- **📚 Track Books**: Add books with metadata including title, author, status, rating, pages, genre, and notes
+- **📄 Manage Articles**: Save articles with URLs, publications, summaries, tags, and reading status
+- **📊 View Analytics**: See reading statistics, progress tracking, and genre breakdowns
+- **🌐 Share Publicly**: Your reading list is publicly accessible for sharing with others
+- **🎨 Modern UI**: Clean, responsive interface with dark/light theme support
+
+## Key Features
+
+### Book Management
+- Add books with comprehensive metadata (title, author, status, rating, pages, genre, notes)
+- Track reading status: "to-read", "reading", "completed"
+- Rate books on a 5-star scale
+- Organize by genre
+- Add personal notes and thoughts
+
+### Article Management
+- Save articles with URLs and publication information
+- Add summaries and personal notes
+- Tag articles for better organization
+- Track reading status similar to books
+
+### Analytics Dashboard
+- Overview statistics for books and articles
+- Reading progress tracking
+- Genre analysis for books
+- Recent additions tracking
+- Status distribution charts
+
+### User Experience
+- Responsive design that works on desktop and mobile
+- Dark/light theme toggle
+- Clean, intuitive navigation
+- Fast loading with edge computing
 
 ## Architecture
 
-- **Frontend**: Next.js 14 with App Router
+- **Frontend**: Next.js 15 with App Router and TypeScript
+- **UI Components**: Radix UI primitives with Tailwind CSS styling
 - **Deployment**: Cloudflare Pages (static + server routes as Pages Functions/Workers at the edge)
-- **Database**: Cloudflare D1 (SQLite) - free tier DB perfect for a solo bookshelf
+- **Database**: Cloudflare D1 (SQLite) - serverless database perfect for personal use
 - **Authentication**: Public read access, admin writes protected with a single admin key
+- **ORM**: Drizzle ORM for type-safe database operations
+- **Package Manager**: pnpm for faster, more efficient dependency management
 
-## Features
+## How It Works
 
-- 📚 Catalog books with metadata (title, author, status, notes)
-- 🌐 Public reading list sharing
-- ⚡ Edge computing with Cloudflare Pages Functions
-- 💾 SQLite database with D1 for data persistence
-- 🔐 Simple admin key protection for writes
+### Database Schema
+The app uses two main tables:
+
+**Books Table:**
+- `id`: Unique identifier
+- `title`: Book title
+- `author`: Author name
+- `status`: Reading status (to-read, reading, completed)
+- `rating`: 1-5 star rating
+- `pages`: Number of pages
+- `genre`: Book genre
+- `notes`: Personal notes
+- `createdAt`/`updatedAt`: Timestamps
+
+**Articles Table:**
+- `id`: Unique identifier
+- `title`: Article title
+- `url`: Article URL
+- `author`: Article author
+- `publication`: Publication name
+- `summary`: Article summary
+- `notes`: Personal notes
+- `tags`: Comma-separated tags
+- `status`: Reading status
+- `createdAt`/`updatedAt`: Timestamps
+
+### Application Flow
+1. **Home Page**: Redirects to `/books` by default
+2. **Navigation**: Four main sections - Books, Articles, Data, Add Item
+3. **Adding Content**: Forms for adding books and articles with validation
+4. **Viewing Content**: Lists with filtering and status indicators
+5. **Analytics**: Dashboard showing reading statistics and progress
+
+### Security Model
+- **Read Access**: Public - anyone can view your reading list
+- **Write Access**: Protected by admin key - only you can add/edit items
+- **No User Accounts**: Simple key-based authentication for simplicity
 
 ## Setup
 
@@ -24,6 +97,7 @@ Bookshelf is a lightweight, serverless reading tracker built with Next.js on Clo
 - Node.js 18+ 
 - Cloudflare account
 - Wrangler CLI (`npm install -g wrangler`)
+- pnpm (recommended) or npm
 
 ### Local Development
 
@@ -31,7 +105,7 @@ Bookshelf is a lightweight, serverless reading tracker built with Next.js on Clo
    ```bash
    git clone <your-repo>
    cd bookshelf
-   npm install
+   pnpm install
    ```
 
 2. **Set up environment variables:**
@@ -50,25 +124,25 @@ Bookshelf is a lightweight, serverless reading tracker built with Next.js on Clo
 
 4. **Run database migrations:**
    ```bash
-   npm run db:generate
-   npm run db:migrate
+   pnpm run db:generate
+   pnpm run db:migrate
    ```
 
 5. **Start development server:**
    ```bash
-   npm run dev
+   pnpm run dev
    ```
 
 ### Deployment
 
 1. **Build the project:**
    ```bash
-   npm run build
+   pnpm run build
    ```
 
 2. **Deploy to Cloudflare Pages:**
    ```bash
-   npm run deploy
+   pnpm run deploy
    ```
 
 3. **Set up custom domain:**
@@ -78,69 +152,150 @@ Bookshelf is a lightweight, serverless reading tracker built with Next.js on Clo
 ## Environment Variables
 
 ```env
-# Cloudflare D1 Database
+# Database
 DATABASE_URL="file:./dev.db"
 
 # Admin key for write operations
 ADMIN_KEY="your-secret-admin-key"
-```
 
-## Database Schema
-
-The app uses Cloudflare D1 (SQLite) with a simple schema for books:
-
-```sql
-CREATE TABLE books (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  title TEXT NOT NULL,
-  author TEXT NOT NULL,
-  status TEXT DEFAULT 'reading',
-  notes TEXT,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
-);
+# Cloudflare D1 (for production)
+# These will be set in wrangler.toml
+# DB_BINDING="DB"
+# DATABASE_ID="your-database-id"
 ```
 
 ## Development
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Run development server
-npm run dev
+pnpm run dev
 
 # Build for production
-npm run build
+pnpm run build
 
 # Deploy to Cloudflare Pages
-npm run deploy
+pnpm run deploy
 
 # Database operations
-npm run db:generate  # Generate migrations
-npm run db:migrate   # Run migrations
-npm run db:studio    # Open Drizzle Studio
+pnpm run db:generate  # Generate migrations
+pnpm run db:migrate   # Run migrations
+pnpm run db:studio    # Open Drizzle Studio
+
+# Type checking
+pnpm run type-check   # Run TypeScript type checking
+
+# Linting
+pnpm run lint         # Run ESLint
 ```
 
 ## Project Structure
 
 ```
 src/
-├── app/                 # Next.js App Router
-│   ├── api/            # API routes
+├── app/                 # Next.js 15 App Router
+│   ├── api/            # API routes for books and articles
+│   │   ├── books/      # Book API endpoints
+│   │   └── articles/   # Article API endpoints
+│   ├── books/          # Books page
+│   ├── articles/       # Articles page
+│   ├── data/           # Analytics dashboard
+│   ├── add/            # Add new items page
 │   ├── globals.css     # Global styles
-│   ├── layout.tsx      # Root layout
-│   └── page.tsx        # Home page
+│   ├── layout.tsx      # Root layout with navigation
+│   └── page.tsx        # Home page (redirects to books)
 ├── components/         # React components
-│   ├── AddBookForm.tsx
-│   ├── BookCard.tsx
-│   └── BookList.tsx
+│   ├── ui/             # Reusable UI components (Radix UI)
+│   │   ├── avatar.tsx
+│   │   ├── badge.tsx
+│   │   ├── button.tsx
+│   │   ├── card.tsx
+│   │   ├── dialog.tsx
+│   │   ├── form.tsx
+│   │   ├── input.tsx
+│   │   ├── label.tsx
+│   │   ├── navigation-menu.tsx
+│   │   ├── select.tsx
+│   │   ├── separator.tsx
+│   │   ├── sheet.tsx
+│   │   ├── table.tsx
+│   │   ├── tabs.tsx
+│   │   └── textarea.tsx
+│   ├── AddBookForm.tsx # Book addition form
+│   ├── AddArticleForm.tsx # Article addition form
+│   ├── BookCard.tsx    # Individual book display
+│   ├── BookList.tsx    # Books listing
+│   ├── ArticleCard.tsx # Individual article display
+│   ├── ArticleList.tsx # Articles listing
+│   ├── Navigation.tsx  # Main navigation
+│   ├── ThemeProvider.tsx # Theme context
+│   └── ThemeToggle.tsx # Theme toggle button
 ├── db/                 # Database layer
 │   ├── index.ts        # Database connection
-│   └── schema.ts       # Drizzle schema
-└── lib/                # Utility functions
-    └── books.ts        # Book operations
+│   ├── schema.ts       # Drizzle schema definitions
+│   └── production.ts   # Production database config
+├── lib/                # Utility functions
+│   ├── books.ts        # Book operations
+│   ├── articles.ts     # Article operations
+│   └── utils.ts        # General utilities
+└── types/              # TypeScript type definitions
+    ├── book.ts         # Book types
+    └── article.ts      # Article types
 ```
+
+## Configuration Files
+
+- **`next.config.js`**: Next.js configuration with Cloudflare Pages optimizations
+- **`.eslintrc.json`**: ESLint configuration with TypeScript support
+- **`tailwind.config.js`**: Tailwind CSS configuration
+- **`tsconfig.json`**: TypeScript configuration
+- **`wrangler.toml`**: Cloudflare Workers/Wrangler configuration
+- **`drizzle.config.ts`**: Drizzle ORM configuration
+
+## Usage
+
+### Adding Books
+1. Navigate to the Books page or Add Item page
+2. Fill out the book form with title, author, and optional metadata
+3. Set the reading status (to-read, reading, completed)
+4. Add a rating, genre, or notes if desired
+5. Submit to add to your collection
+
+### Adding Articles
+1. Navigate to the Articles page or Add Item page
+2. Fill out the article form with title, URL, and optional metadata
+3. Add publication info, summary, or tags
+4. Set the reading status
+5. Submit to add to your collection
+
+### Viewing Analytics
+1. Navigate to the Data page
+2. View overview statistics
+3. Explore book and article-specific analytics
+4. Track your reading progress and habits
+
+### Managing Your Collection
+- Update status as you progress through books/articles
+- Add ratings and notes as you complete items
+- Use the search and filtering to find specific items
+- Share your public reading list URL with others
+
+## Recent Updates
+
+### Next.js 15 Upgrade
+- Upgraded from Next.js 14 to Next.js 15.5.2
+- Updated React to version 19.1.1
+- Updated TypeScript types for React 19
+- Fixed ESLint configuration for better TypeScript support
+- Updated Next.js configuration for compatibility
+
+### Code Quality Improvements
+- Fixed unused variable warnings in API routes
+- Improved error handling in form components
+- Enhanced TypeScript type safety
+- Updated ESLint rules for better code quality
 
 ## License
 

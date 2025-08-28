@@ -3,13 +3,14 @@ import Database from 'better-sqlite3';
 import * as schema from './schema';
 
 // Create SQLite database instance
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let db: any;
 
 try {
   const sqlite = new Database('./bookshelf.db');
   db = drizzle(sqlite, { schema });
   console.log('Database connected successfully');
-} catch (error) {
+} catch {
   console.warn('Database not available, using mock data');
   // Mock database for development
   db = {

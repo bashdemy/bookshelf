@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, FileText } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 
 interface ArticleCardProps {
   article: Article;

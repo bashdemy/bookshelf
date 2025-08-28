@@ -1,5 +1,6 @@
 import { getBooks } from '@/lib/books';
 import BookCard from './BookCard';
+import type { Book } from '@/types/book';
 
 export default async function BookList() {
   const books = await getBooks();
@@ -14,7 +15,7 @@ export default async function BookList() {
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {books.map((book) => (
+      {books.map((book: Book) => (
         <BookCard key={book.id} book={book} />
       ))}
     </div>

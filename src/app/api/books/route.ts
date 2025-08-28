@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { addBook, getBooks } from '@/lib/books';
+import type { NewBook } from '@/types/book';
 
 export async function GET() {
   try {
     const books = await getBooks();
     return NextResponse.json(books);
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to fetch books' },
       { status: 500 }
@@ -15,7 +16,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const body = await request.json() as NewBook;
     const { adminKey, ...bookData } = body;
 
     // Validate admin key
@@ -39,7 +40,7 @@ export async function POST(request: NextRequest) {
       { message: 'Book added successfully', book: result },
       { status: 201 }
     );
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to add book' },
       { status: 500 }

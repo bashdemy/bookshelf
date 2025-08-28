@@ -49,7 +49,7 @@ export default function AddBookForm() {
         const error = await response.text();
         setMessage(`Error: ${error}`);
       }
-    } catch (error) {
+    } catch {
       setMessage('Error adding book. Please try again.');
     } finally {
       setIsSubmitting(false);

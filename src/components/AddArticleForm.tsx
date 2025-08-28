@@ -50,7 +50,7 @@ export default function AddArticleForm() {
         const error = await response.text();
         setMessage(`Error: ${error}`);
       }
-    } catch (error) {
+    } catch {
       setMessage('Error adding article. Please try again.');
     } finally {
       setIsSubmitting(false);

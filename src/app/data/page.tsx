@@ -3,6 +3,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getBooks } from '@/lib/books';
 import { getArticles } from '@/lib/articles';
 import { BarChart3, BookOpen, FileText, TrendingUp } from 'lucide-react';
+import type { Book } from '@/types/book';
+import type { Article } from '@/types/article';
 
 export default async function DataPage() {
   const books = await getBooks();
@@ -11,31 +13,31 @@ export default async function DataPage() {
   // Calculate statistics
   const bookStats = {
     total: books.length,
-    reading: books.filter(b => b.status === 'reading').length,
-    completed: books.filter(b => b.status === 'completed').length,
-    toRead: books.filter(b => b.status === 'to-read').length,
-    averageRating: books.filter(b => b.rating).length > 0 
-      ? (books.filter(b => b.rating).reduce((sum, b) => sum + (b.rating || 0), 0) / books.filter(b => b.rating).length).toFixed(1)
+    reading: books.filter((b: Book) => b.status === 'reading').length,
+    completed: books.filter((b: Book) => b.status === 'completed').length,
+    toRead: books.filter((b: Book) => b.status === 'to-read').length,
+    averageRating: books.filter((b: Book) => b.rating).length > 0 
+      ? (books.filter((b: Book) => b.rating).reduce((sum: number, b: Book) => sum + (b.rating || 0), 0) / books.filter((b: Book) => b.rating).length).toFixed(1)
       : 'N/A'
   };
 
   const articleStats = {
     total: articles.length,
-    reading: articles.filter(a => a.status === 'reading').length,
-    completed: articles.filter(a => a.status === 'completed').length,
-    toRead: articles.filter(a => a.status === 'to-read').length,
+    reading: articles.filter((a: Article) => a.status === 'reading').length,
+    completed: articles.filter((a: Article) => a.status === 'completed').length,
+    toRead: articles.filter((a: Article) => a.status === 'to-read').length,
   };
 
   // Calculate top genres
   const genreCounts = books
-    .filter(b => b.genre)
-    .reduce((acc, book) => {
+    .filter((b: Book) => b.genre)
+    .reduce((acc: Record<string, number>, book: Book) => {
       acc[book.genre!] = (acc[book.genre!] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
 
   const topGenres = Object.entries(genreCounts)
-    .sort(([,a], [,b]) => b - a)
+    .sort(([,a], [,b]) => (b as number) - (a as number))
     .slice(0, 5);
 
   return (
@@ -138,7 +140,7 @@ export default async function DataPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  {books.slice(-5).reverse().map((book) => (
+                  {books.slice(-5).reverse().map((book: Book) => (
                     <div key={book.id} className="flex justify-between items-center">
                       <span className="text-sm truncate">{book.title}</span>
                       <span className="text-xs text-muted-foreground">{book.status}</span>
@@ -158,7 +160,7 @@ export default async function DataPage() {
                     topGenres.map(([genre, count]) => (
                       <div key={genre} className="flex justify-between">
                         <span className="text-sm">{genre}</span>
-                        <span className="font-bold">{count}</span>
+                        <span className="font-bold">{count as number}</span>
                       </div>
                     ))
                   ) : (
@@ -200,7 +202,7 @@ export default async function DataPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  {articles.slice(-5).reverse().map((article) => (
+                  {articles.slice(-5).reverse().map((article: Article) => (
                     <div key={article.id} className="flex justify-between items-center">
                       <span className="text-sm truncate">{article.title}</span>
                       <span className="text-xs text-muted-foreground">{article.status}</span>
