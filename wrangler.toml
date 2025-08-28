@@ -2,11 +2,14 @@ name = "bookshelf"
 compatibility_date = "2023-12-01"
 compatibility_flags = ["nodejs_compat"]
 
+# Pages configuration
+pages_build_output_dir = ".next"
+
 [env.production]
 name = "bookshelf"
 route = "bookshelf.bashdemy.com/*"
 
 [env.production.d1_databases]
-DB = { binding = "bookself_db", database_name = "bookself-db", database_id = "72f98fc7-7aea-45f6-9f52-e9534c17a5b3" }
+bookself_db = { binding = "bookself_db", database_name = "bookself-db", database_id = "72f98fc7-7aea-45f6-9f52-e9534c17a5b3" }
 
 

@@ -10,7 +10,8 @@ import type { NewArticle } from '@/types/article';
 // Helper function to get database instance from environment
 function getDb() {
   // Access D1 database from Cloudflare environment
-  const d1 = (globalThis as { env?: { DB?: D1Database } }).env?.DB;
+  const d1 = (globalThis as { env?: { bookself_db?: D1Database } }).env
+    ?.bookself_db;
   if (!d1) {
     throw new Error('D1 database not available');
   }
