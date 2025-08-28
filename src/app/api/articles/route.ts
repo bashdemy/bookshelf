@@ -53,10 +53,17 @@ export async function POST(request: NextRequest) {
     const { adminKey, ...articleData } = body;
 
     // Validate admin key from environment variable
-    if (
-      adminKey !==
-      (globalThis as { env?: { ADMIN_KEY?: string } }).env?.ADMIN_KEY
-    ) {
+    const envAdminKey = (globalThis as { env?: { ADMIN_KEY?: string } }).env
+      ?.ADMIN_KEY;
+
+    if (!envAdminKey) {
+      return NextResponse.json(
+        { error: 'Admin key not configured' },
+        { status: 500 }
+      );
+    }
+
+    if (adminKey !== envAdminKey) {
       return NextResponse.json({ error: 'Invalid admin key' }, { status: 401 });
     }
 
