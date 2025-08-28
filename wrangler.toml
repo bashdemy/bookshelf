@@ -3,7 +3,7 @@ compatibility_date = "2023-12-01"
 compatibility_flags = ["nodejs_compat"]
 
 # Pages configuration
-pages_build_output_dir = ".next"
+pages_build_output_dir = ".vercel/output/static"
 
 [env.production]
 name = "bookshelf"
