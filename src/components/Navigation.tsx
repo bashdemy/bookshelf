@@ -9,13 +9,14 @@ import {
   NavigationMenuList,
 } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
-import { BookOpen, FileText, BarChart3, Plus } from 'lucide-react';
+import { BookOpen, FileText, BarChart3, Plus, Sparkles } from 'lucide-react';
 
 const navigation = [
   { name: 'Books', href: '/books', icon: BookOpen },
   { name: 'Articles', href: '/articles', icon: FileText },
   { name: 'Data', href: '/data', icon: BarChart3 },
   { name: 'Add Item', href: '/add', icon: Plus },
+  { name: 'Demo', href: '/demo', icon: Sparkles },
 ];
 
 export default function Navigation() {

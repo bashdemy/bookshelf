@@ -11,6 +11,7 @@ Bookshelf is a personal reading management system that helps you:
 - **📊 View Analytics**: See reading statistics, progress tracking, and genre breakdowns
 - **🌐 Share Publicly**: Your reading list is publicly accessible for sharing with others
 - **🎨 Modern UI**: Clean, responsive interface with dark/light theme support
+- **🌸 Cute Theme**: Adorable pastel aesthetic with playful animations and rounded design
 
 ## Key Features
 
@@ -43,6 +44,37 @@ Bookshelf is a personal reading management system that helps you:
 - Dark/light theme toggle
 - Clean, intuitive navigation
 - Fast loading with edge computing
+- Cute pastel theme with playful animations
+
+## Cute Theme Features
+
+The app features a delightful "girly pop" aesthetic with:
+
+### Color Palette
+
+- **Primary**: Dusty pink (HSL: 340 60% 75%)
+- **Secondary**: Lavender (HSL: 270 50% 85%)
+- **Accent**: Peach (HSL: 25 80% 85%)
+- **Background**: Soft cream (HSL: 45 100% 98%)
+
+### Design Elements
+
+- **Rounded Corners**: Pill-like buttons and cards with 2xl+ border radius
+- **Soft Shadows**: Custom shadow-cute and shadow-soft for depth
+- **Playful Animations**: Gentle hover effects, scale transforms, and floating animations
+- **Typography**: Quicksand font for headings and UI elements
+- **Gradients**: Pink-to-peach gradient backgrounds and text effects
+
+### Component Variants
+
+- **Cute Buttons**: `variant="cute"`, `variant="cute-secondary"`, `variant="cute-outline"`
+- **Cute Sizes**: `size="cute-sm"`, `size="cute-lg"`, `size="cute-icon"`
+- **Utility Classes**: `.btn-cute`, `.card-cute`, `.input-cute`, `.badge-cute`
+- **Gradient Backgrounds**: `.bg-cute-gradient` for soft pastel backgrounds
+
+### Demo
+
+Visit `/demo` to see the cute theme in action with interactive examples!
 
 ## Architecture
 

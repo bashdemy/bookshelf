@@ -52,11 +52,22 @@ module.exports = {
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        cute: ['var(--font-cute)', 'system-ui', 'sans-serif'],
+      },
+      boxShadow: {
+        cute: '0 4px 20px -2px rgba(236, 72, 153, 0.15), 0 2px 8px -2px rgba(236, 72, 153, 0.1)',
+        'cute-hover':
+          '0 8px 30px -4px rgba(236, 72, 153, 0.25), 0 4px 12px -2px rgba(236, 72, 153, 0.15)',
+        soft: '0 2px 12px -2px rgba(0, 0, 0, 0.08), 0 1px 4px -1px rgba(0, 0, 0, 0.04)',
+        'soft-hover':
+          '0 4px 20px -4px rgba(0, 0, 0, 0.12), 0 2px 8px -2px rgba(0, 0, 0, 0.06)',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
         'slide-up': 'slideUp 0.3s ease-out',
         'bounce-gentle': 'bounceGentle 2s infinite',
+        float: 'float 3s ease-in-out infinite',
+        'pulse-soft': 'pulseSoft 2s ease-in-out infinite',
       },
       keyframes: {
         fadeIn: {
@@ -85,11 +96,30 @@ module.exports = {
             transform: 'translateY(-5px)',
           },
         },
+        float: {
+          '0%, 100%': {
+            transform: 'translateY(0px)',
+          },
+          '50%': {
+            transform: 'translateY(-8px)',
+          },
+        },
+        pulseSoft: {
+          '0%, 100%': {
+            opacity: '1',
+          },
+          '50%': {
+            opacity: '0.8',
+          },
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+        '2xl': '1rem',
+        '3xl': '1.5rem',
+        '4xl': '2rem',
       },
     },
   },
