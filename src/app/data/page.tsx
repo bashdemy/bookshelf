@@ -10,7 +10,6 @@ export default async function DataPage() {
   const books = await getBooks();
   const articles = await getArticles();
 
-  // Calculate statistics
   const bookStats = {
     total: books.length,
     reading: books.filter((b: Book) => b.status === 'reading').length,
