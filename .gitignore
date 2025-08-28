@@ -97,6 +97,7 @@ jspm_packages/
 # Next.js build output
 .next
 .next/cache/
+.next/cache/webpack/
 
 # TypeScript build info
 *.tsbuildinfo
