@@ -7,7 +7,6 @@ pages_build_output_dir = ".next"
 
 [env.production]
 name = "bookshelf"
-route = "bookshelf.bashdemy.com/*"
 
 [[env.production.d1_databases]]
 binding = "bookself_db"
