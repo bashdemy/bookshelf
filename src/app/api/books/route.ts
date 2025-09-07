@@ -1,28 +1,36 @@
-// Edge Runtime configuration for Cloudflare Pages
 export const runtime = 'edge';
 
 import { NextRequest, NextResponse } from 'next/server';
+import { getRequestContext } from '@cloudflare/next-on-pages';
 import { drizzle } from 'drizzle-orm/d1';
 import { books } from '@/db/schema';
 import { desc } from 'drizzle-orm';
 import type { NewBook } from '@/types/book';
 
-// Helper function to get database instance from environment
 function getDb() {
-  // Access D1 database from Cloudflare environment
-  const env = (
-    globalThis as { env?: { bookself_db?: D1Database; ADMIN_KEY?: string } }
-  ).env;
+  const ctxEnv = ((): { bookself_db?: D1Database } | undefined => {
+    try {
+      return (getRequestContext()?.env ?? undefined) as {
+        bookself_db?: D1Database;
+      };
+    } catch {
+      return undefined;
+    }
+  })();
 
-  const d1 = env?.bookself_db;
+  const globalEnv = (globalThis as { env?: { bookself_db?: D1Database } }).env;
+
+  const env = ctxEnv ?? globalEnv ?? {};
+  const d1 =
+    (env as { bookself_db?: D1Database; DB?: D1Database }).DB ??
+    (env as { bookself_db?: D1Database; DB?: D1Database }).bookself_db;
+
   if (!d1) {
-    console.error('D1 database not available - env:', Object.keys(env || {}));
     throw new Error('D1 database not available');
   }
   return drizzle(d1);
 }
 
-// Helper function to generate UUID
 function generateUUID(): string {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     const r = (Math.random() * 16) | 0;
@@ -34,8 +42,6 @@ function generateUUID(): string {
 export async function GET() {
   try {
     const db = getDb();
-
-    // Fetch all books ordered by creation date (newest first)
     const result = await db
       .select()
       .from(books)
@@ -54,13 +60,16 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as NewBook;
-    const { adminKey, ...bookData } = body;
+    const { adminKey, ...bookData } = body ?? ({} as NewBook);
 
-    // Validate admin key from environment variable
-    const env = (
-      globalThis as { env?: { bookself_db?: D1Database; ADMIN_KEY?: string } }
-    ).env;
-    const envAdminKey = env?.ADMIN_KEY;
+    let envAdminKey: string | undefined;
+    try {
+      envAdminKey = (getRequestContext().env as { ADMIN_KEY?: string })
+        ?.ADMIN_KEY;
+    } catch {
+      envAdminKey = ((globalThis as { env?: { ADMIN_KEY?: string } }).env ?? {})
+        .ADMIN_KEY;
+    }
 
     if (!envAdminKey) {
       console.error('Admin key not configured');
@@ -70,15 +79,27 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Decode the admin key from the request (in case it was URL encoded)
-    const decodedAdminKey = decodeURIComponent(adminKey);
+    if (!adminKey || typeof adminKey !== 'string' || adminKey.trim() === '') {
+      return NextResponse.json(
+        { error: 'Admin key is required' },
+        { status: 400 }
+      );
+    }
+    let decodedAdminKey = adminKey;
+    try {
+      decodedAdminKey = decodeURIComponent(adminKey);
+    } catch {
+      return NextResponse.json(
+        { error: 'Invalid admin key format' },
+        { status: 400 }
+      );
+    }
 
     if (decodedAdminKey !== envAdminKey) {
       console.error('Admin key mismatch');
       return NextResponse.json({ error: 'Invalid admin key' }, { status: 401 });
     }
 
-    // Validate required fields
     if (!bookData.title || !bookData.author) {
       return NextResponse.json(
         { error: 'Title and author are required' },
@@ -87,8 +108,6 @@ export async function POST(request: NextRequest) {
     }
 
     const db = getDb();
-
-    // Prepare book data with UUID and proper field mapping
     const newBook = {
       id: generateUUID(),
       title: bookData.title,
@@ -118,7 +137,6 @@ export async function POST(request: NextRequest) {
       updated_by: 'system',
     };
 
-    // Insert new book into database
     await db.insert(books).values(newBook);
 
     return NextResponse.json(

@@ -1,6 +1,20 @@
 name = "bookshelf"
 compatibility_date = "2023-12-01"
-# Use Edge APIs; Node.js compat is not required for Next-on-Pages
+# Next-on-Pages requires Node.js compatibility in Cloudflare Pages runtime
+# Ensure the Pages project has the `nodejs_compat` flag enabled (both Preview & Production)
+compatibility_flags = ["nodejs_compat"]
+
+# Local development D1 binding (placeholder ID for --local)
+[[d1_databases]]
+binding = "bookself_db"
+database_name = "bookself-db"
+database_id = "00000000-0000-0000-0000-000000000000"
+
+# Also expose the same local DB as "DB" for compatibility
+[[d1_databases]]
+binding = "DB"
+database_name = "bookself-db"
+database_id = "00000000-0000-0000-0000-000000000000"
 
 [env.production]
 name = "bookshelf"
@@ -9,4 +23,3 @@ name = "bookshelf"
 binding = "bookself_db"
 database_name = "bookself-db"
 database_id = "72f98fc7-7aea-45f6-9f52-e9534c17a5b3"
-

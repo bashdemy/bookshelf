@@ -72,19 +72,19 @@
   .btn-cute {
     @apply rounded-2xl shadow-cute hover:shadow-cute-hover transition-all duration-300 hover:scale-105;
   }
-  
+
   .card-cute {
     @apply rounded-3xl shadow-soft border-2 border-primary/20 hover:shadow-cute-hover transition-all duration-300 hover:scale-[1.02];
   }
-  
+
   .input-cute {
     @apply rounded-2xl shadow-soft border-2 border-primary/30 focus:border-primary/60 transition-all duration-300;
   }
-  
+
   .badge-cute {
     @apply rounded-full shadow-soft border border-primary/30;
   }
-  
+
   .bg-cute-gradient {
     @apply bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20;
   }

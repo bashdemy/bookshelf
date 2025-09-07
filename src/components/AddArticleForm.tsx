@@ -38,7 +38,7 @@ export default function AddArticleForm() {
     };
 
     try {
-      const response = await fetch('/api/articles', {
+      const response = await fetch('/api/articles/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

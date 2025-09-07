@@ -140,7 +140,7 @@ The app uses two main tables:
 - Wrangler CLI (`npm install -g wrangler`)
 - pnpm (recommended) or npm
 
-### Local Development
+### Local Development (UI-only)
 
 1. **Clone and install dependencies:**
 
@@ -173,10 +173,39 @@ The app uses two main tables:
    pnpm run db:migrate
    ```
 
-5. **Start development server:**
+5. **Start development server (no Edge/D1):**
    ```bash
    pnpm run dev
    ```
+
+### End-to-End Edge Dev (Cloudflare Pages + D1)
+
+Run the full stack locally using the Cloudflare Pages runtime and a local D1 database:
+
+1. Install dependencies
+
+   ```bash
+   pnpm install
+   ```
+
+2. Prepare local D1 and dev env variables
+
+   ```bash
+   pnpm db:prepare:d1
+   # Creates .dev.vars with ADMIN_KEY if missing and applies schema to local D1
+   ```
+
+3. Start Edge dev server (build + run in one go)
+   ```bash
+   pnpm dev:edge
+   # Opens a Pages dev server (typically http://127.0.0.1:8788)
+   ```
+
+Notes
+
+- Use the admin key you set in `.dev.vars` to add books/articles.
+- The binding name is `bookself_db` (matches `wrangler.toml`).
+- To re-apply schema after changes, run `pnpm db:prepare:d1` again.
 
 ### Deployment
 

@@ -42,7 +42,7 @@ export default function AddBookForm() {
     };
 
     try {
-      const response = await fetch('/api/books', {
+      const response = await fetch('/api/books/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

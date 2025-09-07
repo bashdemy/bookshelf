@@ -1,14 +1,21 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { getBooks } from '@/lib/books';
-import { getArticles } from '@/lib/articles';
+import 'server-only';
 import { BarChart3, BookOpen, FileText, TrendingUp } from 'lucide-react';
 import type { Book } from '@/types/book';
 import type { Article } from '@/types/article';
 
 export default async function DataPage() {
-  const books = await getBooks();
-  const articles = await getArticles();
+  const [booksRes, articlesRes] = await Promise.all([
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/api/books/`, {
+      cache: 'no-store',
+    }).catch(() => fetch('/api/books/', { cache: 'no-store' })),
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/api/articles/`, {
+      cache: 'no-store',
+    }).catch(() => fetch('/api/articles/', { cache: 'no-store' })),
+  ]);
+  const books = (await booksRes.json()) as Book[];
+  const articles = (await articlesRes.json()) as Article[];
 
   const bookStats = {
     total: books.length,
