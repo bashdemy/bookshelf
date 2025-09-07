@@ -10,9 +10,13 @@ import type { NewArticle } from '@/types/article';
 // Helper function to get database instance from environment
 function getDb() {
   // Access D1 database from Cloudflare environment
-  const d1 = (globalThis as { env?: { bookself_db?: D1Database } }).env
-    ?.bookself_db;
+  const env = (
+    globalThis as { env?: { bookself_db?: D1Database; ADMIN_KEY?: string } }
+  ).env;
+
+  const d1 = env?.bookself_db;
   if (!d1) {
+    console.error('D1 database not available - env:', Object.keys(env || {}));
     throw new Error('D1 database not available');
   }
   return drizzle(d1);
@@ -53,17 +57,24 @@ export async function POST(request: NextRequest) {
     const { adminKey, ...articleData } = body;
 
     // Validate admin key from environment variable
-    const envAdminKey = (globalThis as { env?: { ADMIN_KEY?: string } }).env
-      ?.ADMIN_KEY;
+    const env = (
+      globalThis as { env?: { bookself_db?: D1Database; ADMIN_KEY?: string } }
+    ).env;
+    const envAdminKey = env?.ADMIN_KEY;
 
     if (!envAdminKey) {
+      console.error('Admin key not configured');
       return NextResponse.json(
         { error: 'Admin key not configured' },
         { status: 500 }
       );
     }
 
-    if (adminKey !== envAdminKey) {
+    // Decode the admin key from the request (in case it was URL encoded)
+    const decodedAdminKey = decodeURIComponent(adminKey);
+
+    if (decodedAdminKey !== envAdminKey) {
+      console.error('Admin key mismatch');
       return NextResponse.json({ error: 'Invalid admin key' }, { status: 401 });
     }
 
@@ -112,8 +123,16 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     console.error('Error adding article:', error);
+    const errorMessage =
+      error instanceof Error ? error.message : 'Unknown error';
+    const errorStack = error instanceof Error ? error.stack : undefined;
+
     return NextResponse.json(
-      { error: 'Failed to add article' },
+      {
+        error: 'Failed to add article',
+        details: errorMessage,
+        stack: errorStack,
+      },
       { status: 500 }
     );
   }

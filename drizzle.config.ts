@@ -6,7 +6,8 @@ export default defineConfig({
   driver: 'd1',
   dbCredentials: {
     wranglerConfigPath: './wrangler.toml',
-    dbName: 'bookshelf-db',
+    // Must match the database_name in wrangler.toml
+    dbName: 'bookself-db',
   },
   verbose: true,
   strict: true,

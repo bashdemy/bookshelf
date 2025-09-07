@@ -147,7 +147,7 @@ export default async function DataPage() {
 
         <TabsContent value="books" className="space-y-6">
           <div className="grid gap-4 md:grid-cols-3">
-            <Card className="card-cute">
+            <Card className="card-cute bg-cute-gradient">
               <CardHeader>
                 <CardTitle className="font-cute">
                   Book Status Distribution
@@ -177,7 +177,7 @@ export default async function DataPage() {
               </CardContent>
             </Card>
 
-            <Card className="card-cute">
+            <Card className="card-cute bg-cute-gradient">
               <CardHeader>
                 <CardTitle className="font-cute">Recent Books</CardTitle>
               </CardHeader>
@@ -201,7 +201,7 @@ export default async function DataPage() {
               </CardContent>
             </Card>
 
-            <Card className="card-cute">
+            <Card className="card-cute bg-cute-gradient">
               <CardHeader>
                 <CardTitle className="font-cute">Top Genres</CardTitle>
               </CardHeader>
@@ -232,7 +232,7 @@ export default async function DataPage() {
 
         <TabsContent value="articles" className="space-y-6">
           <div className="grid gap-4 md:grid-cols-2">
-            <Card className="card-cute">
+            <Card className="card-cute bg-cute-gradient">
               <CardHeader>
                 <CardTitle className="font-cute">
                   Article Status Distribution
@@ -262,7 +262,7 @@ export default async function DataPage() {
               </CardContent>
             </Card>
 
-            <Card className="card-cute">
+            <Card className="card-cute bg-cute-gradient">
               <CardHeader>
                 <CardTitle className="font-cute">Recent Articles</CardTitle>
               </CardHeader>

@@ -38,7 +38,7 @@ export default function AddBookForm() {
         ? parseInt(formData.get('pages') as string)
         : undefined,
       genre: formData.get('genre') as string,
-      adminKey: formData.get('adminKey') as string,
+      adminKey: encodeURIComponent(formData.get('adminKey') as string),
     };
 
     try {
@@ -56,8 +56,15 @@ export default function AddBookForm() {
         setIsExpanded(false);
         window.location.reload();
       } else {
-        const error = await response.text();
-        setMessage(`Error: ${error}`);
+        const errorData = (await response
+          .json()
+          .catch(() => ({ error: 'Unknown error' }))) as {
+          details?: string;
+          error?: string;
+        };
+        const errorMessage =
+          errorData.details || errorData.error || 'Unknown error occurred';
+        setMessage(`Error: ${errorMessage}`);
       }
     } catch {
       setMessage('Error adding book. Please try again.');

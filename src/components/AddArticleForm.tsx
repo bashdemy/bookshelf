@@ -34,7 +34,7 @@ export default function AddArticleForm() {
       summary: formData.get('summary') as string,
       notes: formData.get('notes') as string,
       status: formData.get('status') as string,
-      adminKey: formData.get('adminKey') as string,
+      adminKey: encodeURIComponent(formData.get('adminKey') as string),
     };
 
     try {
@@ -52,8 +52,15 @@ export default function AddArticleForm() {
         setIsExpanded(false);
         window.location.reload();
       } else {
-        const error = await response.text();
-        setMessage(`Error: ${error}`);
+        const errorData = (await response
+          .json()
+          .catch(() => ({ error: 'Unknown error' }))) as {
+          details?: string;
+          error?: string;
+        };
+        const errorMessage =
+          errorData.details || errorData.error || 'Unknown error occurred';
+        setMessage(`Error: ${errorMessage}`);
       }
     } catch {
       setMessage('Error adding article. Please try again.');
