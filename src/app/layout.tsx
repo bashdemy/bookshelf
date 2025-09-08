@@ -5,6 +5,8 @@ import { ThemeProvider } from '@/components/ThemeProvider';
 import ThemeToggle from '@/components/ThemeToggle';
 import Navigation from '@/components/Navigation';
 
+export const runtime = 'edge';
+
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 const quicksand = Quicksand({
   subsets: ['latin'],

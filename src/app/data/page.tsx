@@ -5,6 +5,9 @@ import { BarChart3, BookOpen, FileText, TrendingUp } from 'lucide-react';
 import type { Book } from '@/types/book';
 import type { Article } from '@/types/article';
 
+// Ensure this dynamic route runs on the Edge runtime for Cloudflare Pages
+export const runtime = 'edge';
+
 export default async function DataPage() {
   const [booksRes, articlesRes] = await Promise.all([
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/api/books/`, {

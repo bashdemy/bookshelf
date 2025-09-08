@@ -4,6 +4,10 @@ compatibility_date = "2023-12-01"
 # Ensure the Pages project has the `nodejs_compat` flag enabled (both Preview & Production)
 compatibility_flags = ["nodejs_compat"]
 
+# Cloudflare Pages: where the Next-on-Pages build outputs static assets
+# This removes the warning about an invalid wrangler.toml during Pages builds
+pages_build_output_dir = ".vercel/output/static"
+
 # Local development D1 binding (placeholder ID for --local)
 [[d1_databases]]
 binding = "bookself_db"
