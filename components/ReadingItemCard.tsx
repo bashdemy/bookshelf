@@ -5,10 +5,10 @@ interface ReadingItemCardProps {
   item: ReadingItem;
 }
 
-const STAR_EMOJI = '⭐';
+const HEART_EMOJI = '❤️';
 const BOOK_TYPE: ReadingItemType = 'book';
-const BOOK_LABEL = '📚 Book';
-const ARTICLE_LABEL = '📄 Article';
+const BOOK_LABEL = '📖 Book';
+const ARTICLE_LABEL = '✨ Article';
 
 function formatYearAndPages(year?: number, pages?: number): string {
   const parts: string[] = [];
@@ -17,8 +17,8 @@ function formatYearAndPages(year?: number, pages?: number): string {
   return parts.join(' • ');
 }
 
-function renderRatingStars(rating: number): string {
-  return STAR_EMOJI.repeat(rating);
+function renderRatingHearts(rating: number): string {
+  return HEART_EMOJI.repeat(rating);
 }
 
 function getTypeLabel(type: ReadingItemType): string {
@@ -29,59 +29,69 @@ export default function ReadingItemCard({ item }: ReadingItemCardProps) {
   const yearAndPages = formatYearAndPages(item.year, item.pages);
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:border-gray-800 dark:bg-gray-900">
-      <div className="mb-3 flex items-start justify-between">
-        <div className="flex-1">
-          <div className="mb-1 flex items-center gap-2">
-            <span className="rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-              {getTypeLabel(item.type)}
-            </span>
-            {item.rating && (
-              <span className="text-sm text-gray-600 dark:text-gray-400">
-                {renderRatingStars(item.rating)}
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-pink-200/70 bg-pink-100/90 shadow-sm transition-all hover:border-pink-300/80 hover:shadow-lg hover:shadow-pink-200/40 hover:bg-pink-200">
+      <div className="absolute inset-0 bg-gradient-to-br from-pink-200/40 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100"></div>
+      <div className="relative flex flex-1 flex-col p-6">
+        <div className="mb-4 flex items-start justify-between gap-3">
+          <div className="flex-1 min-w-0">
+            <div className="mb-2 flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-pink-100 px-3 py-1 text-xs font-semibold text-pink-700">
+                {getTypeLabel(item.type)}
               </span>
-            )}
+              {item.rating && (
+                <span className="text-base leading-none text-pink-500">
+                  {renderRatingHearts(item.rating)}
+                </span>
+              )}
+            </div>
+            <h3 className="mb-3 line-clamp-2 text-xl font-bold leading-snug text-pink-800 group-hover:text-pink-700">
+              {item.title}
+            </h3>
           </div>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-            {item.title}
-          </h3>
+        </div>
+
+        <div className="mb-4 flex-1 space-y-2 text-sm leading-relaxed">
+          {item.author && (
+            <div className="flex items-start gap-2">
+              <span className="font-semibold text-pink-600">Author:</span>
+              <span className="text-pink-700">{item.author}</span>
+            </div>
+          )}
+          {item.publication && (
+            <div className="flex items-start gap-2">
+              <span className="font-semibold text-pink-600">Publication:</span>
+              <span className="text-pink-700">{item.publication}</span>
+            </div>
+          )}
+          {yearAndPages && (
+            <p className="text-pink-600">{yearAndPages}</p>
+          )}
+          {item.genre && (
+            <div className="flex items-start gap-2">
+              <span className="font-semibold text-pink-600">Genre:</span>
+              <span className="text-pink-700">{item.genre}</span>
+            </div>
+          )}
+        </div>
+
+        <div className="mt-auto border-t border-pink-200/50 pt-4">
+          <p className="text-xs font-medium text-pink-500">
+            Read on <span className="text-pink-600">{formatReadDate(item.readDate)}</span>
+          </p>
+          {item.tags && item.tags.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {item.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-lg bg-pink-100 px-2.5 py-1 text-xs font-medium text-pink-700 transition-colors group-hover:bg-pink-200"
+                >
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </div>
-
-      <div className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
-        {item.author && (
-          <p>
-            <span className="font-medium">Author:</span> {item.author}
-          </p>
-        )}
-        {item.publication && (
-          <p>
-            <span className="font-medium">Publication:</span> {item.publication}
-          </p>
-        )}
-        {yearAndPages && <p>{yearAndPages}</p>}
-        {item.genre && (
-          <p>
-            <span className="font-medium">Genre:</span> {item.genre}
-          </p>
-        )}
-        <p className="text-xs text-gray-500 dark:text-gray-500">
-          Read on {formatReadDate(item.readDate)}
-        </p>
-      </div>
-
-      {item.tags && item.tags.length > 0 && (
-        <div className="mt-4 flex flex-wrap gap-2">
-          {item.tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-md bg-gray-100 px-2 py-1 text-xs text-gray-700 dark:bg-gray-800 dark:text-gray-300"
-            >
-              #{tag}
-            </span>
-          ))}
-        </div>
-      )}
-    </div>
+    </article>
   );
 }

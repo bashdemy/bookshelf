@@ -16,13 +16,13 @@ export default function ReadingSection({
   pluralLabel,
 }: ReadingSectionProps) {
   return (
-    <section className="mb-12">
-      <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+    <section className="mb-16">
+      <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <h2 className="text-3xl font-bold tracking-tight text-pink-700">
           {title}
         </h2>
-        <span className="text-sm text-gray-600 dark:text-gray-400">
-          {formatItemCount(items.length, singularLabel, pluralLabel)}
+        <span className="inline-flex items-center gap-2 rounded-full bg-pink-100 px-4 py-1.5 text-sm font-semibold text-pink-700">
+          <span>{formatItemCount(items.length, singularLabel, pluralLabel)}</span>
         </span>
       </div>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">

@@ -1,19 +1,19 @@
 export default function Footer() {
   return (
-    <footer className="mt-16 border-t border-gray-200 bg-white py-8 dark:border-gray-800 dark:bg-gray-900">
-      <div className="mx-auto max-w-7xl px-4 text-center text-sm text-gray-600 dark:text-gray-400 sm:px-6 lg:px-8">
-        <p>
+    <footer className="mt-20 border-t border-pink-200/60 bg-pink-100/90 backdrop-blur-md py-12">
+      <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+        <p className="text-sm text-pink-600">
           Bookshelf by{' '}
           <a
             href="https://bashdemy.com"
-            className="font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+            className="font-semibold text-pink-700 transition-colors hover:text-pink-800"
             target="_blank"
             rel="noopener noreferrer"
           >
             bashdemy
           </a>
         </p>
-        <p className="mt-2">Sign in to edit your reading list</p>
+        <p className="mt-3 text-xs text-pink-500">Sign in to edit your reading list</p>
       </div>
     </footer>
   );

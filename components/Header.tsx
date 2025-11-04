@@ -6,22 +6,23 @@ export default function Header() {
   }
 
   return (
-    <header className="border-b border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
+    <header className="sticky top-0 z-10 border-b border-pink-200/60 bg-pink-100/90 backdrop-blur-md shadow-sm">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-              📚 Bookshelf
+        <div className="flex h-20 items-center justify-between">
+          <div className="flex items-baseline gap-3">
+            <h1 className="text-3xl font-bold tracking-tight text-pink-700">
+              🌸 Bookshelf
             </h1>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="hidden text-sm text-pink-500 sm:block">
               Reading tracker for bashdemy
             </p>
           </div>
           <button
             onClick={handleSignInClick}
-            className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+            className="group relative overflow-hidden rounded-xl bg-gradient-to-r from-pink-500 to-pink-600 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-pink-300/30 transition-all hover:from-pink-600 hover:to-pink-700 hover:shadow-lg hover:shadow-pink-400/40 active:scale-[0.98] active:shadow-md"
           >
-            Sign in with Google
+            <span className="relative z-10">Sign in with Google</span>
+            <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></span>
           </button>
         </div>
       </div>
