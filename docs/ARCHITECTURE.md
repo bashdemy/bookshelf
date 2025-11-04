@@ -9,11 +9,19 @@ Bookshelf is a reading tracking application that allows users to track books and
 ```
 bookshelf/
 ├── app/                    # Next.js App Router pages
-│   ├── layout.tsx         # Root layout with metadata
-│   ├── page.tsx           # Home page (landing page)
-│   └── globals.css        # Global styles
+│   ├── layout.tsx         # Root layout with metadata and global structure
+│   ├── page.tsx           # Home page with navigation cards
+│   ├── books/             # Books page
+│   │   └── page.tsx       # Books listing page
+│   ├── articles/          # Articles page
+│   │   └── page.tsx       # Articles listing page
+│   ├── stats/             # Statistics page
+│   │   └── page.tsx       # Statistics and analytics page
+│   └── globals.css        # Global styles and animations
 ├── components/            # React components
-│   ├── Header.tsx         # Application header with sign-in button
+│   ├── Header.tsx         # Application header with navigation and sign-in
+│   ├── Navigation.tsx     # Navigation menu component
+│   ├── AuthPrompt.tsx     # Floating authentication prompt
 │   ├── Footer.tsx         # Application footer
 │   ├── StatsCard.tsx      # Individual statistic card component
 │   ├── StatsSection.tsx   # Statistics dashboard section
@@ -63,19 +71,47 @@ Represents a user of the application.
 ### Page Components
 
 **Home Page (`app/page.tsx`)**
-- Main landing page component
-- Displays root user's reading list in unauthenticated mode
-- Orchestrates header, stats, and reading sections
+- Landing page with navigation cards
+- Displays overview statistics and quick links to books, articles, and stats
+- Shows summary of total items and pages read
+
+**Books Page (`app/books/page.tsx`)**
+- Displays all books in a grid layout
+- Uses ReadingSection component for consistent presentation
+
+**Articles Page (`app/articles/page.tsx`)**
+- Displays all articles in a grid layout
+- Uses ReadingSection component for consistent presentation
+
+**Stats Page (`app/stats/page.tsx`)**
+- Statistics and analytics dashboard
+- Displays comprehensive reading statistics using StatsSection component
 
 ### Layout Components
 
+**Root Layout (`app/layout.tsx`)**
+- Global layout wrapper with Header and Footer
+- Applies consistent background gradient and styling
+- Manages flex layout to keep footer at bottom
+
 **Header (`components/Header.tsx`)**
-- Application header with branding
-- Sign-in button (currently placeholder)
-- Displays current user context
+- Application header with branding and navigation
+- Sign-in button (placeholder for future authentication)
+- Conditionally renders AuthPrompt when unauthenticated
+
+**Navigation (`components/Navigation.tsx`)**
+- Client-side navigation menu
+- Highlights active route
+- Responsive navigation links
+
+**AuthPrompt (`components/AuthPrompt.tsx`)**
+- Floating cloud-style authentication prompt
+- Displays when user is not authenticated
+- Fixed position in bottom-left corner with floating animation
 
 **Footer (`components/Footer.tsx`)**
 - Application footer with attribution
+- Copyright notice with dynamic year
 - Links to bashdemy.com
 
 ### Display Components
@@ -158,10 +194,12 @@ Currently uses mock data in `data/bashdemy.ts` for the root user. This will be r
 
 ## Styling
 
-- Uses Tailwind CSS for styling
-- Supports dark mode via system preference
+- Uses Tailwind CSS v4 for styling
+- Dusty pink color palette throughout
 - Responsive breakpoints: mobile (default), sm, md, lg
-- Consistent color scheme with gray/blue palette
+- Material Design principles with elevation system
+- Custom animations for floating elements
+- Consistent pink gradient backgrounds
 
 ## Development Guidelines
 
