@@ -1,10 +1,10 @@
-import { bashdemyBooks, bashdemyArticles } from '@/data/bashdemy';
-import { calculateTotalPages } from '@/utils/statistics';
+import { getReadingItemStats } from '@/lib/reading-items';
 import Link from 'next/link';
 
-export default function Home() {
-  const totalPages = calculateTotalPages(bashdemyBooks);
-  const totalItems = bashdemyBooks.length + bashdemyArticles.length;
+export default async function Home() {
+  const stats = await getReadingItemStats('bashdemy');
+  const totalPages = stats.totalPages;
+  const totalItems = stats.bookCount + stats.articleCount;
 
   return (
     <main className="mx-auto flex max-w-7xl flex-col items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
@@ -20,7 +20,7 @@ export default function Home() {
           >
             <div className="mb-2 text-4xl">📖</div>
             <h3 className="mb-1 text-lg font-semibold text-pink-700">Books</h3>
-            <p className="text-sm text-pink-600">{bashdemyBooks.length} books</p>
+            <p className="text-sm text-pink-600">{stats.bookCount} books</p>
           </Link>
           
           <Link
@@ -29,7 +29,7 @@ export default function Home() {
           >
             <div className="mb-2 text-4xl">✨</div>
             <h3 className="mb-1 text-lg font-semibold text-pink-700">Articles</h3>
-            <p className="text-sm text-pink-600">{bashdemyArticles.length} articles</p>
+            <p className="text-sm text-pink-600">{stats.articleCount} articles</p>
           </Link>
           
           <Link

@@ -27,8 +27,11 @@ bookshelf/
 │   ├── StatsSection.tsx   # Statistics dashboard section
 │   ├── ReadingItemCard.tsx # Card component for displaying books/articles
 │   └── ReadingSection.tsx  # Section component for displaying lists of items
-├── data/                  # Mock data and data sources
-│   └── bashdemy.ts        # Root user (bashdemy) reading data
+├── lib/                   # Core library functions
+│   ├── db.ts              # Database connection (Neon Postgres)
+│   └── reading-items.ts   # Data access layer for reading items
+├── scripts/               # Utility scripts
+│   └── migrate.ts         # Database migration and seeding script
 ├── types/                 # TypeScript type definitions
 │   └── index.ts           # Core type definitions
 ├── utils/                 # Utility functions
@@ -149,7 +152,62 @@ Represents a user of the application.
 
 ## Data Layer
 
-Currently uses mock data in `data/bashdemy.ts` for the root user. This will be replaced with a database connection in future iterations.
+### Database Schema
+
+The application uses Neon Postgres with the following schema:
+
+**users**
+- `id` (TEXT PRIMARY KEY): Unique user identifier
+- `username` (TEXT UNIQUE): Username for authentication
+- `display_name` (TEXT): Display name shown in UI
+- `is_root` (BOOLEAN): Whether this is the root/public user
+- `created_at` (TIMESTAMP): Creation timestamp
+- `updated_at` (TIMESTAMP): Last update timestamp
+
+**reading_items**
+- `id` (TEXT PRIMARY KEY): Unique reading item identifier
+- `user_id` (TEXT): Foreign key to users table
+- `type` (TEXT): Either 'book' or 'article'
+- `title` (TEXT): Title of the reading item
+- `author` (TEXT): Author name (optional)
+- `publication` (TEXT): Publication name for articles (optional)
+- `year` (INTEGER): Publication year (optional)
+- `pages` (INTEGER): Number of pages for books (optional)
+- `read_date` (DATE): Date when the item was read
+- `rating` (INTEGER): Rating from 1-5 stars (optional)
+- `genre` (TEXT): Genre classification (optional)
+- `description` (TEXT): Additional description (optional)
+- `created_at` (TIMESTAMP): Creation timestamp
+- `updated_at` (TIMESTAMP): Last update timestamp
+
+**reading_item_tags**
+- `id` (SERIAL PRIMARY KEY): Unique tag identifier
+- `reading_item_id` (TEXT): Foreign key to reading_items table
+- `tag` (TEXT): Tag name
+- Unique constraint on (reading_item_id, tag)
+
+### Database Connection
+
+**lib/db.ts**
+- Exports `sql` function from `@neondatabase/serverless`
+- Uses `DATABASE_URL` environment variable
+- Throws error if `DATABASE_URL` is not set
+
+### Data Access Layer
+
+**lib/reading-items.ts**
+- `getReadingItemsByUser(userId)`: Fetches all reading items for a user, including tags
+- `getBooksByUser(userId)`: Fetches only books for a user
+- `getArticlesByUser(userId)`: Fetches only articles for a user
+- `getReadingItemStats(userId)`: Returns aggregated statistics (book count, article count, total pages)
+
+### Migration Script
+
+**scripts/migrate.ts**
+- Creates database schema (users, reading_items, reading_item_tags tables)
+- Seeds root user (bashdemy) with `is_root = true`
+- Populates reading items from initial data
+- Can be run with `npm run migrate`
 
 ## Authentication Flow
 
@@ -170,6 +228,8 @@ Currently uses mock data in `data/bashdemy.ts` for the root user. This will be r
 - ✅ Statistics dashboard
 - ✅ Responsive design
 - ✅ Dark mode support
+- ✅ Database integration with Neon Postgres
+- ✅ Data migration and seeding
 
 ### Phase 2 (Planned)
 - [ ] Google authentication
