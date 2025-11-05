@@ -9,7 +9,7 @@ export default function StatsPage() {
           Statistics & Analytics
         </h1>
         <p className="mt-2 text-pink-600">
-          View your reading statistics and insights
+          View your reading statistics & insights
         </p>
       </div>
       <StatsSection books={bashdemyBooks} articles={bashdemyArticles} />
