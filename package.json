@@ -5,10 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:cloudflare": "next build && opennextjs-cloudflare build && npm run setup:pages-functions",
-    "setup:pages-functions": "node scripts/setup-pages-functions.js",
+    "build:cloudflare": "next build && opennextjs-cloudflare build",
     "preview": "npm run build:cloudflare && wrangler dev",
-    "deploy": "npm run build:cloudflare && wrangler pages deploy .open-next --project-name=bookshelf --branch=main",
+    "deploy": "npm run build:cloudflare && wrangler deploy",
     "start": "next start",
     "lint": "eslint"
   },

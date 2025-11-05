@@ -39,9 +39,6 @@ yarn-error.log*
 # opennext build output
 .open-next
 
-# Cloudflare Pages Functions (generated at build time)
-functions
-
 # typescript
 *.tsbuildinfo
 next-env.d.ts
