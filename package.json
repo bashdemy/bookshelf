@@ -9,7 +9,9 @@
     "preview": "npm run build:cloudflare && wrangler dev",
     "deploy": "npm run build:cloudflare && wrangler deploy",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "migrate": "dotenv -e .env.local -- tsx scripts/migrate.ts",
+    "migrate:schema": "dotenv -e .env.local -- tsx scripts/migrate.ts --schema-only"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
@@ -23,9 +25,12 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "dotenv": "^16.4.7",
+    "dotenv-cli": "^7.4.2",
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
     "tailwindcss": "^4",
+    "tsx": "^4.19.2",
     "typescript": "^5",
     "wrangler": "^4.45.3"
   }

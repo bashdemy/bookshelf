@@ -1,7 +1,10 @@
-import { bashdemyBooks, bashdemyArticles } from '@/data/bashdemy';
+import { getBooksByUser, getArticlesByUser } from '@/lib/reading-items';
 import StatsSection from '@/components/StatsSection';
 
-export default function StatsPage() {
+export default async function StatsPage() {
+  const books = await getBooksByUser('bashdemy');
+  const articles = await getArticlesByUser('bashdemy');
+
   return (
     <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="mb-8">
@@ -12,7 +15,7 @@ export default function StatsPage() {
           View your reading statistics & insights
         </p>
       </div>
-      <StatsSection books={bashdemyBooks} articles={bashdemyArticles} />
+      <StatsSection books={books} articles={articles} />
     </main>
   );
 }
