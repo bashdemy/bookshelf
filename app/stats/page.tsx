@@ -6,7 +6,7 @@ export default function StatsPage() {
     <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="mb-8">
         <h1 className="text-4xl font-bold tracking-tight text-pink-700">
-          Statistics & Analytics
+          Statistics and Analytics
         </h1>
         <p className="mt-2 text-pink-600">
           View your reading statistics & insights
