@@ -46,7 +46,7 @@ export default function Navigation() {
     <nav className="flex gap-1">
       {navigationItems.map((item) => {
         const isActive = pathname === item.href;
-        const isDisabled = item.requiresAuth && !isAuthenticated;
+        const isDisabled = !!(item.requiresAuth && !isAuthenticated);
         const tooltipText = isDisabled 
           ? 'Showing data for bashdemy. Login to add your own items.' 
           : undefined;
