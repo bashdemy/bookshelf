@@ -1,8 +1,10 @@
 'use client';
 
+import { signIn } from 'next-auth/react';
+
 export default function AuthPrompt() {
-  function handleSignInClick() {
-    // TODO: Implement Google authentication
+  async function handleSignInClick() {
+    await signIn('google', { callbackUrl: '/' });
   }
 
   return (

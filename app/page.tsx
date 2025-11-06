@@ -1,10 +1,12 @@
 import { getReadingItemStats } from '@/lib/reading-items';
 import NavigationCard from '@/components/NavigationCard';
+import { getCurrentUserId } from '@/lib/auth-helpers';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  const stats = await getReadingItemStats('bashdemy');
+  const userId = await getCurrentUserId();
+  const stats = await getReadingItemStats(userId);
   const totalPages = stats.totalPages;
   const totalItems = stats.bookCount + stats.articleCount;
 

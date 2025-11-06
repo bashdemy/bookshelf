@@ -1,14 +1,22 @@
 'use client';
 
+import { useSession, signIn, signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import Navigation from './Navigation';
 import AuthPrompt from './AuthPrompt';
 
 export default function Header() {
-  function handleSignInClick() {
-    // TODO: Implement Google authentication
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const isAuthenticated = !!session;
+
+  async function handleSignInClick() {
+    await signIn('google', { callbackUrl: '/' });
   }
 
-  const isAuthenticated = false;
+  async function handleSignOut() {
+    await signOut({ callbackUrl: '/' });
+  }
 
   return (
     <>
@@ -21,22 +29,54 @@ export default function Header() {
               </h1>
               <Navigation />
             </div>
-            <button
-              onClick={handleSignInClick}
-              className="group relative overflow-hidden px-6 py-3 text-sm font-bold text-white transition-all active:scale-[0.98]"
-              style={{ 
-                borderRadius: 'var(--radius-full)',
-                background: 'var(--gradient-primary)',
-                boxShadow: 'var(--shadow-primary)',
-              }}
-            >
-              <span className="relative z-10">Sign in with Google</span>
-              <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></span>
-            </button>
+            {status === 'loading' ? (
+              <div className="px-6 py-3 text-sm" style={{ color: 'var(--color-foreground-secondary)' }}>
+                Loading...
+              </div>
+            ) : isAuthenticated ? (
+              <div className="flex items-center gap-4">
+                {session.user?.image && (
+                  <img
+                    src={session.user.image}
+                    alt={session.user.name || 'User'}
+                    className="h-10 w-10 rounded-full"
+                  />
+                )}
+                <span className="text-sm font-medium" style={{ color: 'var(--color-foreground)' }}>
+                  {session.user?.displayName || session.user?.name || 'User'}
+                </span>
+                <button
+                  onClick={handleSignOut}
+                  className="px-4 py-2 text-sm font-bold transition-colors"
+                  style={{ 
+                    borderRadius: 'var(--radius-base)',
+                    border: '1px solid var(--color-divider)',
+                    color: 'var(--color-primary)',
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-accent-blush)'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={handleSignInClick}
+                className="group relative overflow-hidden px-6 py-3 text-sm font-bold text-white transition-all active:scale-[0.98]"
+                style={{ 
+                  borderRadius: 'var(--radius-full)',
+                  background: 'var(--gradient-primary)',
+                  boxShadow: 'var(--shadow-primary)',
+                }}
+              >
+                <span className="relative z-10">Sign in with Google</span>
+                <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></span>
+              </button>
+            )}
           </div>
         </div>
       </header>
-      {!isAuthenticated && <AuthPrompt />}
+      {!isAuthenticated && status !== 'loading' && <AuthPrompt />}
     </>
   );
 }

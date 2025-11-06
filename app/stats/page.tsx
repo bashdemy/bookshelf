@@ -1,11 +1,13 @@
 import { getBooksByUser, getArticlesByUser } from '@/lib/reading-items';
 import StatsSection from '@/components/StatsSection';
+import { getCurrentUserId } from '@/lib/auth-helpers';
 
 export const dynamic = 'force-dynamic';
 
 export default async function StatsPage() {
-  const books = await getBooksByUser('bashdemy');
-  const articles = await getArticlesByUser('bashdemy');
+  const userId = await getCurrentUserId();
+  const books = await getBooksByUser(userId);
+  const articles = await getArticlesByUser(userId);
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">

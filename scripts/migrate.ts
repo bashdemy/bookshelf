@@ -70,12 +70,63 @@ async function createSchema() {
   await sql`
     CREATE TABLE IF NOT EXISTS users (
       id TEXT PRIMARY KEY,
-      username TEXT UNIQUE NOT NULL,
+      username TEXT UNIQUE,
       display_name TEXT NOT NULL,
+      email TEXT UNIQUE,
+      google_id TEXT UNIQUE,
+      avatar_url TEXT,
       is_root BOOLEAN DEFAULT FALSE,
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW()
     )
+  `;
+
+  const existingColumns = await sql`
+    SELECT column_name 
+    FROM information_schema.columns 
+    WHERE table_name = 'users' AND table_schema = 'public'
+  ` as Array<{ column_name: string }>;
+
+  const columnNames = existingColumns.map(c => c.column_name);
+
+  if (!columnNames.includes('email')) {
+    await sql`ALTER TABLE users ADD COLUMN email TEXT`;
+    await sql`CREATE UNIQUE INDEX IF NOT EXISTS users_email_unique ON users(email) WHERE email IS NOT NULL`;
+  }
+
+  if (!columnNames.includes('google_id')) {
+    await sql`ALTER TABLE users ADD COLUMN google_id TEXT`;
+    await sql`CREATE UNIQUE INDEX IF NOT EXISTS users_google_id_unique ON users(google_id) WHERE google_id IS NOT NULL`;
+  }
+
+  if (!columnNames.includes('avatar_url')) {
+    await sql`ALTER TABLE users ADD COLUMN avatar_url TEXT`;
+  }
+
+  if (columnNames.includes('username')) {
+    try {
+      const constraints = await sql`
+        SELECT constraint_name 
+        FROM information_schema.table_constraints 
+        WHERE table_name = 'users' 
+        AND constraint_type = 'NOT NULL'
+        AND constraint_name LIKE '%username%'
+      ` as Array<{ constraint_name: string }>;
+      
+      if (constraints.length === 0) {
+        await sql`ALTER TABLE users ALTER COLUMN username DROP NOT NULL`;
+      }
+    } catch (error) {
+      console.log('Note: Could not modify username constraint (may already be nullable)');
+    }
+  }
+
+  await sql`
+    CREATE INDEX IF NOT EXISTS idx_users_email ON users(email) WHERE email IS NOT NULL
+  `;
+
+  await sql`
+    CREATE INDEX IF NOT EXISTS idx_users_google_id ON users(google_id) WHERE google_id IS NOT NULL
   `;
 
   await sql`

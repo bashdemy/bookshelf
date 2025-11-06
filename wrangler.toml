@@ -7,3 +7,10 @@ assets = { directory = ".open-next/assets", binding = "ASSETS" }
 [ai]
 binding = "AI"
 remote = true
+
+# Local development variables (for wrangler dev)
+# These are overridden by wrangler.toml vars in production
+# For local testing, set AUTH_URL to the URL wrangler dev --remote gives you
+[vars]
+# AUTH_URL will be set dynamically based on the wrangler dev URL
+# Or set it manually: AUTH_URL = "http://localhost:8787"
