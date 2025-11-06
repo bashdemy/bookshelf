@@ -31,5 +31,5 @@ export const sql = new Proxy(() => {}, {
     }
     return value;
   },
-}) as ReturnType<typeof neon>;
+}) as unknown as ReturnType<typeof neon>;
 
