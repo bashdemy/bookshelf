@@ -1,6 +1,8 @@
 import { getBooksByUser, getArticlesByUser } from '@/lib/reading-items';
 import StatsSection from '@/components/StatsSection';
 
+export const dynamic = 'force-dynamic';
+
 export default async function StatsPage() {
   const books = await getBooksByUser('bashdemy');
   const articles = await getArticlesByUser('bashdemy');

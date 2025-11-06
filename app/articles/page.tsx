@@ -1,6 +1,8 @@
 import { getArticlesByUser } from '@/lib/reading-items';
 import ReadingSection from '@/components/ReadingSection';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ArticlesPage() {
   const articles = await getArticlesByUser('bashdemy');
 

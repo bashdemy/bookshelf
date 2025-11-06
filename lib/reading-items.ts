@@ -25,22 +25,44 @@ export async function getReadingItemsByUser(userId: string): Promise<ReadingItem
       WHERE ri.user_id = ${userId}
       GROUP BY ri.id
       ORDER BY ri.read_date DESC
-    `;
+    ` as Array<{
+      id: string;
+      type: string;
+      title: string;
+      author: string | null;
+      publication: string | null;
+      year: number | null;
+      pages: number | null;
+      readdate?: string;
+      read_date?: string;
+      readDate?: string;
+      rating: number | null;
+      genre: string | null;
+      description: string | null;
+      tags: string[];
+    }>;
 
-    return items.map((item: any) => ({
-      id: item.id,
-      type: item.type as 'book' | 'article',
-      title: item.title,
-      author: item.author || undefined,
-      publication: item.publication || undefined,
-      year: item.year || undefined,
-      pages: item.pages || undefined,
-      readDate: item.readdate || item.read_date || item.readDate,
-      rating: item.rating || undefined,
-      genre: item.genre || undefined,
-      tags: item.tags || undefined,
-      description: item.description || undefined,
-    }));
+    return items.map((item) => {
+      const readDate = item.readdate || item.read_date || item.readDate;
+      if (!readDate) {
+        throw new Error(`Missing readDate for item ${item.id}`);
+      }
+      
+      return {
+        id: item.id,
+        type: item.type as 'book' | 'article',
+        title: item.title,
+        author: item.author || undefined,
+        publication: item.publication || undefined,
+        year: item.year || undefined,
+        pages: item.pages || undefined,
+        readDate,
+        rating: item.rating || undefined,
+        genre: item.genre || undefined,
+        tags: item.tags || undefined,
+        description: item.description || undefined,
+      };
+    });
   } catch (error) {
     console.error('Error fetching reading items:', error);
     return [];
@@ -66,12 +88,16 @@ export async function getReadingItemStats(userId: string) {
         COALESCE(SUM(pages) FILTER (WHERE type = 'book'), 0) as total_pages
       FROM reading_items
       WHERE user_id = ${userId}
-    `;
+    ` as Array<{
+      book_count: number | string;
+      article_count: number | string;
+      total_pages: number | string;
+    }>;
 
     return {
-      bookCount: Number(stats[0].book_count),
-      articleCount: Number(stats[0].article_count),
-      totalPages: Number(stats[0].total_pages),
+      bookCount: Number(stats[0]?.book_count || 0),
+      articleCount: Number(stats[0]?.article_count || 0),
+      totalPages: Number(stats[0]?.total_pages || 0),
     };
   } catch (error) {
     console.error('Error fetching reading item stats:', error);

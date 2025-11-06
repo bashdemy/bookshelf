@@ -1,6 +1,8 @@
 import { getReadingItemStats } from '@/lib/reading-items';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const stats = await getReadingItemStats('bashdemy');
   const totalPages = stats.totalPages;
