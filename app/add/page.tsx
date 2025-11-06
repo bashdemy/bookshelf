@@ -386,18 +386,31 @@ export default function AddPage() {
             </div>
 
             <div>
-              <label htmlFor="rating" className="block text-sm font-medium text-pink-700 mb-2">
-                Rating (1-5)
+              <label className="block text-sm font-medium text-pink-700 mb-2">
+                Rating
               </label>
-              <input
-                id="rating"
-                type="number"
-                min="1"
-                max="5"
-                value={formData.rating}
-                onChange={(e) => handleInputChange('rating', e.target.value)}
-                className="w-full rounded-lg border border-pink-300 bg-white px-4 py-2 text-pink-900 focus:border-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500"
-              />
+              <div className="flex items-center gap-2">
+                {[1, 2, 3, 4, 5].map((value) => {
+                  const currentRating = formData.rating ? parseInt(formData.rating, 10) : 0;
+                  const isFilled = value <= currentRating;
+                  return (
+                    <button
+                      key={value}
+                      type="button"
+                      onClick={() => handleInputChange('rating', String(value === currentRating ? '' : value))}
+                      className="text-3xl transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-pink-500 rounded"
+                      aria-label={`Rate ${value} out of 5`}
+                    >
+                      {isFilled ? '❤️' : '🤍'}
+                    </button>
+                  );
+                })}
+                {formData.rating && (
+                  <span className="text-sm text-pink-600 ml-2">
+                    ({formData.rating}/5)
+                  </span>
+                )}
+              </div>
             </div>
 
             <div>

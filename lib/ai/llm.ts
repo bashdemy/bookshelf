@@ -4,6 +4,7 @@ import { WorkSchema } from './schemas';
 import { ResponseData } from './types';
 import { MetaTags } from '@/utils/html';
 import { BOOK_GENRES, ARTICLE_TAGS } from './constants';
+import { extractPublicationFromUrl } from './heuristics';
 
 export async function llmExtract(
   heuristicCandidate: Partial<ResponseData>,
@@ -33,6 +34,10 @@ type Work = {
 };
 
 Rules:
+- IMPORTANT: If a URL is provided, it's almost always an ARTICLE unless it's from amazon/goodreads/book-related sites.
+- For articles: Extract publication name from URL domain (e.g., "techcrunch.com" → "TechCrunch", "medium.com" → "Medium", "arxiv.org" → "arXiv").
+- For articles: The year is the publication date, not when you read it. Extract from URL path, meta tags, or use your knowledge.
+- For books: year is publication year, pages is page count if known.
 - Use the provided text/meta as primary source, but you may use your knowledge to fill in missing information.
 - For missing author/year/pages: Use your knowledge of the work to infer these values when possible.
 - For pages: Estimate for books if you know the approximate length (e.g., 200-300 pages for typical novels).
@@ -50,9 +55,11 @@ Rules:
       description: meta.description || null,
       author: meta.author || null,
       published: meta.year || null,
+      publication: meta.publication || meta.siteName || null,
     },
     contentPreview: contentPreview.substring(0, 2000),
     heuristicCandidate,
+    hint: url ? 'This is a URL - likely an ARTICLE unless from book-related sites. Extract publication name from domain.' : 'This is text description - determine if book or article based on content.',
   });
 
   const response = await ai.run('@cf/meta/llama-3.1-8b-instruct', {
@@ -167,6 +174,11 @@ Rules:
     validated = WorkSchema.parse(safeFallback);
   }
 
+  const publication = 
+    (validated.kind === 'article' && url) 
+      ? (heuristicCandidate.publication || extractPublicationFromUrl(url) || '')
+      : '';
+
   const result: ResponseData = {
     kind: validated.kind,
     title: validated.title || heuristicCandidate.title || '',
@@ -174,7 +186,7 @@ Rules:
       validated.authors && validated.authors.length > 0
         ? validated.authors[0]
         : heuristicCandidate.author || '',
-    publication: '',
+    publication: publication || heuristicCandidate.publication || '',
     year: validated.year ?? heuristicCandidate.year,
     pages: validated.pages ?? undefined,
     genre: validated.genre && validated.genre !== 'unknown' ? validated.genre : undefined,

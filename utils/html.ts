@@ -3,6 +3,8 @@ export interface MetaTags {
   author?: string;
   year?: string;
   description?: string;
+  publication?: string;
+  siteName?: string;
 }
 
 export function extractMetaTags(html: string): MetaTags {
@@ -37,6 +39,12 @@ export function extractMetaTags(html: string): MetaTags {
 
   const metaDescMatch = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']+)["']/i);
   if (metaDescMatch && !meta.description) meta.description = metaDescMatch[1];
+
+  const siteNameMatch = html.match(/<meta\s+property=["']og:site_name["']\s+content=["']([^"']+)["']/i);
+  if (siteNameMatch) meta.siteName = siteNameMatch[1];
+
+  const publicationMatch = html.match(/<meta\s+property=["']article:publisher["']\s+content=["']([^"']+)["']/i);
+  if (publicationMatch) meta.publication = publicationMatch[1];
 
   return meta;
 }
