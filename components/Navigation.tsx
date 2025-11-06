@@ -17,11 +17,19 @@ const navigationItems: NavigationItem[] = [
 ];
 
 function getNavLinkClassName(isActive: boolean): string {
-  const baseClasses = 'rounded-lg px-4 py-2 text-sm font-medium transition-colors';
-  const activeClasses = 'bg-pink-200 text-pink-800';
-  const inactiveClasses = 'text-pink-600 hover:bg-pink-100 hover:text-pink-700';
+  const baseClasses = 'px-4 py-2 text-sm font-medium transition-colors';
+  const activeClasses = '';
+  const inactiveClasses = '';
   
   return `${baseClasses} ${isActive ? activeClasses : inactiveClasses}`;
+}
+
+function getNavLinkStyle(isActive: boolean): React.CSSProperties {
+  return {
+    borderRadius: 'var(--radius-base)',
+    color: isActive ? 'var(--color-primary)' : 'var(--color-foreground-secondary)',
+    backgroundColor: isActive ? 'var(--color-accent-blush)' : 'transparent',
+  };
 }
 
 export default function Navigation() {
@@ -36,6 +44,7 @@ export default function Navigation() {
             key={item.href}
             href={item.href}
             className={getNavLinkClassName(isActive)}
+            style={getNavLinkStyle(isActive)}
           >
             {item.label}
           </Link>

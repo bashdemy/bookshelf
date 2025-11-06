@@ -179,10 +179,10 @@ export default function AddPage() {
   return (
     <main className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="mb-8">
-        <h1 className="text-4xl font-bold tracking-tight text-pink-700">
+        <h1 className="text-4xl font-bold tracking-tight" style={{ color: 'var(--color-primary)' }}>
           Add Reading Item
         </h1>
-        <p className="mt-2 text-pink-600">
+        <p className="mt-2" style={{ color: 'var(--color-foreground-secondary)' }}>
           Describe what you've read and let AI help fill in the details
         </p>
       </div>
@@ -194,8 +194,8 @@ export default function AddPage() {
       )}
 
       {!formData && suggestions.length === 0 ? (
-        <div className="rounded-2xl border border-pink-200/70 bg-pink-100/90 p-8">
-          <label htmlFor="description" className="block text-sm font-medium text-pink-700 mb-2">
+        <div className="p-8" style={{ borderRadius: 'var(--radius-lg)', border: '1px solid var(--color-divider)', background: 'var(--color-paper)' }}>
+          <label htmlFor="description" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-primary)' }}>
             Describe what you read
           </label>
           <textarea
@@ -203,20 +203,39 @@ export default function AddPage() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="e.g., I read Clean Code by Robert C. Martin"
-            className="w-full rounded-lg border border-pink-300 bg-white px-4 py-3 text-pink-900 placeholder-pink-400 focus:border-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500 min-h-[120px]"
+            className="w-full bg-white px-4 py-3 focus:outline-none focus:ring-2 min-h-[120px]"
+            style={{ 
+              borderRadius: 'var(--radius-base)',
+              border: '1px solid var(--color-divider)',
+              color: 'var(--color-foreground)',
+            }}
             disabled={isProcessing}
           />
           <div className="mt-4 flex gap-4">
             <button
               onClick={handleManualEntry}
-              className="flex-1 rounded-lg border border-pink-300 bg-white px-6 py-3 font-semibold text-pink-700 transition-colors hover:bg-pink-50"
+              className="flex-1 bg-white px-6 py-3 font-bold transition-colors"
+              style={{ 
+                borderRadius: 'var(--radius-base)',
+                border: '1px solid var(--color-divider)',
+                color: 'var(--color-primary)',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-accent-blush)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
             >
               Manual Entry
             </button>
             <button
               onClick={handleAIProcess}
               disabled={isProcessing || !description.trim()}
-              className="flex-1 rounded-lg bg-pink-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-pink-700 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex-1 px-6 py-3 font-bold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+              style={{ 
+                borderRadius: 'var(--radius-base)',
+                background: 'var(--color-primary)',
+                boxShadow: 'var(--shadow-primary)',
+              }}
+              onMouseEnter={(e) => !e.currentTarget.disabled && (e.currentTarget.style.background = 'var(--color-primary-dark)')}
+              onMouseLeave={(e) => !e.currentTarget.disabled && (e.currentTarget.style.background = 'var(--color-primary)')}
             >
               {isProcessing ? 'Finding suggestions...' : 'Get AI Suggestions'}
             </button>
@@ -224,8 +243,8 @@ export default function AddPage() {
         </div>
       ) : suggestions.length > 0 ? (
         <div className="space-y-4">
-          <div className="rounded-2xl border border-pink-200/70 bg-pink-100/90 p-6">
-            <h2 className="text-lg font-semibold text-pink-700 mb-4">
+          <div className="p-6" style={{ borderRadius: 'var(--radius-lg)', border: '1px solid var(--color-divider)', background: 'var(--color-paper)' }}>
+            <h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--color-primary)' }}>
               Select a suggestion:
             </h2>
             <div className="space-y-3">
@@ -233,7 +252,13 @@ export default function AddPage() {
                 <button
                   key={index}
                   onClick={() => handleSelectSuggestion(suggestion)}
-                  className="w-full text-left rounded-lg border border-pink-300 bg-white p-4 hover:bg-pink-50 transition-colors"
+                  className="w-full text-left bg-white p-4 transition-colors"
+                  style={{ 
+                    borderRadius: 'var(--radius-base)',
+                    border: '1px solid var(--color-divider)',
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-accent-blush)'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
@@ -241,18 +266,18 @@ export default function AddPage() {
                         <span className="text-sm">
                           {suggestion.type === 'book' ? '📖' : '✨'}
                         </span>
-                        <span className="font-semibold text-pink-900">
+                        <span className="font-semibold" style={{ color: 'var(--color-foreground)' }}>
                           {suggestion.title}
                         </span>
                       </div>
                       {suggestion.author && (
-                        <p className="text-sm text-pink-600">by {suggestion.author}</p>
+                        <p className="text-sm" style={{ color: 'var(--color-foreground-secondary)' }}>by {suggestion.author}</p>
                       )}
                       {suggestion.publication && (
-                        <p className="text-sm text-pink-600">in {suggestion.publication}</p>
+                        <p className="text-sm" style={{ color: 'var(--color-foreground-secondary)' }}>in {suggestion.publication}</p>
                       )}
                     </div>
-                    <span className="text-pink-600">→</span>
+                    <span style={{ color: 'var(--color-secondary)' }}>→</span>
                   </div>
                 </button>
               ))}
@@ -263,23 +288,36 @@ export default function AddPage() {
               setSuggestions([]);
               setDescription('');
             }}
-            className="w-full rounded-lg border border-pink-300 bg-white px-6 py-3 font-semibold text-pink-700 transition-colors hover:bg-pink-50"
+            className="w-full bg-white px-6 py-3 font-bold transition-colors"
+            style={{ 
+              borderRadius: 'var(--radius-base)',
+              border: '1px solid var(--color-divider)',
+              color: 'var(--color-primary)',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-accent-blush)'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
           >
             Try Again
           </button>
         </div>
       ) : formData ? (
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="rounded-2xl border border-pink-200/70 bg-pink-100/90 p-8 space-y-6">
+          <div className="p-8 space-y-6" style={{ borderRadius: 'var(--radius-lg)', border: '1px solid var(--color-divider)', background: 'var(--color-paper)' }}>
             <div>
-              <label htmlFor="type" className="block text-sm font-medium text-pink-700 mb-2">
+              <label htmlFor="type" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-primary)' }}>
                 Type
               </label>
               <select
                 id="type"
                 value={formData.type}
                 onChange={(e) => handleInputChange('type', e.target.value as ReadingItemType)}
-                className="w-full rounded-lg border border-pink-300 bg-white px-4 py-2 text-pink-900 focus:border-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500"
+                className="w-full bg-white px-4 py-2 focus:outline-none focus:ring-2"
+                style={{ 
+                  borderRadius: 'var(--radius-base)',
+                  border: '1px solid var(--color-divider)',
+                  color: 'var(--color-foreground)',
+                  '--tw-ring-color': 'var(--color-primary)',
+                } as React.CSSProperties}
               >
                 <option value="book">📖 Book</option>
                 <option value="article">✨ Article</option>
@@ -287,7 +325,7 @@ export default function AddPage() {
             </div>
 
             <div>
-              <label htmlFor="title" className="block text-sm font-medium text-pink-700 mb-2">
+              <label htmlFor="title" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-primary)' }}>
                 Title *
               </label>
               <input
@@ -296,13 +334,19 @@ export default function AddPage() {
                 value={formData.title}
                 onChange={(e) => handleInputChange('title', e.target.value)}
                 required
-                className="w-full rounded-lg border border-pink-300 bg-white px-4 py-2 text-pink-900 focus:border-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500"
+                className="w-full bg-white px-4 py-2 focus:outline-none focus:ring-2"
+                style={{ 
+                  borderRadius: 'var(--radius-base)',
+                  border: '1px solid var(--color-divider)',
+                  color: 'var(--color-foreground)',
+                  '--tw-ring-color': 'var(--color-primary)',
+                } as React.CSSProperties}
               />
             </div>
 
             {formData.type === 'book' ? (
               <div>
-                <label htmlFor="author" className="block text-sm font-medium text-pink-700 mb-2">
+                <label htmlFor="author" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-primary)' }}>
                   Author
                 </label>
                 <input
@@ -310,12 +354,18 @@ export default function AddPage() {
                   type="text"
                   value={formData.author}
                   onChange={(e) => handleInputChange('author', e.target.value)}
-                  className="w-full rounded-lg border border-pink-300 bg-white px-4 py-2 text-pink-900 focus:border-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500"
+                  className="w-full bg-white px-4 py-2 focus:outline-none focus:ring-2"
+                  style={{ 
+                    borderRadius: 'var(--radius-base)',
+                    border: '1px solid var(--color-divider)',
+                    color: 'var(--color-foreground)',
+                    '--tw-ring-color': 'var(--color-primary)',
+                  } as React.CSSProperties}
                 />
               </div>
             ) : (
               <div>
-                <label htmlFor="publication" className="block text-sm font-medium text-pink-700 mb-2">
+                <label htmlFor="publication" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-primary)' }}>
                   Publication
                 </label>
                 <input
@@ -323,14 +373,20 @@ export default function AddPage() {
                   type="text"
                   value={formData.publication}
                   onChange={(e) => handleInputChange('publication', e.target.value)}
-                  className="w-full rounded-lg border border-pink-300 bg-white px-4 py-2 text-pink-900 focus:border-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500"
+                  className="w-full bg-white px-4 py-2 focus:outline-none focus:ring-2"
+                  style={{ 
+                    borderRadius: 'var(--radius-base)',
+                    border: '1px solid var(--color-divider)',
+                    color: 'var(--color-foreground)',
+                    '--tw-ring-color': 'var(--color-primary)',
+                  } as React.CSSProperties}
                 />
               </div>
             )}
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label htmlFor="year" className="block text-sm font-medium text-pink-700 mb-2">
+                <label htmlFor="year" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-primary)' }}>
                   Year
                 </label>
                 <input
@@ -338,13 +394,19 @@ export default function AddPage() {
                   type="number"
                   value={formData.year}
                   onChange={(e) => handleInputChange('year', e.target.value)}
-                  className="w-full rounded-lg border border-pink-300 bg-white px-4 py-2 text-pink-900 focus:border-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500"
+                  className="w-full bg-white px-4 py-2 focus:outline-none focus:ring-2"
+                  style={{ 
+                    borderRadius: 'var(--radius-base)',
+                    border: '1px solid var(--color-divider)',
+                    color: 'var(--color-foreground)',
+                    '--tw-ring-color': 'var(--color-primary)',
+                  } as React.CSSProperties}
                 />
               </div>
 
               {formData.type === 'book' && (
                 <div>
-                  <label htmlFor="pages" className="block text-sm font-medium text-pink-700 mb-2">
+                  <label htmlFor="pages" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-primary)' }}>
                     Pages
                   </label>
                   <input
@@ -352,14 +414,20 @@ export default function AddPage() {
                     type="number"
                     value={formData.pages}
                     onChange={(e) => handleInputChange('pages', e.target.value)}
-                    className="w-full rounded-lg border border-pink-300 bg-white px-4 py-2 text-pink-900 focus:border-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500"
+                    className="w-full bg-white px-4 py-2 focus:outline-none focus:ring-2"
+                    style={{ 
+                      borderRadius: 'var(--radius-base)',
+                      border: '1px solid var(--color-divider)',
+                      color: 'var(--color-foreground)',
+                      '--tw-ring-color': 'var(--color-primary)',
+                    } as React.CSSProperties}
                   />
                 </div>
               )}
             </div>
 
             <div>
-              <label htmlFor="genre" className="block text-sm font-medium text-pink-700 mb-2">
+              <label htmlFor="genre" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-primary)' }}>
                 Genre
               </label>
               <input
@@ -367,12 +435,18 @@ export default function AddPage() {
                 type="text"
                 value={formData.genre}
                 onChange={(e) => handleInputChange('genre', e.target.value)}
-                className="w-full rounded-lg border border-pink-300 bg-white px-4 py-2 text-pink-900 focus:border-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500"
+                className="w-full bg-white px-4 py-2 focus:outline-none focus:ring-2"
+                style={{ 
+                  borderRadius: 'var(--radius-base)',
+                  border: '1px solid var(--color-divider)',
+                  color: 'var(--color-foreground)',
+                  '--tw-ring-color': 'var(--color-primary)',
+                } as React.CSSProperties}
               />
             </div>
 
             <div>
-              <label htmlFor="readDate" className="block text-sm font-medium text-pink-700 mb-2">
+              <label htmlFor="readDate" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-primary)' }}>
                 Read Date *
               </label>
               <input
@@ -381,12 +455,18 @@ export default function AddPage() {
                 value={formData.readDate}
                 onChange={(e) => handleInputChange('readDate', e.target.value)}
                 required
-                className="w-full rounded-lg border border-pink-300 bg-white px-4 py-2 text-pink-900 focus:border-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500"
+                className="w-full bg-white px-4 py-2 focus:outline-none focus:ring-2"
+                style={{ 
+                  borderRadius: 'var(--radius-base)',
+                  border: '1px solid var(--color-divider)',
+                  color: 'var(--color-foreground)',
+                  '--tw-ring-color': 'var(--color-primary)',
+                } as React.CSSProperties}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-pink-700 mb-2">
+              <label className="block text-sm font-medium mb-2" style={{ color: 'var(--color-primary)' }}>
                 Rating
               </label>
               <div className="flex items-center gap-2">
@@ -398,7 +478,8 @@ export default function AddPage() {
                       key={value}
                       type="button"
                       onClick={() => handleInputChange('rating', String(value === currentRating ? '' : value))}
-                      className="text-3xl transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-pink-500 rounded"
+                      className="text-3xl transition-transform hover:scale-110 focus:outline-none focus:ring-2"
+                      style={{ borderRadius: 'var(--radius-base)', '--tw-ring-color': 'var(--color-primary)' } as React.CSSProperties}
                       aria-label={`Rate ${value} out of 5`}
                     >
                       {isFilled ? '❤️' : '🤍'}
@@ -406,7 +487,7 @@ export default function AddPage() {
                   );
                 })}
                 {formData.rating && (
-                  <span className="text-sm text-pink-600 ml-2">
+                  <span className="text-sm ml-2" style={{ color: 'var(--color-foreground-secondary)' }}>
                     ({formData.rating}/5)
                   </span>
                 )}
@@ -414,7 +495,7 @@ export default function AddPage() {
             </div>
 
             <div>
-              <label htmlFor="tags" className="block text-sm font-medium text-pink-700 mb-2">
+              <label htmlFor="tags" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-primary)' }}>
                 Tags (comma-separated)
               </label>
               <input
@@ -423,19 +504,31 @@ export default function AddPage() {
                 value={formData.tags}
                 onChange={(e) => handleInputChange('tags', e.target.value)}
                 placeholder="e.g., programming, best-practices, software-engineering"
-                className="w-full rounded-lg border border-pink-300 bg-white px-4 py-2 text-pink-900 focus:border-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500"
+                className="w-full bg-white px-4 py-2 focus:outline-none focus:ring-2"
+                style={{ 
+                  borderRadius: 'var(--radius-base)',
+                  border: '1px solid var(--color-divider)',
+                  color: 'var(--color-foreground)',
+                  '--tw-ring-color': 'var(--color-primary)',
+                } as React.CSSProperties}
               />
             </div>
 
             <div>
-              <label htmlFor="description" className="block text-sm font-medium text-pink-700 mb-2">
+              <label htmlFor="description" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-primary)' }}>
                 Description
               </label>
               <textarea
                 id="description"
                 value={formData.description}
                 onChange={(e) => handleInputChange('description', e.target.value)}
-                className="w-full rounded-lg border border-pink-300 bg-white px-4 py-3 text-pink-900 focus:border-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500 min-h-[100px]"
+                className="w-full bg-white px-4 py-3 focus:outline-none focus:ring-2 min-h-[100px]"
+                style={{ 
+                  borderRadius: 'var(--radius-base)',
+                  border: '1px solid var(--color-divider)',
+                  color: 'var(--color-foreground)',
+                  '--tw-ring-color': 'var(--color-primary)',
+                } as React.CSSProperties}
               />
             </div>
           </div>
@@ -448,14 +541,28 @@ export default function AddPage() {
                 setDescription('');
                 setError(null);
               }}
-              className="flex-1 rounded-lg border border-pink-300 bg-white px-6 py-3 font-semibold text-pink-700 transition-colors hover:bg-pink-50"
+              className="flex-1 bg-white px-6 py-3 font-bold transition-colors"
+              style={{ 
+                borderRadius: 'var(--radius-base)',
+                border: '1px solid var(--color-divider)',
+                color: 'var(--color-primary)',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-accent-blush)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
             >
               Start Over
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 rounded-lg bg-pink-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-pink-700 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex-1 px-6 py-3 font-bold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+              style={{ 
+                borderRadius: 'var(--radius-base)',
+                background: 'var(--color-primary)',
+                boxShadow: 'var(--shadow-primary)',
+              }}
+              onMouseEnter={(e) => !e.currentTarget.disabled && (e.currentTarget.style.background = 'var(--color-primary-dark)')}
+              onMouseLeave={(e) => !e.currentTarget.disabled && (e.currentTarget.style.background = 'var(--color-primary)')}
             >
               {isSubmitting ? 'Adding...' : 'Add to Collection'}
             </button>

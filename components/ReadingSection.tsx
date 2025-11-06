@@ -18,10 +18,17 @@ export default function ReadingSection({
   return (
     <section className="mb-16">
       <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-3xl font-bold tracking-tight text-pink-700">
+        <h2 className="text-3xl font-bold tracking-tight" style={{ color: 'var(--color-primary)' }}>
           {title}
         </h2>
-        <span className="inline-flex items-center gap-2 rounded-full bg-pink-100 px-4 py-1.5 text-sm font-semibold text-pink-700">
+        <span 
+          className="inline-flex items-center gap-2 px-4 py-1.5 text-sm font-semibold"
+          style={{ 
+            borderRadius: 'var(--radius-full)',
+            background: 'var(--color-accent-blush)',
+            color: 'var(--color-accent-plum)',
+          }}
+        >
           <span>{formatItemCount(items.length, singularLabel, pluralLabel)}</span>
         </span>
       </div>

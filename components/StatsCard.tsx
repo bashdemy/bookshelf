@@ -1,3 +1,5 @@
+'use client';
+
 interface StatsCardProps {
   title: string;
   value: string | number;
@@ -7,22 +9,37 @@ interface StatsCardProps {
 
 export default function StatsCard({ title, value, subtitle, icon }: StatsCardProps) {
   return (
-    <div className="group relative overflow-hidden rounded-2xl border border-pink-200/70 bg-pink-100/90 p-6 shadow-sm transition-all hover:border-pink-300/80 hover:shadow-lg hover:shadow-pink-200/40 hover:bg-pink-200">
-      <div className="absolute inset-0 bg-gradient-to-br from-pink-200/40 to-transparent opacity-0 transition-opacity group-hover:opacity-100"></div>
+    <div 
+      className="group relative overflow-hidden p-6 transition-all"
+      style={{ 
+        borderRadius: 'var(--radius-lg)',
+        border: '1px solid var(--color-divider)',
+        background: 'var(--color-paper)',
+        boxShadow: 'var(--shadow-sm)',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.boxShadow = 'var(--shadow-xl)';
+        e.currentTarget.style.background = 'var(--color-accent-blush)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
+        e.currentTarget.style.background = 'var(--color-paper)';
+      }}
+    >
       <div className="relative">
         <div className="mb-3 flex items-center justify-between">
-          <p className="text-xs font-semibold uppercase tracking-wider text-pink-600">
+          <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--color-foreground-secondary)' }}>
             {title}
           </p>
           {icon && (
             <span className="text-2xl opacity-70">{icon}</span>
           )}
         </div>
-        <p className="mb-1 text-4xl font-bold tracking-tight text-pink-700">
+        <p className="mb-1 text-4xl font-bold tracking-tight" style={{ color: 'var(--color-primary)' }}>
           {value}
         </p>
         {subtitle && (
-          <p className="text-xs text-pink-500">
+          <p className="text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
             {subtitle}
           </p>
         )}
