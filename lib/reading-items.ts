@@ -109,3 +109,44 @@ export async function getReadingItemStats(userId: string) {
   }
 }
 
+export async function createReadingItem(userId: string, item: Omit<ReadingItem, 'id'>) {
+  try {
+    const id = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+    
+    await sql`
+      INSERT INTO reading_items (
+        id, user_id, type, title, author, publication, year, pages,
+        read_date, rating, genre, description
+      )
+      VALUES (
+        ${id},
+        ${userId},
+        ${item.type},
+        ${item.title},
+        ${item.author || null},
+        ${item.publication || null},
+        ${item.year || null},
+        ${item.pages || null},
+        ${item.readDate},
+        ${item.rating || null},
+        ${item.genre || null},
+        ${item.description || null}
+      )
+    `;
+
+    if (item.tags && item.tags.length > 0) {
+      for (const tag of item.tags) {
+        await sql`
+          INSERT INTO reading_item_tags (reading_item_id, tag)
+          VALUES (${id}, ${tag})
+          ON CONFLICT (reading_item_id, tag) DO NOTHING
+        `;
+      }
+    }
+
+    return { id, ...item };
+  } catch (error) {
+    console.error('Error creating reading item:', error);
+    throw error;
+  }
+}

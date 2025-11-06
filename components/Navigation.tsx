@@ -13,6 +13,7 @@ const navigationItems: NavigationItem[] = [
   { href: '/books', label: 'Books' },
   { href: '/articles', label: 'Articles' },
   { href: '/stats', label: 'Stats' },
+  { href: '/add', label: 'Add' },
 ];
 
 function getNavLinkClassName(isActive: boolean): string {

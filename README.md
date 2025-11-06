@@ -8,7 +8,7 @@ A personal reading tracking application to track books and articles you've read.
 - 📊 View reading statistics and analytics
 - 🌐 Public view mode for the root user (bashdemy)
 - 🔐 Authentication system (coming soon)
-- 🤖 AI-powered book/article discovery (coming soon)
+- 🤖 AI-powered book/article discovery (free via Cloudflare Workers AI)
 - 📈 Advanced dashboard with charts and visualizations (coming soon)
 
 ## Getting Started
@@ -47,7 +47,8 @@ npm install
    DATABASE_URL=postgresql://user:password@host:port/database?sslmode=require
    ```
    
-   Replace the connection string with your development database connection string from Neon.
+   - Replace the connection string with your development database connection string from Neon
+   - **Note:** AI-powered suggestions use Cloudflare Workers AI (free, built-in). They work automatically when deployed, or use `npm run preview` for local testing with AI.
 
 ### Step 3: Run Database Migration
 
@@ -111,6 +112,7 @@ See [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) for detailed architecture doc
 - **Styling**: Tailwind CSS
 - **Database**: Neon Postgres (serverless)
 - **Deployment**: Cloudflare Workers
+- **AI**: Cloudflare Workers AI (Llama 3.1 8B - free, built-in)
 - **Fonts**: Geist Sans & Geist Mono
 
 ## Production Deployment
@@ -169,7 +171,7 @@ npx wrangler secret put DATABASE_URL
 ```
 
 When prompted:
-- Enter your production database connection string
+- Enter your production database connection string for `DATABASE_URL`
 - Press Enter
 
 Verify the secret was set:
@@ -178,6 +180,8 @@ npx wrangler secret list
 ```
 
 You should see `DATABASE_URL` in the list.
+
+**Note:** AI-powered suggestions use Cloudflare Workers AI which is free and built-in. No API keys needed!
 
 ### Step 3: Deploy to Cloudflare Workers
 

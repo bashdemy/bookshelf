@@ -29,14 +29,24 @@ bookshelf/
 │   └── ReadingSection.tsx  # Section component for displaying lists of items
 ├── lib/                   # Core library functions
 │   ├── db.ts              # Database connection (Neon Postgres)
-│   └── reading-items.ts   # Data access layer for reading items
+│   ├── reading-items.ts   # Data access layer for reading items
+│   └── ai/                # AI processing modules
+│       ├── index.ts       # AI module exports
+│       ├── constants.ts   # AI constants (genres, tags)
+│       ├── schemas.ts     # Zod validation schemas
+│       ├── types.ts       # TypeScript type definitions
+│       ├── binding.ts     # Cloudflare AI binding access
+│       ├── heuristics.ts  # Heuristic extraction logic
+│       └── llm.ts         # LLM extraction logic
 ├── scripts/               # Utility scripts
 │   └── migrate.ts         # Database migration and seeding script
 ├── types/                 # TypeScript type definitions
 │   └── index.ts           # Core type definitions
 ├── utils/                 # Utility functions
-│   ├── statistics.ts      # Statistical calculations
-│   └── date.ts            # Date formatting utilities
+│   ├── statistics.ts     # Statistical calculations
+│   ├── date.ts            # Date formatting utilities
+│   ├── url.ts             # URL detection and fetching
+│   └── html.ts            # HTML parsing and meta extraction
 └── docs/                  # Documentation
     └── ARCHITECTURE.md    # This file
 ```
