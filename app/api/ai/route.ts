@@ -6,14 +6,43 @@ import { heuristicExtract } from '@/lib/ai/heuristics';
 import { llmExtract } from '@/lib/ai/llm';
 import { getAIBinding } from '@/lib/ai/binding';
 
+function getAIBindingFromRequest(request: NextRequest): any {
+  const headers = request.headers;
+  
+  const cfEnvHeader = headers.get('x-cloudflare-env');
+  if (cfEnvHeader) {
+    try {
+      const env = JSON.parse(cfEnvHeader);
+      if (env.AI) return env.AI;
+    } catch {}
+  }
+  
+  return null;
+}
+
 export const dynamic = 'force-dynamic';
 
-function formatSuggestion(result: { kind?: string; title?: string; author?: string; publication?: string }) {
+function formatSuggestion(result: { 
+  kind?: string; 
+  title?: string; 
+  author?: string; 
+  publication?: string;
+  year?: number | undefined;
+  pages?: number | undefined;
+  genre?: string | undefined;
+  tags?: string[] | undefined;
+  description?: string | undefined;
+}) {
   return {
     type: result.kind || 'article',
     title: result.title || '',
     author: result.author || '',
     publication: result.publication || '',
+    year: result.year ? String(result.year) : '',
+    pages: result.pages ? String(result.pages) : '',
+    genre: result.genre || '',
+    tags: result.tags && result.tags.length > 0 ? result.tags.join(', ') : '',
+    description: result.description || '',
   };
 }
 
@@ -65,7 +94,10 @@ export async function POST(request: NextRequest) {
       contentPreview = description;
     }
 
-    const ai = getAIBinding();
+    let ai = getAIBindingFromRequest(request);
+    if (!ai) {
+      ai = await getAIBinding();
+    }
 
     if (!ai || typeof ai.run !== 'function') {
       if (heuristicCandidate && heuristicCandidate.title) {
@@ -73,8 +105,13 @@ export async function POST(request: NextRequest) {
           suggestions: [formatSuggestion(heuristicCandidate)],
         });
       }
+      
+      console.error('AI binding not available. This is a known limitation with OpenNext and Cloudflare Workers AI in local development.');
+      console.error('AI will work in production deployment. For local testing, use URL-based heuristic extraction or manual entry.');
       return NextResponse.json(
-        { error: 'AI service not available. Please use manual entry or provide a URL.' },
+        { 
+          error: 'AI service not available in local development (OpenNext limitation). AI will work in production. For now, use manual entry or provide a URL for automatic extraction.' 
+        },
         { status: 503 }
       );
     }
@@ -95,9 +132,20 @@ export async function POST(request: NextRequest) {
     }
   } catch (error) {
     if (error instanceof z.ZodError) {
-      console.error('Validation error:', error.errors);
+      console.error('Zod validation error details:', {
+        errors: error.errors,
+        issues: error.issues.map((issue) => ({
+          path: issue.path.join('.'),
+          message: issue.message,
+          code: issue.code,
+          received: issue.code === 'invalid_type' ? (issue as any).received : undefined,
+        })),
+      });
       return NextResponse.json(
-        { error: 'AI response validation failed. Please try manual entry.' },
+        { 
+          error: 'AI returned data in unexpected format. Please try a more specific description or use manual entry.',
+          details: process.env.NODE_ENV === 'development' ? error.errors : undefined,
+        },
         { status: 500 }
       );
     }

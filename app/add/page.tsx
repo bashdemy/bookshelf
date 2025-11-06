@@ -25,6 +25,11 @@ interface Suggestion {
   title: string;
   author: string;
   publication: string;
+  year?: string;
+  pages?: string;
+  genre?: string;
+  tags?: string;
+  description?: string;
 }
 
 export default function AddPage() {
@@ -86,11 +91,11 @@ export default function AddPage() {
       title: suggestion.title,
       author: suggestion.author || '',
       publication: suggestion.publication || '',
-      year: '',
-      pages: '',
-      genre: '',
-      tags: '',
-      description: '',
+      year: suggestion.year || '',
+      pages: suggestion.pages || '',
+      genre: suggestion.genre || '',
+      tags: suggestion.tags || '',
+      description: suggestion.description || '',
       readDate: new Date().toISOString().split('T')[0],
       rating: '',
     });

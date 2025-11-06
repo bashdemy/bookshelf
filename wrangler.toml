@@ -4,5 +4,6 @@ compatibility_flags = ["nodejs_compat"]
 main = ".open-next/worker.js"
 assets = { directory = ".open-next/assets", binding = "ASSETS" }
 
-[[ai]]
+[ai]
 binding = "AI"
+remote = true
