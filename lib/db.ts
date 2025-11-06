@@ -16,17 +16,20 @@ function getSql() {
   return sqlInstance;
 }
 
-export const sql = new Proxy({} as ReturnType<typeof neon>, {
+// Create a callable Proxy that handles both function calls and property access
+export const sql = new Proxy(() => {}, {
+  apply(_target, _thisArg, argumentsList) {
+    const instance = getSql();
+    // Handle tagged template literal calls: sql`...`
+    return (instance as any).apply(null, argumentsList);
+  },
   get(_target, prop) {
     const instance = getSql();
-    const value = instance[prop as keyof ReturnType<typeof neon>];
+    const value = (instance as any)[prop];
     if (typeof value === 'function') {
       return value.bind(instance);
     }
     return value;
-  },
-  apply(_target, _thisArg, argumentsList) {
-    return getSql().apply(null, argumentsList as any);
   },
 }) as ReturnType<typeof neon>;
 
