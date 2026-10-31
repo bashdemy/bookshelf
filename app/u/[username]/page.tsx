@@ -3,6 +3,7 @@ import { getUserByUsername, getCurrentUser } from '@/lib/auth-helpers';
 import { getBooksByUser, getArticlesByUser } from '@/lib/reading-items';
 import StatsSection from '@/components/StatsSection';
 import ReadingSection from '@/components/ReadingSection';
+import InteractiveBookshelf from '@/components/InteractiveBookshelf';
 
 export const dynamic = 'force-dynamic';
 
@@ -78,6 +79,10 @@ export default async function PublicProfilePage({
 
       <div className="mb-12">
         <StatsSection books={books} articles={articles} />
+      </div>
+
+      <div className="mb-12">
+        <InteractiveBookshelf />
       </div>
 
       <ReadingSection

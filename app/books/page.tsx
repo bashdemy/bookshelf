@@ -1,5 +1,6 @@
 import { getBooksByUser } from '@/lib/reading-items';
 import ReadingSection from '@/components/ReadingSection';
+import InteractiveBookshelf from '@/components/InteractiveBookshelf';
 import { getCurrentUser } from '@/lib/auth-helpers';
 
 export const dynamic = 'force-dynamic';
@@ -10,9 +11,11 @@ export default async function BooksPage() {
   const books = await getBooksByUser(userId);
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 space-y-10">
+      <InteractiveBookshelf />
+
       <ReadingSection
-        title="Books"
+        title="All Cataloged Books"
         items={books}
         singularLabel="book"
         pluralLabel="books"

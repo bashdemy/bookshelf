@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { getReadingItemStats, getReadingItemsByUser } from '@/lib/reading-items';
 import NavigationCard from '@/components/NavigationCard';
 import ReadingItemCard from '@/components/ReadingItemCard';
+import InteractiveBookshelf from '@/components/InteractiveBookshelf';
 import { getCurrentUser } from '@/lib/auth-helpers';
 
 export const dynamic = 'force-dynamic';
@@ -111,6 +112,11 @@ export default async function Home() {
           </div>
         </div>
       </div>
+
+      {/* Interactive Physical Bookshelf */}
+      <section className="mt-12 w-full">
+        <InteractiveBookshelf />
+      </section>
 
       {recentItems.length > 0 && (
         <section className="mt-14 w-full">
