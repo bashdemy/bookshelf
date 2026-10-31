@@ -1,10 +1,12 @@
 'use client';
 
+import React from 'react';
+
 interface StatsCardProps {
   title: string;
   value: string | number;
   subtitle?: string;
-  icon?: string;
+  icon?: React.ReactNode;
 }
 
 export default function StatsCard({ title, value, subtitle, icon }: StatsCardProps) {

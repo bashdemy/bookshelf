@@ -2,6 +2,12 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
+import {
+  IconSearch,
+  IconBooks,
+  IconArticle,
+  IconPlus,
+} from '@tabler/icons-react';
 import { ReadingItem } from '@/types';
 import ReadingItemCard from './ReadingItemCard';
 import { formatItemCount } from '@/utils/statistics';
@@ -159,14 +165,15 @@ export default function ReadingSection({
           }}
         >
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
-            <div className="sm:col-span-2">
+            <div className="sm:col-span-2 relative flex items-center">
+              <IconSearch size={14} className="absolute left-3 text-pink-400 pointer-events-none" />
               <input
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={`Search ${pluralLabel} by title, author, tag...`}
                 aria-label={`Search ${pluralLabel}`}
-                className="w-full bg-white px-3.5 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
+                className="w-full bg-white pl-8 pr-3.5 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
                 style={{
                   borderRadius: 'var(--radius-base)',
                   border: '1px solid var(--color-border)',
@@ -332,7 +339,9 @@ export default function ReadingSection({
             background: 'var(--paper)',
           }}
         >
-          <div className="mb-2 text-4xl">{singularLabel === 'book' ? '📚' : '✨'}</div>
+          <div className="mb-3 flex items-center justify-center h-14 w-14 rounded-2xl bg-pink-100 text-pink-600 border border-pink-200">
+            {singularLabel === 'book' ? <IconBooks size={28} /> : <IconArticle size={28} />}
+          </div>
           <h3 className="mb-1 text-lg font-bold" style={{ color: 'var(--color-foreground)' }}>
             No {pluralLabel} tracked yet
           </h3>
@@ -344,13 +353,14 @@ export default function ReadingSection({
           {canEdit && (
             <Link
               href="/add"
-              className="rounded-full px-5 py-2.5 text-xs font-bold text-white transition-all active:translate-y-[1px]"
+              className="inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-xs font-bold text-white transition-all active:translate-y-[1px]"
               style={{
                 background: 'var(--color-primary)',
                 boxShadow: 'var(--shadow-button-primary)',
               }}
             >
-              Add Your First {singularLabel.charAt(0).toUpperCase() + singularLabel.slice(1)}
+              <IconPlus size={14} />
+              <span>Add Your First {singularLabel.charAt(0).toUpperCase() + singularLabel.slice(1)}</span>
             </Link>
           )}
         </div>

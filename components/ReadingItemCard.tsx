@@ -2,6 +2,15 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import {
+  IconBook,
+  IconArticle,
+  IconStarFilled,
+  IconStar,
+  IconEdit,
+  IconTrash,
+  IconExternalLink,
+} from '@tabler/icons-react';
 import { ReadingItem, ReadingItemType } from '@/types';
 import { formatReadDate } from '@/utils/date';
 
@@ -14,24 +23,13 @@ interface ReadingItemCardProps {
   onItemDeleted?: (id: string) => void;
 }
 
-const HEART_EMOJI = '❤️';
 const BOOK_TYPE: ReadingItemType = 'book';
-const BOOK_LABEL = '📖 Book';
-const ARTICLE_LABEL = '✨ Article';
 
 function formatYearAndPages(year?: number, pages?: number): string {
   const parts: string[] = [];
   if (year) parts.push(year.toString());
   if (pages) parts.push(`${pages} pages`);
   return parts.join(' • ');
-}
-
-function renderRatingHearts(rating: number): string {
-  return HEART_EMOJI.repeat(rating);
-}
-
-function getTypeLabel(type: ReadingItemType): string {
-  return type === BOOK_TYPE ? BOOK_LABEL : ARTICLE_LABEL;
 }
 
 export default function ReadingItemCard({
@@ -312,9 +310,14 @@ export default function ReadingItemCard({
                           rating: String(value === currentRating ? '' : value),
                         })
                       }
-                      className="text-base transition-transform active:scale-95"
+                      className="p-0.5 transition-transform active:scale-95 text-pink-500"
+                      aria-label={`Set rating to ${value}`}
                     >
-                      {isFilled ? '❤️' : '🤍'}
+                      {isFilled ? (
+                        <IconStarFilled size={18} className="text-pink-500 fill-pink-500" />
+                      ) : (
+                        <IconStar size={18} className="text-pink-300" />
+                      )}
                     </button>
                   );
                 })}
@@ -432,18 +435,21 @@ export default function ReadingItemCard({
             <div className="mb-2.5 flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <span 
-                  className="inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider"
+                  className="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider shadow-2xs"
                   style={{ 
                     background: isBook ? 'var(--color-primary-soft)' : 'var(--color-secondary-soft)',
                     color: isBook ? 'var(--color-primary-text)' : 'var(--color-secondary-text)',
                   }}
                 >
-                  {getTypeLabel(item.type)}
+                  {isBook ? <IconBook size={13} /> : <IconArticle size={13} />}
+                  <span>{isBook ? 'Book' : 'Article'}</span>
                 </span>
                 {item.rating && (
-                  <span className="text-sm leading-none" title={`${item.rating}/5`}>
-                    {renderRatingHearts(item.rating)}
-                  </span>
+                  <div className="flex items-center gap-0.5 text-pink-500" title={`${item.rating}/5 stars`}>
+                    {Array.from({ length: item.rating }).map((_, i) => (
+                      <IconStarFilled key={i} size={12} className="fill-pink-500" />
+                    ))}
+                  </div>
                 )}
               </div>
 
@@ -454,20 +460,21 @@ export default function ReadingItemCard({
                     onClick={() => setIsEditing(true)}
                     title="Edit item"
                     aria-label={`Edit ${item.title}`}
-                    className="rounded px-2 py-0.5 text-xs font-medium hover:bg-[#F2EDE4]"
+                    className="inline-flex items-center gap-1 rounded px-2 py-0.5 text-xs font-medium hover:bg-pink-100/70"
                     style={{ color: 'var(--color-foreground-secondary)' }}
                   >
-                    Edit
+                    <IconEdit size={12} />
+                    <span>Edit</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => setIsConfirmingDelete(true)}
                     title="Delete item"
                     aria-label={`Delete ${item.title}`}
-                    className="rounded px-2 py-0.5 text-xs font-medium hover:bg-red-50"
-                    style={{ color: 'var(--color-error)' }}
+                    className="inline-flex items-center gap-1 rounded px-2 py-0.5 text-xs font-medium hover:bg-red-50 text-red-700"
                   >
-                    Delete
+                    <IconTrash size={12} />
+                    <span>Delete</span>
                   </button>
                 </div>
               )}
@@ -517,9 +524,10 @@ export default function ReadingItemCard({
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:underline"
+                  className="inline-flex items-center gap-1 hover:underline text-pink-950"
                 >
-                  {item.title} <span className="text-xs font-normal opacity-60">↗</span>
+                  <span>{item.title}</span>
+                  <IconExternalLink size={14} className="text-pink-500 opacity-70 shrink-0" />
                 </a>
               ) : (
                 item.title

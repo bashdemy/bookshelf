@@ -1,4 +1,13 @@
 import Link from 'next/link';
+import {
+  IconFlower,
+  IconBooks,
+  IconFileText,
+  IconLayoutGrid,
+  IconChartBar,
+  IconUser,
+  IconArrowRight,
+} from '@tabler/icons-react';
 import { getReadingItemStats, getReadingItemsByUser } from '@/lib/reading-items';
 import ReadingItemCard from '@/components/ReadingItemCard';
 import InteractiveBookshelf from '@/components/InteractiveBookshelf';
@@ -23,7 +32,9 @@ export default async function Home() {
       <section className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 border-b pb-6" style={{ borderColor: 'var(--color-border)' }}>
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-xl">🌸</span>
+            <span className="flex items-center justify-center h-7 w-7 rounded-full bg-pink-100 text-pink-600 border border-pink-200">
+              <IconFlower size={16} />
+            </span>
             <span className="rounded-full bg-pink-100/90 border border-pink-300/70 px-3 py-1 text-xs font-bold uppercase tracking-wider text-pink-900 shadow-xs">
               Personal Archive & Physical Shelf
             </span>
@@ -39,15 +50,24 @@ export default async function Home() {
         {/* Quick Stat Badges */}
         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <div className="rounded-2xl border border-pink-200/80 px-4 py-2.5 text-center bg-white shadow-xs">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-pink-600">Physical Books</p>
+            <p className="flex items-center justify-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-pink-600">
+              <IconBooks size={13} />
+              <span>Physical Books</span>
+            </p>
             <p className="text-xl font-black text-pink-950 font-mono">{stats.bookCount}</p>
           </div>
           <div className="rounded-2xl border border-pink-200/80 px-4 py-2.5 text-center bg-white shadow-xs">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-pink-600">Pages Indexed</p>
+            <p className="flex items-center justify-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-pink-600">
+              <IconFileText size={13} />
+              <span>Pages Indexed</span>
+            </p>
             <p className="text-xl font-black text-pink-600 font-mono">{totalPages.toLocaleString()}</p>
           </div>
           <div className="rounded-2xl border border-pink-200/80 px-4 py-2.5 text-center bg-white shadow-xs">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-pink-600">Shelf Cubbies</p>
+            <p className="flex items-center justify-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-pink-600">
+              <IconLayoutGrid size={13} />
+              <span>Shelf Cubbies</span>
+            </p>
             <p className="text-xl font-black text-rose-600 font-mono">8 / 8</p>
           </div>
         </div>
@@ -65,7 +85,9 @@ export default async function Home() {
           className="group flex items-center justify-between rounded-2xl border border-pink-200/80 p-5 transition-all hover:-translate-y-1 hover:border-pink-400 hover:shadow-lg hover:shadow-pink-500/10 bg-white"
         >
           <div>
-            <span className="text-2xl mb-1 block">📖</span>
+            <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-pink-100 text-pink-700 border border-pink-200/60 mb-3 group-hover:scale-105 transition-transform">
+              <IconBooks size={22} />
+            </div>
             <h3 className="font-bold text-base text-stone-900 group-hover:text-pink-600 transition-colors">
               Full Book Catalog
             </h3>
@@ -73,7 +95,7 @@ export default async function Home() {
               Browse, filter by genre, and sort all {stats.bookCount} books
             </p>
           </div>
-          <span className="text-pink-400 group-hover:translate-x-1 transition-transform">→</span>
+          <IconArrowRight size={18} className="text-pink-400 group-hover:translate-x-1 transition-transform" />
         </Link>
 
         <Link
@@ -81,7 +103,9 @@ export default async function Home() {
           className="group flex items-center justify-between rounded-2xl border border-pink-200/80 p-5 transition-all hover:-translate-y-1 hover:border-pink-400 hover:shadow-lg hover:shadow-pink-500/10 bg-white"
         >
           <div>
-            <span className="text-2xl mb-1 block">📊</span>
+            <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-pink-100 text-pink-700 border border-pink-200/60 mb-3 group-hover:scale-105 transition-transform">
+              <IconChartBar size={22} />
+            </div>
             <h3 className="font-bold text-base text-stone-900 group-hover:text-pink-600 transition-colors">
               Reading Analytics
             </h3>
@@ -89,7 +113,7 @@ export default async function Home() {
               Annual velocity, genre distributions & page counts
             </p>
           </div>
-          <span className="text-pink-400 group-hover:translate-x-1 transition-transform">→</span>
+          <IconArrowRight size={18} className="text-pink-400 group-hover:translate-x-1 transition-transform" />
         </Link>
 
         <Link
@@ -97,7 +121,9 @@ export default async function Home() {
           className="group flex items-center justify-between rounded-2xl border border-pink-200/80 p-5 transition-all hover:-translate-y-1 hover:border-pink-400 hover:shadow-lg hover:shadow-pink-500/10 bg-white"
         >
           <div>
-            <span className="text-2xl mb-1 block">👤</span>
+            <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-pink-100 text-pink-700 border border-pink-200/60 mb-3 group-hover:scale-105 transition-transform">
+              <IconUser size={22} />
+            </div>
             <h3 className="font-bold text-base text-stone-900 group-hover:text-pink-600 transition-colors">
               {user ? 'My Profile' : 'Curator Login'}
             </h3>
@@ -105,7 +131,7 @@ export default async function Home() {
               {user ? `Logged in as @${user.username}` : 'Sign in to add & manage shelf items'}
             </p>
           </div>
-          <span className="text-pink-400 group-hover:translate-x-1 transition-transform">→</span>
+          <IconArrowRight size={18} className="text-pink-400 group-hover:translate-x-1 transition-transform" />
         </Link>
       </section>
 
@@ -123,9 +149,10 @@ export default async function Home() {
             </div>
             <Link
               href="/books"
-              className="text-xs font-bold text-pink-600 hover:underline"
+              className="inline-flex items-center gap-1 text-xs font-bold text-pink-600 hover:text-pink-800 group"
             >
-              View complete archive →
+              <span>View complete archive</span>
+              <IconArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
             </Link>
           </div>
 

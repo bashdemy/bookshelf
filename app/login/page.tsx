@@ -4,6 +4,7 @@ import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
+import { IconFlower } from '@tabler/icons-react';
 
 function LoginForm() {
   const router = useRouter();
@@ -89,8 +90,10 @@ function LoginForm() {
       }}
     >
       <div className="mb-6 text-center">
-        <h1 className="flex items-center justify-center gap-2 text-2xl font-bold tracking-tight" style={{ color: 'var(--color-foreground)' }}>
-          <span>🌸</span>
+        <h1 className="flex items-center justify-center gap-2.5 text-2xl font-bold font-serif tracking-tight" style={{ color: 'var(--color-foreground)' }}>
+          <span className="flex items-center justify-center h-8 w-8 rounded-full bg-pink-100 text-pink-600 border border-pink-200 shadow-2xs">
+            <IconFlower size={18} />
+          </span>
           <span>Bookshelf</span>
         </h1>
         <p className="mt-1 text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
+import { IconFlower, IconLogout, IconLogin, IconUser } from '@tabler/icons-react';
 import Navigation from './Navigation';
 import AuthPrompt from './AuthPrompt';
 
@@ -30,10 +31,12 @@ export default function Header() {
             <div className="flex items-center gap-8">
               <Link
                 href="/"
-                className="flex items-center gap-2 text-2xl font-bold tracking-tight transition-opacity hover:opacity-85"
+                className="flex items-center gap-2.5 text-2xl font-bold tracking-tight transition-opacity hover:opacity-85 font-serif"
                 style={{ color: 'var(--color-foreground)' }}
               >
-                <span className="text-xl">🌸</span>
+                <span className="flex items-center justify-center h-8 w-8 rounded-full bg-pink-100 text-pink-600 border border-pink-200 shadow-2xs">
+                  <IconFlower size={18} />
+                </span>
                 <span>Bookshelf</span>
               </Link>
               <Navigation />
@@ -83,19 +86,20 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={handleSignOut}
-                  className="rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors hover:bg-[#F2EDE4]"
+                  className="flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors hover:bg-pink-100/70"
                   style={{
                     border: '1px solid var(--color-divider)',
                     color: 'var(--color-foreground-secondary)',
                   }}
                 >
-                  Sign Out
+                  <IconLogout size={13} />
+                  <span>Sign Out</span>
                 </button>
               </div>
             ) : (
               <Link
                 href="/login"
-                className="rounded-full px-5 py-2 text-xs font-bold transition-all active:translate-y-[1px]"
+                className="flex items-center gap-1.5 rounded-full px-5 py-2 text-xs font-bold transition-all active:translate-y-[1px]"
                 style={{
                   background: 'var(--color-primary)',
                   color: '#FFFFFF',
@@ -103,7 +107,8 @@ export default function Header() {
                   boxShadow: 'var(--shadow-button-primary)',
                 }}
               >
-                Sign In
+                <IconLogin size={14} />
+                <span>Sign In</span>
               </Link>
             )}
           </div>

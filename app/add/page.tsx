@@ -2,6 +2,13 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import {
+  IconBook,
+  IconArticle,
+  IconArrowRight,
+  IconSparkles,
+  IconPencil,
+} from '@tabler/icons-react';
 import { ReadingItem, ReadingItemType } from '@/types';
 
 export const dynamic = 'force-dynamic';
@@ -282,8 +289,8 @@ export default function AddPage() {
                   <div className="flex items-start justify-between">
                     <div>
                       <div className="mb-1 flex items-center gap-1.5">
-                        <span className="text-xs">
-                          {suggestion.type === 'book' ? '📖' : '✨'}
+                        <span className="text-pink-600">
+                          {suggestion.type === 'book' ? <IconBook size={15} /> : <IconArticle size={15} />}
                         </span>
                         <span className="text-sm font-bold" style={{ color: 'var(--color-foreground)' }}>
                           {suggestion.title}
@@ -296,7 +303,10 @@ export default function AddPage() {
                         <p className="text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>in {suggestion.publication}</p>
                       )}
                     </div>
-                    <span className="text-xs font-bold" style={{ color: 'var(--color-primary)' }}>Select →</span>
+                    <span className="inline-flex items-center gap-1 text-xs font-bold" style={{ color: 'var(--color-primary)' }}>
+                      <span>Select</span>
+                      <IconArrowRight size={13} />
+                    </span>
                   </div>
                 </button>
               ))}

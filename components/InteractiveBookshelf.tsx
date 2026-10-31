@@ -3,6 +3,22 @@
 import React, { useState, useRef, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import {
+  IconCamera,
+  IconSearch,
+  IconZoomIn,
+  IconZoomOut,
+  IconX,
+  IconCheck,
+  IconCopy,
+  IconStarFilled,
+  IconStar,
+  IconBooks,
+  IconLayoutGrid,
+  IconStack2,
+  IconBook2,
+  IconFilter,
+} from '@tabler/icons-react';
+import {
   PHYSICAL_SHELF_BOOKS,
   SHELF_CUBBIES,
   PhysicalBook,
@@ -151,8 +167,9 @@ export default function InteractiveBookshelf({
             <h2 className="text-xl sm:text-2xl font-black tracking-tight text-pink-950 font-serif">
               Physical Bookshelf Camera
             </h2>
-            <span className="rounded-full bg-pink-100 border border-pink-300 px-2.5 py-0.5 text-[10px] font-mono font-bold text-pink-700 uppercase tracking-widest shadow-xs">
-              Live Lens 2.9× 🌸
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-pink-100 border border-pink-300 px-2.5 py-0.5 text-[10px] font-mono font-bold text-pink-700 uppercase tracking-widest shadow-xs">
+              <IconCamera size={13} className="text-pink-600" />
+              <span>Live Lens 2.9×</span>
             </span>
           </div>
           <p className="mt-1.5 text-xs sm:text-sm text-pink-900/70 max-w-xl">
@@ -171,26 +188,28 @@ export default function InteractiveBookshelf({
               }}
               className="flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold text-white bg-pink-600 hover:bg-pink-500 transition-all shadow-md shadow-pink-600/30 active:translate-y-[1px]"
             >
-              <span>🔍</span>
+              <IconZoomOut size={14} />
               <span>Overview</span>
             </button>
           )}
 
-          <div className="relative">
+          <div className="relative flex items-center">
+            <IconSearch size={14} className="absolute left-3 text-pink-400 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Find volume on shelf..."
-              className="w-48 sm:w-60 rounded-full border border-pink-200 bg-white px-3.5 py-1.5 text-xs text-pink-950 placeholder:text-pink-400 focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-400 transition-colors shadow-2xs"
+              className="w-48 sm:w-60 rounded-full border border-pink-200 bg-white pl-8 pr-7 py-1.5 text-xs text-pink-950 placeholder:text-pink-400 focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-400 transition-colors shadow-2xs"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-pink-500 hover:text-pink-700"
+                className="absolute right-2.5 text-pink-500 hover:text-pink-700"
+                aria-label="Clear search"
               >
-                ✕
+                <IconX size={13} />
               </button>
             )}
           </div>
@@ -205,13 +224,14 @@ export default function InteractiveBookshelf({
             setActiveCubby('all');
             setZoomedCubby(null);
           }}
-          className={`rounded-full px-3 py-1 font-bold whitespace-nowrap transition-all border ${
+          className={`flex items-center gap-1.5 rounded-full px-3 py-1 font-bold whitespace-nowrap transition-all border ${
             activeCubby === 'all' && !zoomedCubby
               ? 'bg-pink-600 text-white border-pink-600 shadow-sm shadow-pink-600/30'
               : 'bg-white text-pink-900 border-pink-200 hover:bg-pink-100'
           }`}
         >
-          Entire Shelf (84)
+          <IconBooks size={13} />
+          <span>Entire Shelf (84)</span>
         </button>
         {cubbiesList.map((c) => {
           const isSelected = activeCubby === c.id || zoomedCubby === c.id;
@@ -296,8 +316,18 @@ export default function InteractiveBookshelf({
 
                   {/* Zoom prompt badge */}
                   <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                    <span className="rounded bg-white/95 px-2 py-0.5 text-[9px] font-bold text-pink-900 border border-pink-300 shadow-sm">
-                      {isZoomed ? 'Zoom out' : 'Inspect 🔍'}
+                    <span className="flex items-center gap-1 rounded bg-white/95 px-2 py-0.5 text-[9px] font-bold text-pink-900 border border-pink-300 shadow-sm">
+                      {isZoomed ? (
+                        <>
+                          <IconZoomOut size={11} className="text-pink-600" />
+                          <span>Zoom out</span>
+                        </>
+                      ) : (
+                        <>
+                          <IconZoomIn size={11} className="text-pink-600" />
+                          <span>Inspect</span>
+                        </>
+                      )}
                     </span>
                   </div>
                 </div>
@@ -361,9 +391,17 @@ export default function InteractiveBookshelf({
 
             {/* Actions: Pin / Copy */}
             <div className="flex flex-wrap items-center gap-2.5 self-end sm:self-start shrink-0">
-              <div className="flex items-center text-pink-600 text-base">
-                {'★'.repeat(activeBook.rating)}
-                <span className="text-pink-900/70 text-xs ml-1.5 font-bold font-mono">
+              <div className="flex items-center gap-1">
+                <div className="flex items-center text-pink-500">
+                  {Array.from({ length: 5 }).map((_, i) =>
+                    i < activeBook.rating ? (
+                      <IconStarFilled key={i} size={15} className="text-pink-500 fill-pink-500" />
+                    ) : (
+                      <IconStar key={i} size={15} className="text-pink-200" />
+                    )
+                  )}
+                </div>
+                <span className="text-pink-900/70 text-xs ml-1 font-bold font-mono">
                   {activeBook.rating}/5
                 </span>
               </div>
@@ -371,18 +409,29 @@ export default function InteractiveBookshelf({
               <button
                 type="button"
                 onClick={() => handleCopyTitle(activeBook.title)}
-                className="rounded-full px-3 py-1.5 text-xs font-semibold text-pink-900 bg-white hover:bg-pink-100 border border-pink-300 transition-colors shadow-2xs"
+                className="flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-semibold text-pink-900 bg-white hover:bg-pink-100 border border-pink-300 transition-colors shadow-2xs"
               >
-                {copiedTitle ? '✓ Copied' : 'Copy'}
+                {copiedTitle ? (
+                  <>
+                    <IconCheck size={13} className="text-pink-600" />
+                    <span>Copied</span>
+                  </>
+                ) : (
+                  <>
+                    <IconCopy size={13} className="text-pink-600" />
+                    <span>Copy</span>
+                  </>
+                )}
               </button>
 
               <button
                 type="button"
                 onClick={() => setSelectedBook(null)}
-                className="rounded-full px-3 py-1.5 text-xs font-bold text-pink-700 bg-pink-100 hover:bg-pink-200 border border-pink-300 transition-colors"
+                className="flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-bold text-pink-700 bg-pink-100 hover:bg-pink-200 border border-pink-300 transition-colors"
                 title="Close volume preview"
               >
-                ✕ Close
+                <IconX size={13} />
+                <span>Close</span>
               </button>
             </div>
           </div>
@@ -394,7 +443,7 @@ export default function InteractiveBookshelf({
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
           <div>
             <h4 className="text-sm font-bold text-pink-950 font-serif flex items-center gap-2">
-              <span>🌸</span>
+              <IconBook2 size={16} className="text-pink-600" />
               <span>
                 {currentCubby && currentCubby !== 'all'
                   ? SHELF_CUBBIES[currentCubby]?.title
@@ -414,24 +463,26 @@ export default function InteractiveBookshelf({
               <button
                 type="button"
                 onClick={() => setDrawerMode('stack')}
-                className={`rounded-full px-3 py-1 font-bold transition-all ${
+                className={`flex items-center gap-1.5 rounded-full px-3 py-1 font-bold transition-all ${
                   drawerMode === 'stack'
                     ? 'bg-pink-600 text-white shadow-sm shadow-pink-600/30'
                     : 'text-pink-900/70 hover:text-pink-950'
                 }`}
               >
-                📚 Shelf Stack
+                <IconStack2 size={13} />
+                <span>Shelf Stack</span>
               </button>
               <button
                 type="button"
                 onClick={() => setDrawerMode('grid')}
-                className={`rounded-full px-3 py-1 font-bold transition-all ${
+                className={`flex items-center gap-1.5 rounded-full px-3 py-1 font-bold transition-all ${
                   drawerMode === 'grid'
                     ? 'bg-pink-600 text-white shadow-sm shadow-pink-600/30'
                     : 'text-pink-900/70 hover:text-pink-950'
                 }`}
               >
-                ⊞ Grid
+                <IconLayoutGrid size={13} />
+                <span>Grid</span>
               </button>
             </div>
 
@@ -552,9 +603,11 @@ export default function InteractiveBookshelf({
                           <span className="text-[10px] font-mono opacity-80">
                             {book.year > 0 ? book.year : `${Math.abs(book.year)} BC`}
                           </span>
-                          <span className="text-pink-600 text-xs">
-                            {'★'.repeat(book.rating)}
-                          </span>
+                          <div className="flex items-center gap-0.5 text-pink-500">
+                            {Array.from({ length: book.rating }).map((_, i) => (
+                              <IconStarFilled key={i} size={11} className="fill-pink-500" />
+                            ))}
+                          </div>
                         </div>
                       </div>
                     );
@@ -597,9 +650,11 @@ export default function InteractiveBookshelf({
                     <span className="text-[10px] font-mono text-pink-900/60">
                       {book.year > 0 ? book.year : `${Math.abs(book.year)} BC`}
                     </span>
-                    <span className="text-pink-600 text-xs">
-                      {'★'.repeat(book.rating)}
-                    </span>
+                    <div className="flex items-center gap-0.5 text-pink-500">
+                      {Array.from({ length: book.rating }).map((_, i) => (
+                        <IconStarFilled key={i} size={11} className="fill-pink-500" />
+                      ))}
+                    </div>
                   </div>
                 </div>
               );

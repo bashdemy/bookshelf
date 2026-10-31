@@ -1,6 +1,12 @@
 import StatsCard from './StatsCard';
 import { ReadingItem } from '@/types';
 import {
+  IconBooks,
+  IconArticle,
+  IconFileText,
+  IconStarFilled,
+} from '@tabler/icons-react';
+import {
   calculateTotalPages,
   calculateAveragePagesPerBook,
   calculateAverageRating,
@@ -37,25 +43,25 @@ export default function StatsSection({ books, articles }: StatsSectionProps) {
           title="Total Books"
           value={books.length}
           subtitle={avgPagesPerBook > 0 ? `Avg ${avgPagesPerBook} pages / book` : 'Books read'}
-          icon="📖"
+          icon={<IconBooks size={22} className="text-pink-600" />}
         />
         <StatsCard
           title="Total Articles"
           value={articles.length}
           subtitle="Articles cataloged"
-          icon="✨"
+          icon={<IconArticle size={22} className="text-pink-600" />}
         />
         <StatsCard
           title="Total Pages"
           value={totalPages.toLocaleString()}
           subtitle="Pages across all volumes"
-          icon="📄"
+          icon={<IconFileText size={22} className="text-pink-600" />}
         />
         <StatsCard
           title="Avg Rating"
           value={averageRating > 0 ? averageRating.toFixed(1) : '—'}
-          subtitle={`${highlights.topRatedCount} five-heart favorites`}
-          icon="❤️"
+          subtitle={`${highlights.topRatedCount} five-star favorites`}
+          icon={<IconStarFilled size={22} className="text-pink-500 fill-pink-500" />}
         />
       </div>
 

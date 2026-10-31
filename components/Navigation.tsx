@@ -3,19 +3,28 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import {
+  IconHome,
+  IconBooks,
+  IconArticle,
+  IconChartBar,
+  IconPlus,
+  type TablerIcon,
+} from '@tabler/icons-react';
 
 interface NavigationItem {
   href: string;
   label: string;
+  icon: TablerIcon;
   requiresAuth?: boolean;
 }
 
 const navigationItems: NavigationItem[] = [
-  { href: '/', label: 'Home' },
-  { href: '/books', label: 'Books' },
-  { href: '/articles', label: 'Articles' },
-  { href: '/stats', label: 'Stats' },
-  { href: '/add', label: 'Add', requiresAuth: true },
+  { href: '/', label: 'Home', icon: IconHome },
+  { href: '/books', label: 'Books', icon: IconBooks },
+  { href: '/articles', label: 'Articles', icon: IconArticle },
+  { href: '/stats', label: 'Stats', icon: IconChartBar },
+  { href: '/add', label: 'Add', icon: IconPlus, requiresAuth: true },
 ];
 
 export default function Navigation() {
@@ -28,6 +37,7 @@ export default function Navigation() {
       {navigationItems.map((item) => {
         const isActive = pathname === item.href;
         const isDisabled = !!(item.requiresAuth && !isAuthenticated);
+        const Icon = item.icon;
         const tooltipText = isDisabled
           ? 'Showing public data. Sign in to add your own books.'
           : undefined;
@@ -36,10 +46,11 @@ export default function Navigation() {
           return (
             <div key={item.href} className="group relative inline-block">
               <span
-                className="inline-block cursor-not-allowed rounded-full px-3.5 py-1.5 text-xs font-medium opacity-50"
+                className="inline-flex items-center gap-1.5 cursor-not-allowed rounded-full px-3 py-1.5 text-xs font-medium opacity-50"
                 style={{ color: '#9D174D' }}
               >
-                {item.label}
+                <Icon size={14} />
+                <span>{item.label}</span>
               </span>
               {tooltipText && (
                 <div
@@ -61,7 +72,7 @@ export default function Navigation() {
           <Link
             key={item.href}
             href={item.href}
-            className="rounded-full px-3.5 py-1.5 text-xs font-medium transition-all"
+            className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-medium transition-all"
             style={{
               background: isActive ? '#FFFFFF' : 'transparent',
               color: isActive ? '#BE185D' : '#9D174D',
@@ -69,7 +80,8 @@ export default function Navigation() {
               boxShadow: isActive ? '0 1px 3px rgba(190, 24, 93, 0.18)' : 'none',
             }}
           >
-            {item.label}
+            <Icon size={14} className={isActive ? 'text-pink-600' : 'text-pink-700/80'} />
+            <span>{item.label}</span>
           </Link>
         );
       })}
