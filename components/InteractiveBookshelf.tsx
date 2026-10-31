@@ -26,14 +26,14 @@ interface CubbyHotspot {
 }
 
 const CUBBY_HOTSPOTS: Record<string, CubbyHotspot> = {
-  r1c1: { id: 'r1c1', x: 4.5, y: 7.5, width: 22.5, height: 43.5, zoomOrigin: '15% 30%', roman: 'I' },
-  r1c2: { id: 'r1c2', x: 27.5, y: 7.5, width: 22.5, height: 43.5, zoomOrigin: '38% 30%', roman: 'II' },
-  r1c3: { id: 'r1c3', x: 50.5, y: 7.5, width: 22.5, height: 43.5, zoomOrigin: '61% 30%', roman: 'III' },
-  r1c4: { id: 'r1c4', x: 73.5, y: 7.5, width: 22.5, height: 43.5, zoomOrigin: '84% 30%', roman: 'IV' },
-  r2c1: { id: 'r2c1', x: 4.5, y: 51.5, width: 22.5, height: 43.5, zoomOrigin: '15% 73%', roman: 'V' },
-  r2c2: { id: 'r2c2', x: 27.5, y: 51.5, width: 22.5, height: 43.5, zoomOrigin: '38% 73%', roman: 'VI' },
-  r2c3: { id: 'r2c3', x: 50.5, y: 51.5, width: 22.5, height: 43.5, zoomOrigin: '61% 73%', roman: 'VII' },
-  r2c4: { id: 'r2c4', x: 73.5, y: 51.5, width: 22.5, height: 43.5, zoomOrigin: '84% 73%', roman: 'VIII' },
+  r1c1: { id: 'r1c1', x: 3.6, y: 19.6, width: 22.8, height: 34.1, zoomOrigin: '15.0% 36.6%', roman: 'I' },
+  r1c2: { id: 'r1c2', x: 26.9, y: 19.6, width: 22.8, height: 34.1, zoomOrigin: '38.3% 36.6%', roman: 'II' },
+  r1c3: { id: 'r1c3', x: 50.3, y: 19.6, width: 22.8, height: 34.1, zoomOrigin: '61.7% 36.6%', roman: 'III' },
+  r1c4: { id: 'r1c4', x: 73.6, y: 19.6, width: 22.8, height: 34.1, zoomOrigin: '85.0% 36.6%', roman: 'IV' },
+  r2c1: { id: 'r2c1', x: 3.6, y: 55.2, width: 22.8, height: 33.7, zoomOrigin: '15.0% 72.0%', roman: 'V' },
+  r2c2: { id: 'r2c2', x: 26.9, y: 55.2, width: 22.8, height: 33.7, zoomOrigin: '38.3% 72.0%', roman: 'VI' },
+  r2c3: { id: 'r2c3', x: 50.3, y: 55.2, width: 22.8, height: 33.7, zoomOrigin: '61.7% 72.0%', roman: 'VII' },
+  r2c4: { id: 'r2c4', x: 73.6, y: 55.2, width: 22.8, height: 33.7, zoomOrigin: '85.0% 72.0%', roman: 'VIII' },
 };
 
 export default function InteractiveBookshelf({
@@ -50,6 +50,8 @@ export default function InteractiveBookshelf({
   const [hoveredCubbyHotspot, setHoveredCubbyHotspot] = useState<string | null>(null);
   const [spotlightPos, setSpotlightPos] = useState<{ x: number; y: number } | null>(null);
   const [copiedTitle, setCopiedTitle] = useState(false);
+  const [isTallerPhoto, setIsTallerPhoto] = useState<boolean>(true);
+  const [drawerMode, setDrawerMode] = useState<'stack' | 'grid'>('stack');
   const photoContainerRef = useRef<HTMLDivElement>(null);
 
   const cubbiesList: ShelfCubbyInfo[] = useMemo(() => [
@@ -163,11 +165,11 @@ export default function InteractiveBookshelf({
               Physical Bookshelf Camera
             </h2>
             <span className="rounded-full bg-pink-950/90 border border-pink-700/70 px-2.5 py-0.5 text-[10px] font-mono font-bold text-pink-300 uppercase tracking-widest shadow-sm">
-              Live Lens 2.4× 🌸
+              Live Lens 2.9× 🌸
             </span>
           </div>
           <p className="mt-1.5 text-xs sm:text-sm text-pink-200/70 max-w-xl">
-            Directly mapped to your 2×4 white bookcase • Click any cubby to zoom in up close • Hover book spines to pull out
+            Directly mapped to your 4×2 bookcase • Click any horizontal cubby to zoom in up close • Hover book spines to pull out
           </p>
         </div>
 
@@ -186,6 +188,19 @@ export default function InteractiveBookshelf({
               <span>Overview</span>
             </button>
           )}
+
+          <button
+            type="button"
+            onClick={() => setIsTallerPhoto((v) => !v)}
+            className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all border ${
+              isTallerPhoto
+                ? 'bg-pink-600/30 text-pink-200 border-pink-400/80 shadow-[0_0_12px_rgba(244,114,182,0.3)]'
+                : 'bg-stone-900/80 text-pink-300/70 border-stone-800 hover:text-pink-100'
+            }`}
+            title="Toggle taller camera view for immersive shelf inspection"
+          >
+            <span>{isTallerPhoto ? '⇕ Taller Camera (On)' : '↕ Taller Camera'}</span>
+          </button>
 
           <div className="relative">
             <input
@@ -255,7 +270,11 @@ export default function InteractiveBookshelf({
           ref={photoContainerRef}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-stone-800 bg-stone-950 cursor-crosshair select-none"
+          className={`relative w-full overflow-hidden rounded-2xl border border-pink-900/50 bg-stone-950 cursor-crosshair select-none transition-all duration-500 ${
+            isTallerPhoto
+              ? 'h-[480px] sm:h-[620px] lg:h-[720px]'
+              : 'aspect-[4/3] min-h-[360px] sm:min-h-[480px]'
+          }`}
           style={{
             boxShadow: 'inset 0 0 50px rgba(0,0,0,0.85), 0 12px 35px rgba(0,0,0,0.6)',
           }}
@@ -265,7 +284,7 @@ export default function InteractiveBookshelf({
             className="absolute inset-0 transition-transform duration-700 ease-out will-change-transform"
             style={{
               transformOrigin: zoomedCubby ? CUBBY_HOTSPOTS[zoomedCubby]?.zoomOrigin : '50% 50%',
-              transform: zoomedCubby ? 'scale(2.38)' : 'scale(1)',
+              transform: zoomedCubby ? 'scale(2.95)' : isTallerPhoto ? 'scale(1.15)' : 'scale(1)',
             }}
           >
             <Image
@@ -441,86 +460,218 @@ export default function InteractiveBookshelf({
             </h4>
             <p className="text-xs text-pink-300/60 mt-0.5">
               {currentCubby && currentCubby !== 'all'
-                ? SHELF_CUBBIES[currentCubby]?.description
+                ? `${SHELF_CUBBIES[currentCubby]?.description} • Stacked horizontally as on the physical shelf`
                 : 'Hover any book spine below to pull it out and reveal its archival record'}
             </p>
           </div>
 
-          {/* Quick Drawer Genre Filter */}
-          <div className="flex items-center gap-1.5 overflow-x-auto text-[11px]">
-            <button
-              type="button"
-              onClick={() => setSelectedGenre('all')}
-              className={`rounded-full px-2.5 py-1 font-semibold transition-colors ${
-                selectedGenre === 'all'
-                  ? 'bg-pink-500 text-white shadow-sm shadow-pink-500/30'
-                  : 'bg-stone-900 text-pink-300/70 hover:text-pink-100'
-              }`}
-            >
-              All Genres ({activeBooks.length})
-            </button>
-            {availableGenres.slice(0, 5).map((g) => (
+          <div className="flex flex-wrap items-center gap-2">
+            {/* View Mode Toggle: Stack vs Grid */}
+            <div className="flex items-center gap-1 rounded-full bg-stone-900/90 p-0.5 border border-pink-900/60 text-xs">
               <button
-                key={g}
                 type="button"
-                onClick={() => setSelectedGenre(selectedGenre === g ? 'all' : g)}
-                className={`rounded-full px-2.5 py-1 font-semibold transition-colors border ${
-                  selectedGenre === g
-                    ? 'bg-pink-500 text-white border-pink-400 shadow-sm shadow-pink-500/30'
-                    : 'bg-stone-900/60 text-pink-300/70 border-stone-850 hover:text-pink-100 hover:border-pink-800'
+                onClick={() => setDrawerMode('stack')}
+                className={`rounded-full px-3 py-1 font-bold transition-all ${
+                  drawerMode === 'stack'
+                    ? 'bg-pink-600 text-white shadow-sm shadow-pink-600/30'
+                    : 'text-pink-300/60 hover:text-pink-200'
                 }`}
               >
-                {g.split(' ')[0]}
+                📚 Shelf Stack
               </button>
-            ))}
+              <button
+                type="button"
+                onClick={() => setDrawerMode('grid')}
+                className={`rounded-full px-3 py-1 font-bold transition-all ${
+                  drawerMode === 'grid'
+                    ? 'bg-pink-600 text-white shadow-sm shadow-pink-600/30'
+                    : 'text-pink-300/60 hover:text-pink-200'
+                }`}
+              >
+                ⊞ Grid
+              </button>
+            </div>
+
+            {/* Quick Drawer Genre Filter */}
+            <div className="flex items-center gap-1.5 overflow-x-auto text-[11px]">
+              <button
+                type="button"
+                onClick={() => setSelectedGenre('all')}
+                className={`rounded-full px-2.5 py-1 font-semibold transition-colors ${
+                  selectedGenre === 'all'
+                    ? 'bg-pink-500 text-white shadow-sm shadow-pink-500/30'
+                    : 'bg-stone-900 text-pink-300/70 hover:text-pink-100'
+                }`}
+              >
+                All ({activeBooks.length})
+              </button>
+              {availableGenres.slice(0, 4).map((g) => (
+                <button
+                  key={g}
+                  type="button"
+                  onClick={() => setSelectedGenre(selectedGenre === g ? 'all' : g)}
+                  className={`rounded-full px-2.5 py-1 font-semibold transition-colors border ${
+                    selectedGenre === g
+                      ? 'bg-pink-500 text-white border-pink-400 shadow-sm shadow-pink-500/30'
+                      : 'bg-stone-900/60 text-pink-300/70 border-stone-850 hover:text-pink-100 hover:border-pink-800'
+                  }`}
+                >
+                  {g.split(' ')[0]}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* 3D Spines Grid with Pink Hover Glow */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 max-h-[380px] overflow-y-auto pr-1">
-          {activeBooks.map((book) => {
-            const isHovered = hoveredBook?.id === book.id;
-            const isSelected = selectedBook?.id === book.id;
+        {/* Physical Stack View (Horizontal spines stacked like the photo) */}
+        {drawerMode === 'stack' ? (
+          <div className="rounded-2xl border border-pink-900/40 bg-black/40 p-3 sm:p-5">
+            <div className="flex flex-col md:flex-row items-stretch gap-4">
+              {/* Leaning Vertical Books (e.g. Algorithms, Art of Uncertainty) */}
+              {activeBooks.some((b) => b.orientation === 'vertical') && (
+                <div className="flex items-end gap-2.5 pb-1 border-b md:border-b-0 md:border-r border-pink-900/40 md:pr-4 shrink-0">
+                  <span className="text-[10px] uppercase tracking-widest font-mono text-pink-400/60 [writing-mode:vertical-rl] rotate-180 mb-2 hidden md:block">
+                    Leaning
+                  </span>
+                  {activeBooks
+                    .filter((b) => b.orientation === 'vertical')
+                    .map((book) => {
+                      const isHovered = hoveredBook?.id === book.id;
+                      const isSelected = selectedBook?.id === book.id;
+                      return (
+                        <div
+                          key={book.id}
+                          onMouseEnter={() => setHoveredBook(book)}
+                          onMouseLeave={() => setHoveredBook(null)}
+                          onClick={() => handleBookClick(book)}
+                          className={`group relative flex flex-col justify-between cursor-pointer rounded-lg px-2 py-3 transition-all duration-200 border w-12 sm:w-14 h-48 sm:h-56 select-none ${
+                            isHovered || isSelected
+                              ? '-translate-y-2 border-pink-400 shadow-xl shadow-pink-500/30'
+                              : 'border-stone-800 hover:border-pink-500/70'
+                          }`}
+                          style={{
+                            backgroundColor: book.spineColor,
+                            color: book.textColor,
+                            boxShadow: isHovered || isSelected ? '0 10px 25px rgba(244,114,182,0.35)' : undefined,
+                          }}
+                        >
+                          <div className="text-[9px] font-mono opacity-80">{book.year}</div>
+                          <div className="flex-1 flex items-center justify-center overflow-hidden my-1">
+                            <span className="text-xs font-bold font-serif whitespace-nowrap [writing-mode:vertical-rl] rotate-180 truncate">
+                              {book.title}
+                            </span>
+                          </div>
+                          <div className="text-[9px] font-bold truncate opacity-80">{book.author.split(' ').pop()}</div>
+                        </div>
+                      );
+                    })}
+                </div>
+              )}
 
-            return (
-              <div
-                key={book.id}
-                onMouseEnter={() => setHoveredBook(book)}
-                onMouseLeave={() => setHoveredBook(null)}
-                onClick={() => handleBookClick(book)}
-                className={`group relative flex cursor-pointer items-center justify-between rounded-xl p-3 transition-all duration-200 border ${
-                  isHovered || isSelected
-                    ? '-translate-y-1.5 scale-[1.02] border-pink-400 bg-pink-950/40 shadow-xl shadow-pink-500/20'
-                    : 'border-stone-850 bg-stone-900/80 hover:border-pink-800 hover:bg-stone-850'
-                }`}
-                style={{
-                  borderLeftWidth: '5px',
-                  borderLeftColor: book.spineColor === '#F5F5F3' ? '#D4D4D8' : book.spineColor,
-                }}
-              >
-                <div className="flex items-center gap-2.5 truncate">
-                  <div className="truncate">
-                    <p className="truncate text-xs font-bold text-stone-100 group-hover:text-pink-300 transition-colors">
-                      {book.title}
-                    </p>
-                    <p className="truncate text-[11px] text-pink-300/60">
-                      {book.author}
-                    </p>
+              {/* Horizontal Books Stack (Piled from top to bottom) */}
+              <div className="flex-1 flex flex-col gap-2 max-h-[460px] overflow-y-auto pr-1">
+                {activeBooks
+                  .filter((b) => b.orientation !== 'vertical' || !activeBooks.some((x) => x.orientation === 'vertical'))
+                  .map((book, idx) => {
+                    const isHovered = hoveredBook?.id === book.id;
+                    const isSelected = selectedBook?.id === book.id;
+
+                    return (
+                      <div
+                        key={book.id}
+                        onMouseEnter={() => setHoveredBook(book)}
+                        onMouseLeave={() => setHoveredBook(null)}
+                        onClick={() => handleBookClick(book)}
+                        className={`group relative flex cursor-pointer items-center justify-between rounded-xl px-4 py-2.5 sm:py-3 transition-all duration-200 border ${
+                          isHovered || isSelected
+                            ? 'translate-x-3 sm:translate-x-4 border-pink-400 shadow-xl shadow-pink-500/25 z-10'
+                            : 'border-stone-800/80 hover:border-pink-800'
+                        }`}
+                        style={{
+                          backgroundColor: book.spineColor === '#F5F5F3' ? '#222' : book.spineColor,
+                          color: book.textColor === '#1A1A1A' && book.spineColor === '#F5F5F3' ? '#F4F4F5' : book.textColor,
+                          borderLeftWidth: '8px',
+                          borderLeftColor: book.accentColor || '#EC4899',
+                        }}
+                      >
+                        <div className="flex items-center gap-3 truncate">
+                          <span className="font-mono text-[10px] opacity-60 w-4 text-center">
+                            #{idx + 1}
+                          </span>
+                          <div className="truncate">
+                            <p className="truncate text-xs sm:text-sm font-bold font-serif group-hover:underline">
+                              {book.title}
+                            </p>
+                            <p className="truncate text-[11px] opacity-80">
+                              {book.author}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2.5 shrink-0 ml-2">
+                          <span className="hidden sm:inline-block rounded px-1.5 py-0.5 text-[9px] font-mono bg-black/40 border border-white/10">
+                            {book.pages} pp
+                          </span>
+                          <span className="text-[10px] font-mono opacity-80">
+                            {book.year > 0 ? book.year : `${Math.abs(book.year)} BC`}
+                          </span>
+                          <span className="text-pink-300 text-xs">
+                            {'★'.repeat(book.rating)}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+          </div>
+        ) : (
+          /* 3D Spines Grid View with Pink Glow */
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 max-h-[420px] overflow-y-auto pr-1">
+            {activeBooks.map((book) => {
+              const isHovered = hoveredBook?.id === book.id;
+              const isSelected = selectedBook?.id === book.id;
+
+              return (
+                <div
+                  key={book.id}
+                  onMouseEnter={() => setHoveredBook(book)}
+                  onMouseLeave={() => setHoveredBook(null)}
+                  onClick={() => handleBookClick(book)}
+                  className={`group relative flex cursor-pointer items-center justify-between rounded-xl p-3 transition-all duration-200 border ${
+                    isHovered || isSelected
+                      ? '-translate-y-1.5 scale-[1.02] border-pink-400 bg-pink-950/40 shadow-xl shadow-pink-500/20'
+                      : 'border-stone-850 bg-stone-900/80 hover:border-pink-800 hover:bg-stone-850'
+                  }`}
+                  style={{
+                    borderLeftWidth: '5px',
+                    borderLeftColor: book.spineColor === '#F5F5F3' ? '#D4D4D8' : book.spineColor,
+                  }}
+                >
+                  <div className="flex items-center gap-2.5 truncate">
+                    <div className="truncate">
+                      <p className="truncate text-xs font-bold text-stone-100 group-hover:text-pink-300 transition-colors">
+                        {book.title}
+                      </p>
+                      <p className="truncate text-[11px] text-pink-300/60">
+                        {book.author}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 shrink-0 ml-2">
+                    <span className="text-[10px] font-mono text-pink-300/60">
+                      {book.year > 0 ? book.year : `${Math.abs(book.year)} BC`}
+                    </span>
+                    <span className="text-pink-400 text-xs">
+                      {'★'.repeat(book.rating)}
+                    </span>
                   </div>
                 </div>
-
-                <div className="flex items-center gap-2 shrink-0 ml-2">
-                  <span className="text-[10px] font-mono text-pink-300/60">
-                    {book.year > 0 ? book.year : `${Math.abs(book.year)} BC`}
-                  </span>
-                  <span className="text-pink-400 text-xs">
-                    {'★'.repeat(book.rating)}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );
