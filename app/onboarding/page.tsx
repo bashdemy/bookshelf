@@ -48,13 +48,11 @@ export default function OnboardingPage() {
 
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.error || 'Failed to complete onboarding');
+        throw new Error(data.error || 'Failed to complete profile');
       }
 
-      // Update session and force a full page reload to ensure middleware sees the updated user
       await update();
       router.refresh();
-      // Use window.location for a full reload to ensure middleware re-runs
       window.location.href = '/';
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
@@ -63,29 +61,37 @@ export default function OnboardingPage() {
     }
   };
 
-  const isValidUsername = (username: string) => {
-    return /^[a-z0-9_-]{3,20}$/.test(username);
+  const isValidUsername = (u: string) => {
+    return /^[a-z0-9_-]{3,20}$/.test(u);
   };
 
   return (
-    <main className="mx-auto flex max-w-2xl flex-col items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-      <div className="w-full" style={{ borderRadius: 'var(--radius-lg)', border: '1px solid var(--color-divider)', background: 'var(--color-paper)', padding: '2rem' }}>
-        <h1 className="mb-2 text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>
-          Welcome to Bookshelf! 📚
+    <main className="mx-auto flex max-w-lg flex-col items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+      <div
+        className="w-full p-7"
+        style={{
+          borderRadius: 'var(--radius-lg)',
+          border: '1px solid var(--color-border)',
+          background: 'var(--paper)',
+          boxShadow: 'var(--shadow-card)',
+        }}
+      >
+        <h1 className="mb-1 text-2xl font-bold tracking-tight" style={{ color: 'var(--color-foreground)' }}>
+          Profile Setup
         </h1>
-        <p className="mb-8" style={{ color: 'var(--color-foreground-secondary)' }}>
-          Let&apos;s set up your profile to get started
+        <p className="mb-6 text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
+          Choose your reader handle and public display name
         </p>
 
         {error && (
-          <div className="mb-6 rounded-lg border p-4" style={{ borderColor: 'var(--color-error)', background: 'rgba(208, 74, 90, 0.1)' }}>
-            <p style={{ color: 'var(--color-error)' }}>{error}</p>
+          <div className="mb-4 rounded-md border border-red-200 bg-red-50 p-2.5 text-xs text-red-800">
+            {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="username" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-primary)' }}>
+            <label htmlFor="username" className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-foreground)' }}>
               Username *
             </label>
             <input
@@ -95,22 +101,21 @@ export default function OnboardingPage() {
               onChange={(e) => setUsername(e.target.value.toLowerCase())}
               required
               pattern="[a-z0-9_-]{3,20}"
-              className="w-full bg-white px-4 py-2 focus:outline-none focus:ring-2"
+              className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
               style={{ 
                 borderRadius: 'var(--radius-base)',
-                border: '1px solid var(--color-divider)',
+                border: '1px solid var(--color-border)',
                 color: 'var(--color-foreground)',
-                '--tw-ring-color': 'var(--color-primary)',
-              } as React.CSSProperties}
-              placeholder="johndoe"
+              }}
+              placeholder="e.g., maria"
             />
-            <p className="mt-1 text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
-              3-20 characters, lowercase letters, numbers, hyphens, and underscores only
+            <p className="mt-1 text-[11px]" style={{ color: 'var(--color-foreground-secondary)' }}>
+              3–20 characters: lowercase letters, numbers, hyphens, underscores
             </p>
           </div>
 
           <div>
-            <label htmlFor="displayName" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-primary)' }}>
+            <label htmlFor="displayName" className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-foreground)' }}>
               Display Name *
             </label>
             <input
@@ -119,35 +124,32 @@ export default function OnboardingPage() {
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
               required
-              className="w-full bg-white px-4 py-2 focus:outline-none focus:ring-2"
+              className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
               style={{ 
                 borderRadius: 'var(--radius-base)',
-                border: '1px solid var(--color-divider)',
+                border: '1px solid var(--color-border)',
                 color: 'var(--color-foreground)',
-                '--tw-ring-color': 'var(--color-primary)',
-              } as React.CSSProperties}
-              placeholder="John Doe"
+              }}
+              placeholder="e.g., Maria K."
             />
-            <p className="mt-1 text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
-              This is how your name will appear to others
+            <p className="mt-1 text-[11px]" style={{ color: 'var(--color-foreground-secondary)' }}>
+              How your name will appear on your bookshelf
             </p>
           </div>
 
           <button
             type="submit"
             disabled={isSubmitting || !isValidUsername(username) || !displayName.trim()}
-            className="w-full px-6 py-3 font-bold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full rounded-md py-2.5 text-xs font-bold text-white transition-all active:translate-y-[1px] disabled:opacity-50"
             style={{ 
-              borderRadius: 'var(--radius-base)',
               background: 'var(--color-primary)',
-              boxShadow: 'var(--shadow-primary)',
+              boxShadow: 'var(--shadow-button-primary)',
             }}
           >
-            {isSubmitting ? 'Setting up...' : 'Complete Setup'}
+            {isSubmitting ? 'Saving...' : 'Complete Profile'}
           </button>
         </form>
       </div>
     </main>
   );
 }
-

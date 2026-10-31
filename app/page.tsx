@@ -18,80 +18,94 @@ export default async function Home() {
   const recentItems = allItems.slice(0, 3);
 
   return (
-    <main className="mx-auto flex max-w-7xl flex-col items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
+    <main className="mx-auto flex max-w-7xl flex-col items-center justify-center px-4 py-10 sm:px-6 lg:px-8">
       <div className="w-full max-w-3xl text-center">
-        <p className="mb-8 text-xl" style={{ color: 'var(--color-foreground-secondary)' }}>
-          Track your reading journey, discover new books and articles, and explore your reading statistics.
+        <h1 className="mb-3 text-3xl font-extrabold tracking-tight sm:text-4xl" style={{ color: 'var(--color-foreground)' }}>
+          Reading Journey & Archive
+        </h1>
+        <p className="mb-8 text-sm leading-relaxed sm:text-base" style={{ color: 'var(--color-foreground-secondary)' }}>
+          Catalog books and articles, analyze your reading habits, and curate your personal library.
         </p>
         
-        <div className="mb-10 grid grid-cols-1 gap-6 sm:grid-cols-3">
+        <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
           <NavigationCard
             href="/books"
             icon="📖"
             title="Books"
-            description={`${stats.bookCount} ${stats.bookCount === 1 ? 'book' : 'books'}`}
-            accentColor="primary"
-            accentBg="blush"
+            description={`${stats.bookCount} ${stats.bookCount === 1 ? 'volume' : 'volumes'} read`}
           />
           
           <NavigationCard
             href="/articles"
             icon="✨"
             title="Articles"
-            description={`${stats.articleCount} ${stats.articleCount === 1 ? 'article' : 'articles'}`}
-            accentColor="secondary"
-            accentBg="lavender"
+            description={`${stats.articleCount} ${stats.articleCount === 1 ? 'article' : 'articles'} cataloged`}
           />
           
           <NavigationCard
             href="/stats"
             icon="📊"
             title="Statistics"
-            description={`${totalPages.toLocaleString()} pages`}
-            accentColor="primary"
-            accentBg="blush"
+            description={`${totalPages.toLocaleString()} pages indexed`}
           />
         </div>
         
         <div
-          className="flex flex-col items-center justify-between gap-4 p-6 sm:flex-row"
+          className="flex flex-col items-center justify-between gap-4 p-5 sm:flex-row"
           style={{
             borderRadius: 'var(--radius-lg)',
-            border: '1px solid var(--color-divider)',
-            background: 'var(--color-paper)',
+            border: '1px solid var(--color-border)',
+            background: 'var(--paper)',
+            boxShadow: 'var(--shadow-card)',
           }}
         >
-          <p className="text-lg" style={{ color: 'var(--color-primary)' }}>
-            <span className="font-semibold">{totalItems}</span> items tracked •{' '}
-            <span className="font-semibold">{totalPages.toLocaleString()}</span> pages read
-          </p>
+          <div className="text-left">
+            <p className="text-xs uppercase tracking-wider font-bold" style={{ color: 'var(--color-foreground-secondary)' }}>
+              Catalog Summary
+            </p>
+            <p className="text-sm font-semibold" style={{ color: 'var(--color-foreground)' }}>
+              <span className="font-extrabold text-[#9E384D]">{totalItems}</span> total works •{' '}
+              <span className="font-extrabold text-[#394A60]">{totalPages.toLocaleString()}</span> pages completed
+            </p>
+          </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            {user && (
+          <div className="flex flex-wrap items-center gap-2.5">
+            {user ? (
+              <>
+                <Link
+                  href="/add"
+                  className="rounded-full px-4 py-2 text-xs font-bold text-white transition-all active:translate-y-[1px]"
+                  style={{
+                    background: 'var(--color-primary)',
+                    boxShadow: 'var(--shadow-button-primary)',
+                  }}
+                >
+                  + Add Item
+                </Link>
+                {user.username && (
+                  <Link
+                    href={`/u/${user.username}`}
+                    className="rounded-full px-3.5 py-2 text-xs font-semibold transition-colors hover:bg-[#F2EDE4]"
+                    style={{
+                      border: '1px solid var(--color-border)',
+                      color: 'var(--color-foreground)',
+                      background: 'var(--paper)',
+                    }}
+                  >
+                    Public View ↗
+                  </Link>
+                )}
+              </>
+            ) : (
               <Link
-                href="/add"
-                className="px-4 py-2 text-sm font-bold text-white transition-opacity hover:opacity-90"
+                href="/login"
+                className="rounded-full px-4 py-2 text-xs font-bold text-white transition-all active:translate-y-[1px]"
                 style={{
-                  borderRadius: 'var(--radius-full)',
-                  background: 'var(--gradient-primary)',
-                  boxShadow: 'var(--shadow-sm)',
+                  background: 'var(--color-primary)',
+                  boxShadow: 'var(--shadow-button-primary)',
                 }}
               >
-                + Add Item
-              </Link>
-            )}
-            {user?.username && (
-              <Link
-                href={`/u/${user.username}`}
-                className="px-4 py-2 text-sm font-semibold transition-colors"
-                style={{
-                  borderRadius: 'var(--radius-full)',
-                  border: '1px solid var(--color-divider)',
-                  color: 'var(--color-secondary)',
-                  background: 'white',
-                }}
-              >
-                Public Profile ↗
+                Sign In to Track Yours
               </Link>
             )}
           </div>
@@ -100,19 +114,24 @@ export default async function Home() {
 
       {recentItems.length > 0 && (
         <section className="mt-14 w-full">
-          <div className="mb-6 flex items-center justify-between">
-            <h2 className="text-2xl font-bold tracking-tight" style={{ color: 'var(--color-primary)' }}>
-              Recent Reads
-            </h2>
+          <div className="mb-5 flex items-center justify-between">
+            <div>
+              <h2 className="text-xl font-bold tracking-tight" style={{ color: 'var(--color-foreground)' }}>
+                Recent Additions
+              </h2>
+              <p className="text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
+                Latest items read and archived
+              </p>
+            </div>
             <Link
               href="/stats"
-              className="text-sm font-semibold hover:underline"
-              style={{ color: 'var(--color-secondary)' }}
+              className="text-xs font-semibold hover:underline"
+              style={{ color: 'var(--color-primary)' }}
             >
-              View all insights →
+              View detailed statistics →
             </Link>
           </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
             {recentItems.map((item) => (
               <ReadingItemCard key={item.id} item={item} canEdit={!!user} />
             ))}

@@ -1,17 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import Navigation from './Navigation';
 import AuthPrompt from './AuthPrompt';
 
 export default function Header() {
   const { data: session, status } = useSession();
   const isAuthenticated = !!session;
-
-  async function handleSignInClick() {
-    await signIn('google', { callbackUrl: '/' });
-  }
 
   async function handleSignOut() {
     await signOut({ callbackUrl: '/' });
@@ -21,66 +17,77 @@ export default function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-10 border-b backdrop-blur-md" style={{ borderColor: 'var(--color-divider)', background: 'var(--color-paper)', boxShadow: 'var(--shadow-sm)' }}>
+      <header
+        className="sticky top-0 z-20 border-b backdrop-blur-md"
+        style={{
+          borderColor: 'var(--color-divider)',
+          background: 'rgba(255, 255, 255, 0.92)',
+          boxShadow: '0 1px 2px rgba(26, 23, 20, 0.03)',
+        }}
+      >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-20 items-center justify-between">
+          <div className="flex h-18 items-center justify-between">
             <div className="flex items-center gap-8">
-              <Link href="/" className="text-3xl font-bold tracking-tight transition-opacity hover:opacity-90" style={{ color: 'var(--color-primary)' }}>
-                🌸 Bookshelf
+              <Link
+                href="/"
+                className="flex items-center gap-2 text-2xl font-bold tracking-tight transition-opacity hover:opacity-85"
+                style={{ color: 'var(--color-foreground)' }}
+              >
+                <span className="text-xl">🌸</span>
+                <span>Bookshelf</span>
               </Link>
               <Navigation />
             </div>
+
             {status === 'loading' ? (
-              <div className="px-6 py-3 text-sm" style={{ color: 'var(--color-foreground-secondary)' }}>
+              <div className="px-4 py-2 text-xs font-medium" style={{ color: 'var(--color-foreground-secondary)' }}>
                 Loading...
               </div>
             ) : isAuthenticated ? (
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3">
                 {profileHref ? (
                   <Link
                     href={profileHref}
                     title="View your public bookshelf"
-                    className="flex items-center gap-2.5 px-3 py-1.5 transition-colors hover:opacity-80"
+                    className="flex items-center gap-2 rounded-full px-3 py-1.5 transition-colors hover:bg-[#F2EDE4]"
                     style={{
-                      borderRadius: 'var(--radius-full)',
-                      background: 'var(--color-accent-blush)',
+                      border: '1px solid var(--color-divider)',
+                      background: 'var(--paper)',
                     }}
                   >
-                    {session.user?.image && (
+                    {session.user?.image ? (
                       <img
                         src={session.user.image}
                         alt={session.user.name || 'User'}
-                        className="h-8 w-8 rounded-full"
+                        className="h-6 w-6 rounded-full object-cover"
                       />
+                    ) : (
+                      <span
+                        className="flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold text-white"
+                        style={{ background: 'var(--color-primary)' }}
+                      >
+                        {(session.user?.displayName || session.user?.username || 'U').charAt(0).toUpperCase()}
+                      </span>
                     )}
-                    <span className="text-sm font-semibold" style={{ color: 'var(--color-accent-plum)' }}>
-                      {session.user?.displayName || session.user?.name || 'User'}
+                    <span className="text-xs font-semibold" style={{ color: 'var(--color-foreground)' }}>
+                      {session.user?.displayName || session.user?.username || 'User'}
                     </span>
                   </Link>
                 ) : (
-                  <div className="flex items-center gap-2.5">
-                    {session.user?.image && (
-                      <img
-                        src={session.user.image}
-                        alt={session.user.name || 'User'}
-                        className="h-9 w-9 rounded-full"
-                      />
-                    )}
-                    <span className="text-sm font-medium" style={{ color: 'var(--color-foreground)' }}>
-                      {session.user?.displayName || session.user?.name || 'User'}
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-medium" style={{ color: 'var(--color-foreground)' }}>
+                      {session.user?.displayName || session.user?.username || 'User'}
                     </span>
                   </div>
                 )}
                 <button
+                  type="button"
                   onClick={handleSignOut}
-                  className="px-4 py-2 text-sm font-bold transition-colors"
-                  style={{ 
-                    borderRadius: 'var(--radius-base)',
+                  className="rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors hover:bg-[#F2EDE4]"
+                  style={{
                     border: '1px solid var(--color-divider)',
-                    color: 'var(--color-primary)',
+                    color: 'var(--color-foreground-secondary)',
                   }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-accent-blush)'}
-                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                 >
                   Sign Out
                 </button>
@@ -88,15 +95,15 @@ export default function Header() {
             ) : (
               <Link
                 href="/login"
-                className="group relative overflow-hidden px-6 py-2.5 text-sm font-bold text-white transition-all active:scale-[0.98]"
-                style={{ 
-                  borderRadius: 'var(--radius-full)',
-                  background: 'var(--gradient-primary)',
-                  boxShadow: 'var(--shadow-primary)',
+                className="rounded-full px-5 py-2 text-xs font-bold transition-all active:translate-y-[1px]"
+                style={{
+                  background: 'var(--color-primary)',
+                  color: '#FFFFFF',
+                  border: '1px solid rgba(0, 0, 0, 0.1)',
+                  boxShadow: 'var(--shadow-button-primary)',
                 }}
               >
-                <span className="relative z-10">Sign In</span>
-                <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></span>
+                Sign In
               </Link>
             )}
           </div>

@@ -4,30 +4,28 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="mt-8 border-t backdrop-blur-md py-4" style={{ borderColor: 'var(--color-divider)', background: 'var(--color-paper)' }}>
+    <footer className="mt-16 border-t py-6" style={{ borderColor: 'var(--color-divider)', background: 'var(--paper)' }}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-end gap-1 text-right">
-          <p className="text-sm" style={{ color: 'var(--color-foreground-secondary)' }}>
-            Built by{' '}
+        <div className="flex flex-col items-center justify-between gap-3 text-xs sm:flex-row" style={{ color: 'var(--color-foreground-secondary)' }}>
+          <p className="flex items-center gap-1.5 font-medium">
+            <span>🌸 Bookshelf</span>
+            <span>•</span>
+            <span>Personal Reading Archive</span>
+          </p>
+          <div className="flex items-center gap-4">
             <a
               href="https://bashdemy.com"
-              className="font-semibold transition-colors"
-              style={{ color: 'var(--color-secondary)', textDecorationColor: 'rgba(122, 92, 158, 0.35)' }}
-              onMouseEnter={(e) => e.currentTarget.style.textDecorationColor = 'rgba(122, 92, 158, 0.8)'}
-              onMouseLeave={(e) => e.currentTarget.style.textDecorationColor = 'rgba(122, 92, 158, 0.35)'}
               target="_blank"
               rel="noopener noreferrer"
+              className="font-medium transition-colors hover:underline"
+              style={{ color: 'var(--color-foreground)' }}
             >
-              bashdemy
+              bashdemy.com
             </a>
-            {' '}❤️
-          </p>
-          <p className="text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
-            © {currentYear} Bookshelf. All rights reserved.
-          </p>
+            <span>© {currentYear}</span>
+          </div>
         </div>
       </div>
     </footer>
   );
 }
-

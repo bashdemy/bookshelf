@@ -4,39 +4,32 @@ import Link from 'next/link';
 
 export default function AuthPrompt() {
   return (
-    <div className="fixed bottom-6 left-6 z-50 animate-float cursor-pointer">
+    <aside
+      aria-label="Public viewer mode notice"
+      className="fixed bottom-5 left-5 z-40 hidden sm:block"
+    >
       <div 
-        className="group relative rounded-full backdrop-blur-sm px-5 py-3 transition-all"
+        className="flex items-center gap-3 rounded-full py-2 pl-4 pr-2"
         style={{ 
-          borderRadius: 'var(--radius-full)',
-          background: 'var(--color-accent-blush)',
-          boxShadow: 'var(--shadow-lg)',
+          background: 'var(--paper)',
+          border: '1px solid var(--color-border)',
+          boxShadow: '0 4px 16px rgba(26, 23, 20, 0.08), 0 1px 2px rgba(26, 23, 20, 0.04)',
         }}
       >
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold" style={{ color: 'var(--color-primary)' }}>
-            Showing data for{' '}
-            <span className="font-bold">bashdemy</span>
-          </span>
-          <Link
-            href="/login"
-            className="ml-2 px-3 py-1 text-xs font-bold text-white transition-all active:scale-95"
-            style={{ 
-              borderRadius: 'var(--radius-full)',
-              background: 'var(--color-primary)',
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-primary-dark)'}
-            onMouseLeave={(e) => e.currentTarget.style.background = 'var(--color-primary)'}
-          >
-            Log in
-          </Link>
-        </div>
-        <div 
-          className="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 rounded-sm"
-          style={{ background: 'var(--color-accent-blush)' }}
-        ></div>
+        <span className="text-xs font-medium" style={{ color: 'var(--color-foreground-secondary)' }}>
+          Browsing <span className="font-bold text-[#1D1B18]">bashdemy</span>&apos;s library
+        </span>
+        <Link
+          href="/login"
+          className="rounded-full px-3 py-1 text-xs font-bold text-white transition-all active:translate-y-[1px]"
+          style={{ 
+            background: 'var(--color-primary)',
+            boxShadow: 'var(--shadow-button-primary)',
+          }}
+        >
+          Sign In
+        </Link>
       </div>
-    </div>
+    </aside>
   );
 }
-

@@ -120,50 +120,42 @@ export default function ReadingSection({
   };
 
   return (
-    <section className="mb-16">
+    <section className="mb-14">
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-3xl font-bold tracking-tight" style={{ color: 'var(--color-primary)' }}>
-          {title}
-        </h2>
-        <div className="flex items-center gap-3">
-          <span 
-            className="inline-flex items-center gap-2 px-4 py-1.5 text-sm font-semibold"
-            style={{ 
-              borderRadius: 'var(--radius-full)',
-              background: 'var(--color-accent-blush)',
-              color: 'var(--color-accent-plum)',
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight" style={{ color: 'var(--color-foreground)' }}>
+            {title}
+          </h2>
+          <p className="text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
+            {hasActiveFilters
+              ? `Showing ${filteredAndSortedItems.length} of ${formatItemCount(items.length, singularLabel, pluralLabel)}`
+              : formatItemCount(items.length, singularLabel, pluralLabel)}
+          </p>
+        </div>
+
+        {canEdit && (
+          <Link
+            href="/add"
+            className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold text-white transition-all active:translate-y-[1px]"
+            style={{
+              background: 'var(--color-primary)',
+              border: '1px solid rgba(0, 0, 0, 0.1)',
+              boxShadow: 'var(--shadow-button-primary)',
             }}
           >
-            <span>
-              {hasActiveFilters
-                ? `${filteredAndSortedItems.length} of ${formatItemCount(items.length, singularLabel, pluralLabel)}`
-                : formatItemCount(items.length, singularLabel, pluralLabel)}
-            </span>
-          </span>
-          {canEdit && (
-            <Link
-              href="/add"
-              className="inline-flex items-center gap-1.5 px-4 py-1.5 text-sm font-bold text-white transition-all hover:opacity-90"
-              style={{
-                borderRadius: 'var(--radius-full)',
-                background: 'var(--color-primary)',
-                boxShadow: 'var(--shadow-sm)',
-              }}
-            >
-              + Add {singularLabel}
-            </Link>
-          )}
-        </div>
+            + Add {singularLabel.charAt(0).toUpperCase() + singularLabel.slice(1)}
+          </Link>
+        )}
       </div>
 
       {items.length > 0 && (
         <div
-          className="mb-8 p-4"
+          className="mb-7 p-4"
           style={{
             borderRadius: 'var(--radius-lg)',
-            border: '1px solid var(--color-divider)',
-            background: 'var(--color-paper)',
-            boxShadow: 'var(--shadow-sm)',
+            border: '1px solid var(--color-border)',
+            background: 'var(--paper)',
+            boxShadow: 'var(--shadow-card)',
           }}
         >
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
@@ -174,10 +166,10 @@ export default function ReadingSection({
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={`Search ${pluralLabel} by title, author, tag...`}
                 aria-label={`Search ${pluralLabel}`}
-                className="w-full bg-white px-3.5 py-2 text-sm focus:outline-none focus:ring-2"
+                className="w-full bg-white px-3.5 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
                 style={{
                   borderRadius: 'var(--radius-base)',
-                  border: '1px solid var(--color-divider)',
+                  border: '1px solid var(--color-border)',
                   color: 'var(--color-foreground)',
                 }}
               />
@@ -189,10 +181,10 @@ export default function ReadingSection({
                   value={selectedGenre}
                   onChange={(e) => setSelectedGenre(e.target.value)}
                   aria-label="Filter by genre"
-                  className="w-full bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2"
+                  className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
                   style={{
                     borderRadius: 'var(--radius-base)',
-                    border: '1px solid var(--color-divider)',
+                    border: '1px solid var(--color-border)',
                     color: 'var(--color-foreground)',
                   }}
                 >
@@ -212,10 +204,10 @@ export default function ReadingSection({
                   value={selectedTag}
                   onChange={(e) => setSelectedTag(e.target.value)}
                   aria-label="Filter by tag"
-                  className="w-full bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2"
+                  className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
                   style={{
                     borderRadius: 'var(--radius-base)',
-                    border: '1px solid var(--color-divider)',
+                    border: '1px solid var(--color-border)',
                     color: 'var(--color-foreground)',
                   }}
                 >
@@ -229,15 +221,15 @@ export default function ReadingSection({
               </div>
             )}
 
-            <div className="flex gap-2">
+            <div>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as SortOption)}
                 aria-label="Sort items"
-                className="w-full bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2"
+                className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
                 style={{
                   borderRadius: 'var(--radius-base)',
-                  border: '1px solid var(--color-divider)',
+                  border: '1px solid var(--color-border)',
                   color: 'var(--color-foreground)',
                 }}
               >
@@ -251,41 +243,29 @@ export default function ReadingSection({
           </div>
 
           {hasActiveFilters && (
-            <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t pt-3 text-xs" style={{ borderColor: 'var(--color-divider)' }}>
-              <div className="flex flex-wrap items-center gap-2">
-                <span style={{ color: 'var(--color-foreground-secondary)' }}>Active filters:</span>
+            <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t pt-2.5 text-xs" style={{ borderColor: 'var(--color-divider)' }}>
+              <div className="flex flex-wrap items-center gap-1.5">
+                <span style={{ color: 'var(--color-foreground-secondary)' }}>Filtered by:</span>
                 {searchQuery && (
                   <span
-                    className="inline-flex items-center gap-1 px-2.5 py-1 font-medium"
-                    style={{
-                      borderRadius: 'var(--radius-full)',
-                      background: 'var(--color-accent-blush)',
-                      color: 'var(--color-accent-plum)',
-                    }}
+                    className="inline-flex items-center rounded px-2 py-0.5 text-xs font-semibold"
+                    style={{ background: '#ECE7DE', color: '#454038' }}
                   >
                     &ldquo;{searchQuery}&rdquo;
                   </span>
                 )}
                 {selectedGenre && (
                   <span
-                    className="inline-flex items-center gap-1 px-2.5 py-1 font-medium"
-                    style={{
-                      borderRadius: 'var(--radius-full)',
-                      background: 'var(--color-accent-blush)',
-                      color: 'var(--color-accent-plum)',
-                    }}
+                    className="inline-flex items-center rounded px-2 py-0.5 text-xs font-semibold"
+                    style={{ background: 'var(--color-primary-soft)', color: 'var(--color-primary-text)' }}
                   >
                     Genre: {selectedGenre}
                   </span>
                 )}
                 {selectedTag && (
                   <span
-                    className="inline-flex items-center gap-1 px-2.5 py-1 font-medium"
-                    style={{
-                      borderRadius: 'var(--radius-full)',
-                      background: 'var(--color-accent-lavender)',
-                      color: 'var(--color-accent-plum)',
-                    }}
+                    className="inline-flex items-center rounded px-2 py-0.5 text-xs font-semibold"
+                    style={{ background: 'var(--color-secondary-soft)', color: 'var(--color-secondary-text)' }}
                   >
                     #{selectedTag}
                   </span>
@@ -294,10 +274,10 @@ export default function ReadingSection({
               <button
                 type="button"
                 onClick={clearFilters}
-                className="font-semibold hover:underline"
+                className="font-medium hover:underline"
                 style={{ color: 'var(--color-primary)' }}
               >
-                Clear all filters
+                Reset filters
               </button>
             </div>
           )}
@@ -310,26 +290,25 @@ export default function ReadingSection({
           style={{
             borderRadius: 'var(--radius-lg)',
             border: '1px dashed var(--color-divider)',
-            background: 'var(--color-paper)',
+            background: 'var(--paper)',
           }}
         >
-          <div className="mb-3 text-5xl">{singularLabel === 'book' ? '📚' : '✨'}</div>
-          <h3 className="mb-2 text-xl font-bold" style={{ color: 'var(--color-primary)' }}>
+          <div className="mb-2 text-4xl">{singularLabel === 'book' ? '📚' : '✨'}</div>
+          <h3 className="mb-1 text-lg font-bold" style={{ color: 'var(--color-foreground)' }}>
             No {pluralLabel} tracked yet
           </h3>
-          <p className="mb-6 max-w-md text-sm" style={{ color: 'var(--color-foreground-secondary)' }}>
+          <p className="mb-5 max-w-sm text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
             {canEdit
-              ? `Start building your collection by adding the first ${singularLabel} you've read.`
-              : `This bookshelf doesn't have any ${pluralLabel} yet.`}
+              ? `Start building your library by cataloging the first ${singularLabel} you've read.`
+              : `This bookshelf doesn't have any ${pluralLabel} cataloged yet.`}
           </p>
           {canEdit && (
             <Link
               href="/add"
-              className="px-6 py-3 text-sm font-bold text-white transition-all hover:opacity-90"
+              className="rounded-full px-5 py-2.5 text-xs font-bold text-white transition-all active:translate-y-[1px]"
               style={{
-                borderRadius: 'var(--radius-full)',
-                background: 'var(--gradient-primary)',
-                boxShadow: 'var(--shadow-primary)',
+                background: 'var(--color-primary)',
+                boxShadow: 'var(--shadow-button-primary)',
               }}
             >
               Add Your First {singularLabel.charAt(0).toUpperCase() + singularLabel.slice(1)}
@@ -341,30 +320,27 @@ export default function ReadingSection({
           className="flex flex-col items-center justify-center p-10 text-center"
           style={{
             borderRadius: 'var(--radius-lg)',
-            border: '1px solid var(--color-divider)',
-            background: 'var(--color-paper)',
+            border: '1px solid var(--color-border)',
+            background: 'var(--paper)',
           }}
         >
-          <p className="mb-3 text-lg font-semibold" style={{ color: 'var(--color-foreground)' }}>
+          <p className="mb-1 text-sm font-bold" style={{ color: 'var(--color-foreground)' }}>
             No matching {pluralLabel} found
           </p>
-          <p className="mb-4 text-sm" style={{ color: 'var(--color-foreground-secondary)' }}>
-            Try adjusting your search query or clearing your active filters.
+          <p className="mb-4 text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
+            Try refining your keywords or clearing active filters.
           </p>
           <button
             type="button"
             onClick={clearFilters}
-            className="px-5 py-2 text-sm font-bold text-white"
-            style={{
-              borderRadius: 'var(--radius-full)',
-              background: 'var(--color-primary)',
-            }}
+            className="rounded-full px-4 py-1.5 text-xs font-bold text-white"
+            style={{ background: 'var(--color-primary)' }}
           >
             Clear Filters
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           {filteredAndSortedItems.map((item) => (
             <ReadingItemCard
               key={item.id}

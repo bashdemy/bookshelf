@@ -27,14 +27,14 @@ export default async function PublicProfilePage({
   ]);
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <div
-        className="mb-10 flex flex-col items-start justify-between gap-4 p-8 sm:flex-row sm:items-center"
+        className="mb-8 flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center"
         style={{
           borderRadius: 'var(--radius-lg)',
-          border: '1px solid var(--color-divider)',
-          background: 'var(--color-paper)',
-          boxShadow: 'var(--shadow-sm)',
+          border: '1px solid var(--color-border)',
+          background: 'var(--paper)',
+          boxShadow: 'var(--shadow-card)',
         }}
       >
         <div className="flex items-center gap-4">
@@ -42,23 +42,23 @@ export default async function PublicProfilePage({
             <img
               src={profileUser.avatar_url}
               alt={profileUser.display_name}
-              className="h-16 w-16 rounded-full object-cover"
-              style={{ border: '2px solid var(--color-primary)' }}
+              className="h-14 w-14 rounded-full object-cover"
+              style={{ border: '2px solid var(--color-border)' }}
             />
           ) : (
             <div
-              className="flex h-16 w-16 items-center justify-center rounded-full text-2xl font-bold text-white"
-              style={{ background: 'var(--gradient-primary)' }}
+              className="flex h-14 w-14 items-center justify-center rounded-full text-xl font-bold text-white"
+              style={{ background: 'var(--color-primary)' }}
             >
               {profileUser.display_name.charAt(0).toUpperCase()}
             </div>
           )}
           <div>
-            <h1 className="text-3xl font-bold tracking-tight" style={{ color: 'var(--color-primary)' }}>
+            <h1 className="text-2xl font-bold tracking-tight" style={{ color: 'var(--color-foreground)' }}>
               {profileUser.display_name}&apos;s Bookshelf
             </h1>
             {profileUser.username && (
-              <p className="text-sm font-medium" style={{ color: 'var(--color-foreground-secondary)' }}>
+              <p className="text-xs font-semibold" style={{ color: 'var(--color-foreground-secondary)' }}>
                 @{profileUser.username}
               </p>
             )}
@@ -66,18 +66,17 @@ export default async function PublicProfilePage({
         </div>
 
         <div
-          className="px-4 py-2 text-xs font-semibold"
+          className="rounded-full px-3.5 py-1 text-xs font-bold uppercase tracking-wider"
           style={{
-            borderRadius: 'var(--radius-full)',
-            background: 'var(--color-accent-blush)',
-            color: 'var(--color-accent-plum)',
+            background: isOwner ? 'var(--color-primary-soft)' : '#EFEBE2',
+            color: isOwner ? 'var(--color-primary-text)' : 'var(--color-foreground-secondary)',
           }}
         >
-          {isOwner ? '✨ Your Public Profile' : '🌐 Public Bookshelf'}
+          {isOwner ? 'Your Archive' : 'Public Library'}
         </div>
       </div>
 
-      <div className="mb-14">
+      <div className="mb-12">
         <StatsSection books={books} articles={articles} />
       </div>
 

@@ -31,24 +31,24 @@ export default function StatsSection({ books, articles }: StatsSectionProps) {
   const maxMonthlyTotal = Math.max(...monthlyActivity.map((m) => m.total), 1);
 
   return (
-    <div className="space-y-8">
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="space-y-7">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatsCard
           title="Total Books"
           value={books.length}
-          subtitle={avgPagesPerBook > 0 ? `Avg ${avgPagesPerBook} pages/book` : 'Books read'}
+          subtitle={avgPagesPerBook > 0 ? `Avg ${avgPagesPerBook} pages / book` : 'Books read'}
           icon="📖"
         />
         <StatsCard
           title="Total Articles"
           value={articles.length}
-          subtitle="Articles read"
+          subtitle="Articles cataloged"
           icon="✨"
         />
         <StatsCard
           title="Total Pages"
           value={totalPages.toLocaleString()}
-          subtitle="Pages read across books"
+          subtitle="Pages across all volumes"
           icon="📄"
         />
         <StatsCard
@@ -62,29 +62,26 @@ export default function StatsSection({ books, articles }: StatsSectionProps) {
       {allItems.length > 0 && (
         <>
           {/* Highlights Row */}
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
             {highlights.longestBook && (
               <div
-                className="p-6"
+                className="p-5"
                 style={{
                   borderRadius: 'var(--radius-lg)',
-                  border: '1px solid var(--color-divider)',
-                  background: 'var(--color-paper)',
-                  boxShadow: 'var(--shadow-sm)',
+                  border: '1px solid var(--color-border)',
+                  background: 'var(--paper)',
+                  boxShadow: 'var(--shadow-card)',
                 }}
               >
-                <p
-                  className="mb-1 text-xs font-semibold uppercase tracking-wider"
-                  style={{ color: 'var(--color-foreground-secondary)' }}
-                >
-                  🏆 Longest Book Read
+                <p className="mb-1 text-[11px] font-bold uppercase tracking-wider" style={{ color: 'var(--color-foreground-secondary)' }}>
+                  Longest Volume Read
                 </p>
-                <h3 className="text-xl font-bold" style={{ color: 'var(--color-primary)' }}>
+                <h3 className="text-base font-bold tracking-tight" style={{ color: 'var(--color-foreground)' }}>
                   {highlights.longestBook.title}
                 </h3>
-                <p className="mt-1 text-sm" style={{ color: 'var(--color-foreground-secondary)' }}>
+                <p className="mt-1 text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
                   {highlights.longestBook.author ? `by ${highlights.longestBook.author} • ` : ''}
-                  <span className="font-semibold" style={{ color: 'var(--color-secondary)' }}>
+                  <span className="font-semibold" style={{ color: 'var(--color-primary)' }}>
                     {highlights.longestBook.pages?.toLocaleString()} pages
                   </span>
                 </p>
@@ -93,26 +90,23 @@ export default function StatsSection({ books, articles }: StatsSectionProps) {
 
             {highlights.mostRecentItem && (
               <div
-                className="p-6"
+                className="p-5"
                 style={{
                   borderRadius: 'var(--radius-lg)',
-                  border: '1px solid var(--color-divider)',
-                  background: 'var(--color-paper)',
-                  boxShadow: 'var(--shadow-sm)',
+                  border: '1px solid var(--color-border)',
+                  background: 'var(--paper)',
+                  boxShadow: 'var(--shadow-card)',
                 }}
               >
-                <p
-                  className="mb-1 text-xs font-semibold uppercase tracking-wider"
-                  style={{ color: 'var(--color-foreground-secondary)' }}
-                >
-                  🕰️ Most Recent Read
+                <p className="mb-1 text-[11px] font-bold uppercase tracking-wider" style={{ color: 'var(--color-foreground-secondary)' }}>
+                  Most Recent Addition
                 </p>
-                <h3 className="text-xl font-bold" style={{ color: 'var(--color-primary)' }}>
+                <h3 className="text-base font-bold tracking-tight" style={{ color: 'var(--color-foreground)' }}>
                   {highlights.mostRecentItem.title}
                 </h3>
-                <p className="mt-1 text-sm" style={{ color: 'var(--color-foreground-secondary)' }}>
-                  {highlights.mostRecentItem.type === 'book' ? '📖 Book' : '✨ Article'} • Read on{' '}
-                  <span className="font-semibold" style={{ color: 'var(--color-secondary)' }}>
+                <p className="mt-1 text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
+                  {highlights.mostRecentItem.type === 'book' ? '📖 Book' : '✨ Article'} • Cataloged on{' '}
+                  <span className="font-semibold" style={{ color: 'var(--color-foreground)' }}>
                     {formatReadDate(highlights.mostRecentItem.readDate)}
                   </span>
                 </p>
@@ -126,31 +120,31 @@ export default function StatsSection({ books, articles }: StatsSectionProps) {
               className="p-6"
               style={{
                 borderRadius: 'var(--radius-lg)',
-                border: '1px solid var(--color-divider)',
-                background: 'var(--color-paper)',
-                boxShadow: 'var(--shadow-sm)',
+                border: '1px solid var(--color-border)',
+                background: 'var(--paper)',
+                boxShadow: 'var(--shadow-card)',
               }}
             >
-              <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
+              <div className="mb-5 flex flex-wrap items-center justify-between gap-2">
                 <div>
-                  <h3 className="text-lg font-bold" style={{ color: 'var(--color-primary)' }}>
-                    Reading Activity Over Time
+                  <h3 className="text-sm font-bold uppercase tracking-wider" style={{ color: 'var(--color-foreground)' }}>
+                    Reading Activity
                   </h3>
                   <p className="text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
-                    Items completed by month
+                    Volumes & articles completed by month
                   </p>
                 </div>
-                <div className="flex items-center gap-4 text-xs font-medium">
+                <div className="flex items-center gap-3 text-xs font-semibold">
                   <span className="flex items-center gap-1.5">
                     <span
-                      className="inline-block h-3 w-3 rounded-full"
+                      className="inline-block h-2.5 w-2.5 rounded-sm"
                       style={{ background: 'var(--color-primary)' }}
                     />
                     Books
                   </span>
                   <span className="flex items-center gap-1.5">
                     <span
-                      className="inline-block h-3 w-3 rounded-full"
+                      className="inline-block h-2.5 w-2.5 rounded-sm"
                       style={{ background: 'var(--color-secondary)' }}
                     />
                     Articles
@@ -158,24 +152,23 @@ export default function StatsSection({ books, articles }: StatsSectionProps) {
                 </div>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-2.5">
                 {monthlyActivity.map((month) => {
                   const bookWidth = (month.books / maxMonthlyTotal) * 100;
                   const articleWidth = (month.articles / maxMonthlyTotal) * 100;
                   return (
-                    <div key={month.monthKey} className="flex items-center gap-3 text-sm">
+                    <div key={month.monthKey} className="flex items-center gap-3 text-xs">
                       <span
-                        className="w-24 shrink-0 font-medium"
+                        className="w-20 shrink-0 font-medium"
                         style={{ color: 'var(--color-foreground-secondary)' }}
                       >
                         {month.label}
                       </span>
                       <div
-                        className="flex h-6 flex-1 overflow-hidden p-0.5"
+                        className="flex h-5 flex-1 overflow-hidden rounded p-0.5"
                         style={{
-                          borderRadius: 'var(--radius-full)',
-                          background: 'var(--color-background)',
-                          border: '1px solid var(--color-divider)',
+                          background: '#EFEBE2',
+                          border: '1px solid #E2DED6',
                         }}
                       >
                         {month.books > 0 && (
@@ -183,10 +176,7 @@ export default function StatsSection({ books, articles }: StatsSectionProps) {
                             style={{
                               width: `${bookWidth}%`,
                               background: 'var(--color-primary)',
-                              borderTopLeftRadius: '9999px',
-                              borderBottomLeftRadius: '9999px',
-                              borderTopRightRadius: month.articles === 0 ? '9999px' : '0',
-                              borderBottomRightRadius: month.articles === 0 ? '9999px' : '0',
+                              borderRadius: month.articles === 0 ? '3px' : '3px 0 0 3px',
                             }}
                             title={`${month.books} book(s)`}
                           />
@@ -196,20 +186,17 @@ export default function StatsSection({ books, articles }: StatsSectionProps) {
                             style={{
                               width: `${articleWidth}%`,
                               background: 'var(--color-secondary)',
-                              borderTopRightRadius: '9999px',
-                              borderBottomRightRadius: '9999px',
-                              borderTopLeftRadius: month.books === 0 ? '9999px' : '0',
-                              borderBottomLeftRadius: month.books === 0 ? '9999px' : '0',
+                              borderRadius: month.books === 0 ? '3px' : '0 3px 3px 0',
                             }}
                             title={`${month.articles} article(s)`}
                           />
                         )}
                       </div>
                       <span
-                        className="w-16 shrink-0 text-right text-xs font-semibold"
+                        className="w-14 shrink-0 text-right font-bold"
                         style={{ color: 'var(--color-foreground)' }}
                       >
-                        {month.total} {month.total === 1 ? 'item' : 'items'}
+                        {month.total}
                       </span>
                     </div>
                   );
@@ -219,53 +206,49 @@ export default function StatsSection({ books, articles }: StatsSectionProps) {
           )}
 
           {/* Genre Breakdown & Rating Distribution */}
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
             {/* Genre Breakdown */}
             <div
               className="p-6"
               style={{
                 borderRadius: 'var(--radius-lg)',
-                border: '1px solid var(--color-divider)',
-                background: 'var(--color-paper)',
-                boxShadow: 'var(--shadow-sm)',
+                border: '1px solid var(--color-border)',
+                background: 'var(--paper)',
+                boxShadow: 'var(--shadow-card)',
               }}
             >
-              <h3 className="mb-1 text-lg font-bold" style={{ color: 'var(--color-primary)' }}>
-                Favorite Genres
+              <h3 className="text-sm font-bold uppercase tracking-wider" style={{ color: 'var(--color-foreground)' }}>
+                Genre Breakdown
               </h3>
-              <p className="mb-5 text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
-                Distribution of genres across your reading list
+              <p className="mb-4 text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
+                Subject distribution across your catalog
               </p>
 
               {genreBreakdown.length === 0 ? (
-                <p className="text-sm" style={{ color: 'var(--color-foreground-secondary)' }}>
+                <p className="text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
                   No genres recorded yet.
                 </p>
               ) : (
                 <div className="space-y-3">
                   {genreBreakdown.map((g) => (
                     <div key={g.genre}>
-                      <div className="mb-1 flex items-center justify-between text-sm">
-                        <span className="font-medium capitalize" style={{ color: 'var(--color-foreground)' }}>
+                      <div className="mb-1 flex items-center justify-between text-xs">
+                        <span className="font-semibold capitalize" style={{ color: 'var(--color-foreground)' }}>
                           {g.genre}
                         </span>
-                        <span className="text-xs font-semibold" style={{ color: 'var(--color-secondary)' }}>
+                        <span className="font-medium" style={{ color: 'var(--color-foreground-secondary)' }}>
                           {g.count} ({g.percentage}%)
                         </span>
                       </div>
                       <div
-                        className="h-2.5 w-full overflow-hidden"
-                        style={{
-                          borderRadius: 'var(--radius-full)',
-                          background: 'var(--color-accent-blush)',
-                        }}
+                        className="h-2 w-full overflow-hidden rounded"
+                        style={{ background: '#EFEBE2' }}
                       >
                         <div
-                          className="h-full"
+                          className="h-full rounded"
                           style={{
                             width: `${g.percentage}%`,
-                            borderRadius: 'var(--radius-full)',
-                            background: 'var(--gradient-primary)',
+                            background: 'var(--color-primary)',
                           }}
                         />
                       </div>
@@ -280,42 +263,38 @@ export default function StatsSection({ books, articles }: StatsSectionProps) {
               className="p-6"
               style={{
                 borderRadius: 'var(--radius-lg)',
-                border: '1px solid var(--color-divider)',
-                background: 'var(--color-paper)',
-                boxShadow: 'var(--shadow-sm)',
+                border: '1px solid var(--color-border)',
+                background: 'var(--paper)',
+                boxShadow: 'var(--shadow-card)',
               }}
             >
-              <h3 className="mb-1 text-lg font-bold" style={{ color: 'var(--color-primary)' }}>
+              <h3 className="text-sm font-bold uppercase tracking-wider" style={{ color: 'var(--color-foreground)' }}>
                 Rating Distribution
               </h3>
-              <p className="mb-5 text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
-                Breakdown of ratings given to books and articles
+              <p className="mb-4 text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
+                Frequency of ratings awarded
               </p>
 
               <div className="space-y-3">
                 {ratingDistribution.map((r) => (
-                  <div key={r.rating} className="flex items-center gap-3 text-sm">
-                    <span className="w-24 shrink-0 text-xs" style={{ color: 'var(--color-primary)' }}>
+                  <div key={r.rating} className="flex items-center gap-2.5 text-xs">
+                    <span className="w-20 shrink-0 text-xs">
                       {'❤️'.repeat(r.rating)}
                     </span>
                     <div
-                      className="h-2.5 flex-1 overflow-hidden"
-                      style={{
-                        borderRadius: 'var(--radius-full)',
-                        background: 'var(--color-accent-lavender)',
-                      }}
+                      className="h-2 flex-1 overflow-hidden rounded"
+                      style={{ background: '#EFEBE2' }}
                     >
                       <div
-                        className="h-full"
+                        className="h-full rounded"
                         style={{
                           width: `${r.percentage}%`,
-                          borderRadius: 'var(--radius-full)',
                           background: 'var(--color-secondary)',
                         }}
                       />
                     </div>
                     <span
-                      className="w-16 shrink-0 text-right text-xs font-semibold"
+                      className="w-14 shrink-0 text-right font-medium"
                       style={{ color: 'var(--color-foreground-secondary)' }}
                     >
                       {r.count} ({r.percentage}%)
@@ -332,35 +311,34 @@ export default function StatsSection({ books, articles }: StatsSectionProps) {
               className="p-6"
               style={{
                 borderRadius: 'var(--radius-lg)',
-                border: '1px solid var(--color-divider)',
-                background: 'var(--color-paper)',
-                boxShadow: 'var(--shadow-sm)',
+                border: '1px solid var(--color-border)',
+                background: 'var(--paper)',
+                boxShadow: 'var(--shadow-card)',
               }}
             >
-              <h3 className="mb-1 text-lg font-bold" style={{ color: 'var(--color-primary)' }}>
-                Top Topics & Tags
+              <h3 className="text-sm font-bold uppercase tracking-wider" style={{ color: 'var(--color-foreground)' }}>
+                Topics & Index Tags
               </h3>
-              <p className="mb-4 text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
-                Most frequent tags across your books and articles
+              <p className="mb-3.5 text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
+                Most frequent index keywords
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1.5">
                 {tagBreakdown.map((t) => (
                   <span
                     key={t.tag}
-                    className="inline-flex items-center gap-2 px-3.5 py-1.5 text-sm font-medium"
+                    className="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium"
                     style={{
-                      borderRadius: 'var(--radius-full)',
-                      background: 'var(--color-accent-lavender)',
-                      color: 'var(--color-accent-plum)',
+                      background: 'var(--color-tag-bg)',
+                      color: 'var(--color-tag-text)',
+                      border: '1px solid rgba(0, 0, 0, 0.05)',
                     }}
                   >
                     <span>#{t.tag}</span>
                     <span
-                      className="px-2 py-0.5 text-xs font-bold"
+                      className="rounded px-1.5 py-0.2 text-[10px] font-bold"
                       style={{
-                        borderRadius: 'var(--radius-full)',
-                        background: 'var(--color-paper)',
-                        color: 'var(--color-secondary)',
+                        background: '#FFFFFF',
+                        color: 'var(--color-foreground)',
                       }}
                     >
                       {t.count}

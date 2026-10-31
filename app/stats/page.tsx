@@ -10,13 +10,13 @@ export default async function StatsPage() {
   const articles = await getArticlesByUser(userId);
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="mb-8">
-        <h1 className="text-4xl font-bold tracking-tight" style={{ color: 'var(--color-primary)' }}>
-          Statistics and Analytics
+        <h1 className="text-3xl font-extrabold tracking-tight" style={{ color: 'var(--color-foreground)' }}>
+          Statistics & Insights
         </h1>
-        <p className="mt-2" style={{ color: 'var(--color-foreground-secondary)' }}>
-          View your reading statistics & insights
+        <p className="mt-1 text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
+          Detailed analytics of your cataloged volumes and articles
         </p>
       </div>
       <StatsSection books={books} articles={articles} />

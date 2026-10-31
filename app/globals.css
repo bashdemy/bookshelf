@@ -1,10 +1,42 @@
 @import "tailwindcss";
 
 :root {
-  --background: #FFF7FA;
-  --paper: #FFFAFD;
-  --foreground: #2A1E2A;
-  --foreground-secondary: #6E5A6E;
+  --background: #F8F6F1;
+  --paper: #FFFFFF;
+  --foreground: #1D1B18;
+  --foreground-secondary: #6B645B;
+  --color-border: #E5E0D6;
+  --color-divider: #E5E0D6;
+
+  --color-primary: #9E384D;
+  --color-primary-hover: #862B3E;
+  --color-primary-soft: #F6ECEB;
+  --color-primary-text: #6F2132;
+
+  --color-secondary: #394A60;
+  --color-secondary-hover: #2D3A4D;
+  --color-secondary-soft: #EEF1F5;
+  --color-secondary-text: #263345;
+
+  --color-tag-bg: #ECE7DE;
+  --color-tag-text: #454038;
+
+  --shadow-sm: 0 1px 2px rgba(26, 23, 20, 0.04), 0 1px 1px rgba(26, 23, 20, 0.02);
+  --shadow-md: 0 1px 3px rgba(26, 23, 20, 0.05), 0 4px 12px rgba(26, 23, 20, 0.03);
+  --shadow-lg: 0 4px 16px rgba(26, 23, 20, 0.07), 0 1px 3px rgba(26, 23, 20, 0.03);
+  --shadow-xl: 0 8px 24px rgba(26, 23, 20, 0.09), 0 2px 6px rgba(26, 23, 20, 0.04);
+
+  --shadow-card: 0 1px 3px rgba(26, 23, 20, 0.05), 0 1px 1px rgba(26, 23, 20, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  --shadow-card-hover: 0 6px 20px rgba(26, 23, 20, 0.08), 0 1px 3px rgba(26, 23, 20, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+
+  --shadow-button-primary: 0 1px 2px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  --shadow-button-secondary: 0 1px 2px rgba(26, 23, 20, 0.05), inset 0 1px 0 rgba(255, 255, 255, 1);
+
+  --radius-sm: 6px;
+  --radius-base: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-full: 9999px;
 }
 
 @theme {
@@ -13,45 +45,31 @@
   --color-foreground: var(--foreground);
   --color-foreground-secondary: var(--foreground-secondary);
   
-  --font-sans: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: var(--font-geist-mono);
   
-  --color-primary: #E178A0;
-  --color-primary-light: #F0B7C8;
-  --color-primary-dark: #B65F83;
-  --color-primary-contrast: #FFFFFF;
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+  --color-divider: var(--color-divider);
   
-  --color-secondary: #7A5C9E;
-  --color-secondary-light: #A189C6;
-  --color-secondary-dark: #563F78;
-  --color-secondary-contrast: #FFFFFF;
+  --color-info: #3D628D;
+  --color-success: #2C6B5E;
+  --color-warning: #B37424;
+  --color-error: #B53A42;
   
-  --color-divider: #EED9E3;
+  --color-accent-lavender: var(--color-secondary-soft);
+  --color-accent-blush: var(--color-primary-soft);
+  --color-accent-plum: var(--color-primary-text);
   
-  --color-info: #6C7BD9;
-  --color-success: #2E7D6E;
-  --color-warning: #E0A24C;
-  --color-error: #D04A5A;
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
   
-  --color-accent-lavender: #C7B7E2;
-  --color-accent-blush: #F5C1D0;
-  --color-accent-plum: #5A3D69;
-  
-  --shadow-sm: 0 2px 6px rgba(122, 92, 158, 0.08);
-  --shadow-md: 0 4px 10px rgba(225, 120, 160, 0.10);
-  --shadow-lg: 0 6px 14px rgba(90, 61, 105, 0.12);
-  --shadow-xl: 0 8px 24px rgba(90, 61, 105, 0.14);
-  
-  --shadow-primary: 0 6px 14px rgba(225, 120, 160, 0.25);
-  --shadow-secondary: 0 6px 14px rgba(122, 92, 158, 0.25);
-  
-  --gradient-primary: linear-gradient(135deg, #E178A0 0%, #7A5C9E 100%);
-  --gradient-soft: linear-gradient(135deg, #F5C1D0 0%, #C7B7E2 100%);
-  
-  --radius-base: 14px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
-  --radius-full: 9999px;
+  --radius-base: var(--radius-base);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-full: var(--radius-full);
 }
 
 body {
@@ -62,21 +80,56 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 200ms;
+/* Subtle, realistic tactile interaction */
+button, a, input, select, textarea {
+  transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+  transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+  transition-duration: 150ms;
 }
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
+/* Realistic tactile card styling */
+.tactile-card {
+  background: var(--paper);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
 }
 
-.animate-float {
-  animation: float 3s ease-in-out infinite;
+.tactile-card:hover {
+  border-color: #D6CEBF;
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* Realistic button styling */
+.tactile-button-primary {
+  background: var(--color-primary);
+  color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-button-primary);
+}
+
+.tactile-button-primary:hover {
+  background: var(--color-primary-hover);
+}
+
+.tactile-button-primary:active {
+  transform: translateY(1px);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.tactile-button-secondary {
+  background: #FFFFFF;
+  color: var(--foreground);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-button-secondary);
+}
+
+.tactile-button-secondary:hover {
+  background: #F9F7F4;
+  border-color: #D6CEBF;
+}
+
+.tactile-button-secondary:active {
+  transform: translateY(1px);
+  background: #F2EFEA;
 }

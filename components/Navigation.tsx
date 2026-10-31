@@ -18,69 +18,39 @@ const navigationItems: NavigationItem[] = [
   { href: '/add', label: 'Add', requiresAuth: true },
 ];
 
-function getNavLinkClassName(isActive: boolean, isDisabled: boolean): string {
-  const baseClasses = 'px-4 py-2 text-sm font-medium transition-colors';
-  const disabledClasses = 'cursor-not-allowed opacity-50';
-  
-  return `${baseClasses} ${isDisabled ? disabledClasses : ''}`;
-}
-
-function getNavLinkStyle(isActive: boolean, isDisabled: boolean): React.CSSProperties {
-  return {
-    borderRadius: 'var(--radius-base)',
-    color: isDisabled 
-      ? 'var(--color-foreground-secondary)' 
-      : isActive 
-        ? 'var(--color-primary)' 
-        : 'var(--color-foreground-secondary)',
-    backgroundColor: isActive && !isDisabled ? 'var(--color-accent-blush)' : 'transparent',
-  };
-}
-
 export default function Navigation() {
   const pathname = usePathname();
   const { data: session } = useSession();
   const isAuthenticated = !!session;
 
   return (
-    <nav className="flex gap-1">
+    <nav className="flex items-center gap-1 rounded-full p-1" style={{ background: '#EFEBE2' }}>
       {navigationItems.map((item) => {
         const isActive = pathname === item.href;
         const isDisabled = !!(item.requiresAuth && !isAuthenticated);
-        const tooltipText = isDisabled 
-          ? 'Showing data for bashdemy. Login to add your own items.' 
+        const tooltipText = isDisabled
+          ? 'Showing public data. Sign in to add your own books.'
           : undefined;
 
         if (isDisabled) {
           return (
-            <div
-              key={item.href}
-              className="group relative inline-block"
-              title={tooltipText}
-            >
+            <div key={item.href} className="group relative inline-block">
               <span
-                className={getNavLinkClassName(isActive, isDisabled)}
-                style={{
-                  ...getNavLinkStyle(isActive, isDisabled),
-                  display: 'inline-block',
-                }}
+                className="inline-block cursor-not-allowed rounded-full px-3.5 py-1.5 text-xs font-medium opacity-50"
+                style={{ color: 'var(--color-foreground-secondary)' }}
               >
                 {item.label}
               </span>
               {tooltipText && (
                 <div
-                  className="absolute top-full left-1/2 mt-2 hidden -translate-x-1/2 whitespace-nowrap rounded px-3 py-1.5 text-xs group-hover:block z-50"
+                  className="absolute top-full left-1/2 z-50 mt-2 hidden -translate-x-1/2 whitespace-nowrap rounded-md px-2.5 py-1 text-xs group-hover:block"
                   style={{
-                    background: 'var(--color-foreground)',
-                    color: 'var(--color-paper)',
-                    boxShadow: 'var(--shadow-lg)',
+                    background: '#1D1B18',
+                    color: '#FFFFFF',
+                    boxShadow: 'var(--shadow-md)',
                   }}
                 >
                   {tooltipText}
-                  <div
-                    className="absolute left-1/2 bottom-full h-2 w-2 -translate-x-1/2 rotate-45"
-                    style={{ background: 'var(--color-foreground)' }}
-                  />
                 </div>
               )}
             </div>
@@ -91,8 +61,13 @@ export default function Navigation() {
           <Link
             key={item.href}
             href={item.href}
-            className={getNavLinkClassName(isActive, isDisabled)}
-            style={getNavLinkStyle(isActive, isDisabled)}
+            className="rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors"
+            style={{
+              background: isActive ? '#FFFFFF' : 'transparent',
+              color: isActive ? 'var(--color-foreground)' : 'var(--color-foreground-secondary)',
+              fontWeight: isActive ? 600 : 500,
+              boxShadow: isActive ? '0 1px 2px rgba(26, 23, 20, 0.08)' : 'none',
+            }}
           >
             {item.label}
           </Link>
@@ -101,4 +76,3 @@ export default function Navigation() {
     </nav>
   );
 }
-

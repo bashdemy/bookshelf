@@ -65,6 +65,7 @@ export default function ReadingItemCard({
   });
 
   const yearAndPages = formatYearAndPages(item.year, item.pages);
+  const isBook = item.type === 'book';
 
   const handleSaveEdit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -146,17 +147,17 @@ export default function ReadingItemCard({
   if (isEditing) {
     return (
       <article
-        className="flex h-full flex-col overflow-hidden p-6"
+        className="flex h-full flex-col p-6"
         style={{
           borderRadius: 'var(--radius-lg)',
-          border: '2px solid var(--color-primary)',
-          background: 'var(--color-paper)',
+          border: '1px solid var(--color-primary)',
+          background: 'var(--paper)',
           boxShadow: 'var(--shadow-lg)',
         }}
       >
-        <form onSubmit={handleSaveEdit} className="flex flex-1 flex-col space-y-3 text-sm">
+        <form onSubmit={handleSaveEdit} className="flex flex-1 flex-col space-y-3 text-xs">
           <div className="flex items-center justify-between border-b pb-2" style={{ borderColor: 'var(--color-divider)' }}>
-            <span className="font-bold" style={{ color: 'var(--color-primary)' }}>
+            <span className="font-bold uppercase tracking-wider" style={{ color: 'var(--color-primary)' }}>
               Edit Reading Item
             </span>
             <select
@@ -164,7 +165,7 @@ export default function ReadingItemCard({
               onChange={(e) => setEditForm({ ...editForm, type: e.target.value as ReadingItemType })}
               className="bg-white px-2 py-1 text-xs font-semibold"
               style={{
-                borderRadius: 'var(--radius-base)',
+                borderRadius: 'var(--radius-sm)',
                 border: '1px solid var(--color-divider)',
                 color: 'var(--color-foreground)',
               }}
@@ -175,13 +176,13 @@ export default function ReadingItemCard({
           </div>
 
           {error && (
-            <div className="rounded border border-red-300 bg-red-50 p-2 text-xs text-red-700">
+            <div className="rounded border border-red-200 bg-red-50 p-2 text-xs text-red-700">
               {error}
             </div>
           )}
 
           <div>
-            <label className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-primary)' }}>
+            <label className="mb-1 block font-semibold" style={{ color: 'var(--color-foreground)' }}>
               Title *
             </label>
             <input
@@ -189,9 +190,9 @@ export default function ReadingItemCard({
               required
               value={editForm.title}
               onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
-              className="w-full bg-white px-3 py-1.5 text-sm"
+              className="w-full bg-white px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
               style={{
-                borderRadius: 'var(--radius-base)',
+                borderRadius: 'var(--radius-sm)',
                 border: '1px solid var(--color-divider)',
               }}
             />
@@ -199,22 +200,22 @@ export default function ReadingItemCard({
 
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-primary)' }}>
+              <label className="mb-1 block font-semibold" style={{ color: 'var(--color-foreground)' }}>
                 Author
               </label>
               <input
                 type="text"
                 value={editForm.author}
                 onChange={(e) => setEditForm({ ...editForm, author: e.target.value })}
-                className="w-full bg-white px-3 py-1.5 text-sm"
+                className="w-full bg-white px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
                 style={{
-                  borderRadius: 'var(--radius-base)',
+                  borderRadius: 'var(--radius-sm)',
                   border: '1px solid var(--color-divider)',
                 }}
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-primary)' }}>
+              <label className="mb-1 block font-semibold" style={{ color: 'var(--color-foreground)' }}>
                 {editForm.type === 'book' ? 'Pages' : 'Publication'}
               </label>
               {editForm.type === 'book' ? (
@@ -222,9 +223,9 @@ export default function ReadingItemCard({
                   type="number"
                   value={editForm.pages}
                   onChange={(e) => setEditForm({ ...editForm, pages: e.target.value })}
-                  className="w-full bg-white px-3 py-1.5 text-sm"
+                  className="w-full bg-white px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
                   style={{
-                    borderRadius: 'var(--radius-base)',
+                    borderRadius: 'var(--radius-sm)',
                     border: '1px solid var(--color-divider)',
                   }}
                 />
@@ -233,9 +234,9 @@ export default function ReadingItemCard({
                   type="text"
                   value={editForm.publication}
                   onChange={(e) => setEditForm({ ...editForm, publication: e.target.value })}
-                  className="w-full bg-white px-3 py-1.5 text-sm"
+                  className="w-full bg-white px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
                   style={{
-                    borderRadius: 'var(--radius-base)',
+                    borderRadius: 'var(--radius-sm)',
                     border: '1px solid var(--color-divider)',
                   }}
                 />
@@ -245,31 +246,31 @@ export default function ReadingItemCard({
 
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-primary)' }}>
+              <label className="mb-1 block font-semibold" style={{ color: 'var(--color-foreground)' }}>
                 Year
               </label>
               <input
                 type="number"
                 value={editForm.year}
                 onChange={(e) => setEditForm({ ...editForm, year: e.target.value })}
-                className="w-full bg-white px-3 py-1.5 text-sm"
+                className="w-full bg-white px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
                 style={{
-                  borderRadius: 'var(--radius-base)',
+                  borderRadius: 'var(--radius-sm)',
                   border: '1px solid var(--color-divider)',
                 }}
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-primary)' }}>
+              <label className="mb-1 block font-semibold" style={{ color: 'var(--color-foreground)' }}>
                 Genre
               </label>
               <input
                 type="text"
                 value={editForm.genre}
                 onChange={(e) => setEditForm({ ...editForm, genre: e.target.value })}
-                className="w-full bg-white px-3 py-1.5 text-sm"
+                className="w-full bg-white px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
                 style={{
-                  borderRadius: 'var(--radius-base)',
+                  borderRadius: 'var(--radius-sm)',
                   border: '1px solid var(--color-divider)',
                 }}
               />
@@ -278,7 +279,7 @@ export default function ReadingItemCard({
 
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-primary)' }}>
+              <label className="mb-1 block font-semibold" style={{ color: 'var(--color-foreground)' }}>
                 Read Date *
               </label>
               <input
@@ -286,15 +287,15 @@ export default function ReadingItemCard({
                 required
                 value={editForm.readDate}
                 onChange={(e) => setEditForm({ ...editForm, readDate: e.target.value })}
-                className="w-full bg-white px-3 py-1.5 text-sm"
+                className="w-full bg-white px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
                 style={{
-                  borderRadius: 'var(--radius-base)',
+                  borderRadius: 'var(--radius-sm)',
                   border: '1px solid var(--color-divider)',
                 }}
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-primary)' }}>
+              <label className="mb-1 block font-semibold" style={{ color: 'var(--color-foreground)' }}>
                 Rating
               </label>
               <div className="flex items-center gap-1 pt-1">
@@ -311,7 +312,7 @@ export default function ReadingItemCard({
                           rating: String(value === currentRating ? '' : value),
                         })
                       }
-                      className="text-lg transition-transform hover:scale-110"
+                      className="text-base transition-transform active:scale-95"
                     >
                       {isFilled ? '❤️' : '🤍'}
                     </button>
@@ -322,7 +323,7 @@ export default function ReadingItemCard({
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-primary)' }}>
+            <label className="mb-1 block font-semibold" style={{ color: 'var(--color-foreground)' }}>
               Link / URL
             </label>
             <input
@@ -330,41 +331,41 @@ export default function ReadingItemCard({
               value={editForm.url}
               onChange={(e) => setEditForm({ ...editForm, url: e.target.value })}
               placeholder="https://..."
-              className="w-full bg-white px-3 py-1.5 text-sm"
+              className="w-full bg-white px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
               style={{
-                borderRadius: 'var(--radius-base)',
+                borderRadius: 'var(--radius-sm)',
                 border: '1px solid var(--color-divider)',
               }}
             />
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-primary)' }}>
+            <label className="mb-1 block font-semibold" style={{ color: 'var(--color-foreground)' }}>
               Tags (comma-separated)
             </label>
             <input
               type="text"
               value={editForm.tags}
               onChange={(e) => setEditForm({ ...editForm, tags: e.target.value })}
-              className="w-full bg-white px-3 py-1.5 text-sm"
+              className="w-full bg-white px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
               style={{
-                borderRadius: 'var(--radius-base)',
+                borderRadius: 'var(--radius-sm)',
                 border: '1px solid var(--color-divider)',
               }}
             />
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-primary)' }}>
+            <label className="mb-1 block font-semibold" style={{ color: 'var(--color-foreground)' }}>
               Description
             </label>
             <textarea
               value={editForm.description}
               onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
               rows={2}
-              className="w-full bg-white px-3 py-1.5 text-sm"
+              className="w-full bg-white px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
               style={{
-                borderRadius: 'var(--radius-base)',
+                borderRadius: 'var(--radius-sm)',
                 border: '1px solid var(--color-divider)',
               }}
             />
@@ -377,9 +378,8 @@ export default function ReadingItemCard({
                 setIsEditing(false);
                 setError(null);
               }}
-              className="flex-1 bg-white px-3 py-2 text-xs font-bold"
+              className="flex-1 rounded-md bg-white px-3 py-2 text-xs font-semibold"
               style={{
-                borderRadius: 'var(--radius-base)',
                 border: '1px solid var(--color-divider)',
                 color: 'var(--color-foreground-secondary)',
               }}
@@ -389,10 +389,10 @@ export default function ReadingItemCard({
             <button
               type="submit"
               disabled={isSaving}
-              className="flex-1 px-3 py-2 text-xs font-bold text-white disabled:opacity-50"
+              className="flex-1 rounded-md px-3 py-2 text-xs font-bold text-white disabled:opacity-50"
               style={{
-                borderRadius: 'var(--radius-base)',
                 background: 'var(--color-primary)',
+                boxShadow: 'var(--shadow-button-primary)',
               }}
             >
               {isSaving ? 'Saving...' : 'Save Changes'}
@@ -408,68 +408,66 @@ export default function ReadingItemCard({
       className="group relative flex h-full flex-col overflow-hidden p-6 transition-all"
       style={{ 
         borderRadius: 'var(--radius-lg)',
-        border: '1px solid var(--color-divider)',
-        background: 'var(--color-paper)',
-        boxShadow: 'var(--shadow-sm)',
+        border: '1px solid var(--color-border)',
+        borderLeft: isBook ? '4px solid var(--color-primary)' : '4px solid var(--color-secondary)',
+        background: 'var(--paper)',
+        boxShadow: 'var(--shadow-card)',
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = 'var(--shadow-xl)';
-        e.currentTarget.style.background = 'var(--color-accent-blush)';
+        e.currentTarget.style.boxShadow = 'var(--shadow-card-hover)';
+        e.currentTarget.style.borderColor = '#D6CEBF';
+        if (isBook) e.currentTarget.style.borderLeftColor = 'var(--color-primary)';
+        else e.currentTarget.style.borderLeftColor = 'var(--color-secondary)';
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
-        e.currentTarget.style.background = 'var(--color-paper)';
+        e.currentTarget.style.boxShadow = 'var(--shadow-card)';
+        e.currentTarget.style.borderColor = 'var(--color-border)';
+        if (isBook) e.currentTarget.style.borderLeftColor = 'var(--color-primary)';
+        else e.currentTarget.style.borderLeftColor = 'var(--color-secondary)';
       }}
     >
       <div className="relative flex flex-1 flex-col">
-        <div className="mb-4 flex items-start justify-between gap-3">
+        <div className="mb-3 flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
-            <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-              <div className="flex flex-wrap items-center gap-2">
+            <div className="mb-2.5 flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
                 <span 
-                  className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold"
+                  className="inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider"
                   style={{ 
-                    borderRadius: 'var(--radius-full)',
-                    background: item.type === 'book' ? 'var(--color-accent-blush)' : 'var(--color-accent-lavender)',
-                    color: 'var(--color-accent-plum)',
+                    background: isBook ? 'var(--color-primary-soft)' : 'var(--color-secondary-soft)',
+                    color: isBook ? 'var(--color-primary-text)' : 'var(--color-secondary-text)',
                   }}
                 >
                   {getTypeLabel(item.type)}
                 </span>
                 {item.rating && (
-                  <span className="text-base leading-none" style={{ color: 'var(--color-primary)' }}>
+                  <span className="text-sm leading-none" title={`${item.rating}/5`}>
                     {renderRatingHearts(item.rating)}
                   </span>
                 )}
               </div>
 
               {canEdit && !isConfirmingDelete && (
-                <div className="flex items-center gap-1 opacity-80 transition-opacity group-hover:opacity-100">
+                <div className="flex items-center gap-1 opacity-70 transition-opacity group-hover:opacity-100">
                   <button
                     type="button"
                     onClick={() => setIsEditing(true)}
                     title="Edit item"
                     aria-label={`Edit ${item.title}`}
-                    className="px-2 py-1 text-xs font-medium transition-colors hover:bg-white/80"
-                    style={{
-                      borderRadius: 'var(--radius-base)',
-                      color: 'var(--color-accent-plum)',
-                    }}
+                    className="rounded px-2 py-0.5 text-xs font-medium hover:bg-[#F2EDE4]"
+                    style={{ color: 'var(--color-foreground-secondary)' }}
                   >
-                    ✏️ Edit
+                    Edit
                   </button>
                   <button
                     type="button"
                     onClick={() => setIsConfirmingDelete(true)}
                     title="Delete item"
                     aria-label={`Delete ${item.title}`}
-                    className="px-2 py-1 text-xs font-medium transition-colors hover:bg-white/80"
-                    style={{
-                      borderRadius: 'var(--radius-base)',
-                      color: 'var(--color-error)',
-                    }}
+                    className="rounded px-2 py-0.5 text-xs font-medium hover:bg-red-50"
+                    style={{ color: 'var(--color-error)' }}
                   >
-                    🗑️
+                    Delete
                   </button>
                 </div>
               )}
@@ -477,14 +475,13 @@ export default function ReadingItemCard({
 
             {isConfirmingDelete && (
               <div
-                className="mb-3 flex items-center justify-between gap-2 p-2.5 text-xs"
+                className="mb-3 flex items-center justify-between gap-2 rounded-md p-2.5 text-xs"
                 style={{
-                  borderRadius: 'var(--radius-base)',
-                  background: 'white',
-                  border: '1px solid var(--color-error)',
+                  background: '#FFF5F5',
+                  border: '1px solid #F5C6CB',
                 }}
               >
-                <span className="font-medium" style={{ color: 'var(--color-error)' }}>
+                <span className="font-semibold text-red-800">
                   Delete this item?
                 </span>
                 <div className="flex gap-1.5">
@@ -492,11 +489,7 @@ export default function ReadingItemCard({
                     type="button"
                     onClick={() => setIsConfirmingDelete(false)}
                     disabled={isDeleting}
-                    className="px-2 py-1 font-semibold"
-                    style={{
-                      borderRadius: 'var(--radius-base)',
-                      color: 'var(--color-foreground-secondary)',
-                    }}
+                    className="rounded px-2 py-1 font-semibold text-gray-600 hover:bg-gray-100"
                   >
                     Cancel
                   </button>
@@ -504,11 +497,7 @@ export default function ReadingItemCard({
                     type="button"
                     onClick={handleDelete}
                     disabled={isDeleting}
-                    className="px-2.5 py-1 font-bold text-white"
-                    style={{
-                      borderRadius: 'var(--radius-base)',
-                      background: 'var(--color-error)',
-                    }}
+                    className="rounded bg-red-700 px-2.5 py-1 font-bold text-white hover:bg-red-800"
                   >
                     {isDeleting ? 'Deleting...' : 'Delete'}
                   </button>
@@ -517,12 +506,12 @@ export default function ReadingItemCard({
             )}
 
             {error && (
-              <p className="mb-2 text-xs" style={{ color: 'var(--color-error)' }}>
+              <p className="mb-2 text-xs text-red-700">
                 {error}
               </p>
             )}
 
-            <h3 className="mb-3 line-clamp-2 text-xl font-bold leading-snug" style={{ color: 'var(--color-foreground)' }}>
+            <h3 className="mb-2 text-lg font-bold leading-snug tracking-tight" style={{ color: 'var(--color-foreground)' }}>
               {item.url ? (
                 <a
                   href={item.url}
@@ -530,7 +519,7 @@ export default function ReadingItemCard({
                   rel="noopener noreferrer"
                   className="hover:underline"
                 >
-                  {item.title} <span className="text-sm font-normal opacity-75">↗</span>
+                  {item.title} <span className="text-xs font-normal opacity-60">↗</span>
                 </a>
               ) : (
                 item.title
@@ -539,49 +528,60 @@ export default function ReadingItemCard({
           </div>
         </div>
 
-        <div className="mb-4 flex-1 space-y-2 text-sm leading-relaxed">
+        <div className="mb-4 flex-1 space-y-1.5 text-xs leading-relaxed">
           {item.author && (
-            <div className="flex items-start gap-2">
-              <span className="font-semibold" style={{ color: 'var(--color-foreground-secondary)' }}>Author:</span>
-              <span style={{ color: 'var(--color-foreground)' }}>{item.author}</span>
+            <div className="flex items-baseline gap-1.5">
+              <span className="font-semibold uppercase tracking-wider text-[10px]" style={{ color: 'var(--color-foreground-secondary)' }}>
+                Author
+              </span>
+              <span className="font-medium" style={{ color: 'var(--color-foreground)' }}>{item.author}</span>
             </div>
           )}
           {item.publication && (
-            <div className="flex items-start gap-2">
-              <span className="font-semibold" style={{ color: 'var(--color-foreground-secondary)' }}>Publication:</span>
-              <span style={{ color: 'var(--color-foreground)' }}>{item.publication}</span>
+            <div className="flex items-baseline gap-1.5">
+              <span className="font-semibold uppercase tracking-wider text-[10px]" style={{ color: 'var(--color-foreground-secondary)' }}>
+                Publication
+              </span>
+              <span className="font-medium" style={{ color: 'var(--color-foreground)' }}>{item.publication}</span>
             </div>
           )}
           {yearAndPages && (
-            <p style={{ color: 'var(--color-foreground-secondary)' }}>{yearAndPages}</p>
+            <p className="font-medium" style={{ color: 'var(--color-foreground-secondary)' }}>
+              {yearAndPages}
+            </p>
           )}
           {item.genre && (
-            <div className="flex items-start gap-2">
-              <span className="font-semibold" style={{ color: 'var(--color-foreground-secondary)' }}>Genre:</span>
-              <span className="capitalize" style={{ color: 'var(--color-foreground)' }}>{item.genre}</span>
+            <div className="flex items-baseline gap-1.5">
+              <span className="font-semibold uppercase tracking-wider text-[10px]" style={{ color: 'var(--color-foreground-secondary)' }}>
+                Genre
+              </span>
+              <span className="font-medium capitalize" style={{ color: 'var(--color-foreground)' }}>{item.genre}</span>
             </div>
           )}
           {item.description && (
             <p
-              className="mt-2 line-clamp-3 text-sm italic leading-relaxed"
-              style={{ color: 'var(--color-foreground-secondary)' }}
+              className="mt-2.5 border-l-2 pl-2.5 text-xs italic leading-relaxed"
+              style={{
+                borderColor: 'var(--color-divider)',
+                color: 'var(--color-foreground-secondary)',
+              }}
             >
-              {item.description}
+              &ldquo;{item.description}&rdquo;
             </p>
           )}
         </div>
 
-        <div className="mt-auto border-t pt-4" style={{ borderColor: 'var(--color-divider)' }}>
-          <div className="flex items-center justify-between gap-2">
-            <p className="text-xs font-medium" style={{ color: 'var(--color-foreground-secondary)' }}>
-              Read on <span style={{ color: 'var(--color-secondary)' }}>{formatReadDate(item.readDate)}</span>
-            </p>
+        <div className="mt-auto border-t pt-3" style={{ borderColor: 'var(--color-divider)' }}>
+          <div className="flex items-center justify-between text-[11px]">
+            <span style={{ color: 'var(--color-foreground-secondary)' }}>
+              Read on <span className="font-semibold" style={{ color: 'var(--color-foreground)' }}>{formatReadDate(item.readDate)}</span>
+            </span>
             {item.url && (
               <a
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs font-semibold hover:underline"
+                className="font-semibold hover:underline"
                 style={{ color: 'var(--color-secondary)' }}
               >
                 Source ↗
@@ -589,7 +589,7 @@ export default function ReadingItemCard({
             )}
           </div>
           {item.tags && item.tags.length > 0 && (
-            <div className="mt-3 flex flex-wrap gap-1.5">
+            <div className="mt-2.5 flex flex-wrap gap-1">
               {item.tags.map((tag) => {
                 const isSelected = activeTag === tag;
                 return (
@@ -597,13 +597,13 @@ export default function ReadingItemCard({
                     key={tag}
                     type="button"
                     onClick={() => onTagClick && onTagClick(tag)}
-                    className={`px-2.5 py-1 text-xs font-medium transition-colors ${
-                      onTagClick ? 'cursor-pointer hover:opacity-80' : 'cursor-default'
+                    className={`rounded-md px-2 py-0.5 text-[11px] font-medium transition-all ${
+                      onTagClick ? 'cursor-pointer hover:border-[#C8BFB0]' : 'cursor-default'
                     }`}
                     style={{ 
-                      borderRadius: 'var(--radius-base)',
-                      background: isSelected ? 'var(--color-secondary)' : 'var(--color-accent-lavender)',
-                      color: isSelected ? 'white' : 'var(--color-accent-plum)',
+                      background: isSelected ? 'var(--color-secondary)' : 'var(--color-tag-bg)',
+                      color: isSelected ? '#FFFFFF' : 'var(--color-tag-text)',
+                      border: '1px solid rgba(0, 0, 0, 0.05)',
                     }}
                   >
                     #{tag}

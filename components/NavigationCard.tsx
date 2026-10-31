@@ -8,43 +8,42 @@ interface NavigationCardProps {
   title: string;
   description: string;
   accentColor?: 'primary' | 'secondary';
-  accentBg?: 'blush' | 'lavender';
 }
 
 export default function NavigationCard({ 
   href, 
   icon, 
   title, 
-  description, 
-  accentColor = 'primary',
-  accentBg = 'blush',
+  description,
 }: NavigationCardProps) {
-  const colorVar = accentColor === 'primary' ? 'var(--color-primary)' : 'var(--color-secondary)';
-  const bgVar = accentBg === 'blush' ? 'var(--color-accent-blush)' : 'var(--color-accent-lavender)';
-
   return (
     <Link
       href={href}
-      className="group p-6 text-center transition-all"
+      className="group relative flex flex-col items-center p-6 text-center transition-all active:translate-y-0"
       style={{ 
         borderRadius: 'var(--radius-lg)',
-        border: '1px solid var(--color-divider)',
-        background: 'var(--color-paper)',
-        boxShadow: 'var(--shadow-sm)',
+        border: '1px solid var(--color-border)',
+        background: 'var(--paper)',
+        boxShadow: 'var(--shadow-card)',
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = 'var(--shadow-xl)';
-        e.currentTarget.style.background = bgVar;
+        e.currentTarget.style.boxShadow = 'var(--shadow-card-hover)';
+        e.currentTarget.style.borderColor = '#D6CEBF';
+        e.currentTarget.style.transform = 'translateY(-2px)';
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
-        e.currentTarget.style.background = 'var(--color-paper)';
+        e.currentTarget.style.boxShadow = 'var(--shadow-card)';
+        e.currentTarget.style.borderColor = 'var(--color-border)';
+        e.currentTarget.style.transform = 'translateY(0)';
       }}
     >
-      <div className="mb-2 text-4xl">{icon}</div>
-      <h3 className="mb-1 text-lg font-semibold" style={{ color: colorVar }}>{title}</h3>
-      <p className="text-sm" style={{ color: 'var(--color-foreground-secondary)' }}>{description}</p>
+      <div className="mb-3 text-3xl">{icon}</div>
+      <h3 className="mb-1 text-base font-bold tracking-tight" style={{ color: 'var(--color-foreground)' }}>
+        {title}
+      </h3>
+      <p className="text-xs font-medium" style={{ color: 'var(--color-foreground-secondary)' }}>
+        {description}
+      </p>
     </Link>
   );
 }
-

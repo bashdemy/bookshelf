@@ -62,26 +62,27 @@ function LoginForm() {
 
   return (
     <div
-      className="w-full max-w-md p-8"
+      className="w-full max-w-sm p-7"
       style={{
         borderRadius: 'var(--radius-lg)',
-        border: '1px solid var(--color-divider)',
-        background: 'var(--color-paper)',
-        boxShadow: 'var(--shadow-md)',
+        border: '1px solid var(--color-border)',
+        background: 'var(--paper)',
+        boxShadow: 'var(--shadow-card)',
       }}
     >
       <div className="mb-6 text-center">
-        <h1 className="text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>
-          🌸 Bookshelf
+        <h1 className="flex items-center justify-center gap-2 text-2xl font-bold tracking-tight" style={{ color: 'var(--color-foreground)' }}>
+          <span>🌸</span>
+          <span>Bookshelf</span>
         </h1>
-        <p className="mt-1 text-sm" style={{ color: 'var(--color-foreground-secondary)' }}>
-          {mode === 'signin' ? 'Sign in to your personal library' : 'Create your personal bookshelf account'}
+        <p className="mt-1 text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
+          {mode === 'signin' ? 'Sign in to your personal archive' : 'Create your reading profile'}
         </p>
       </div>
 
       <div
-        className="mb-6 flex rounded-full p-1"
-        style={{ background: 'var(--color-background)', border: '1px solid var(--color-divider)' }}
+        className="mb-5 flex rounded-full p-1"
+        style={{ background: '#EFEBE2' }}
       >
         <button
           type="button"
@@ -89,11 +90,11 @@ function LoginForm() {
             setMode('signin');
             setError(null);
           }}
-          className="flex-1 py-1.5 text-xs font-bold transition-all"
+          className="flex-1 rounded-full py-1.5 text-xs font-semibold transition-all"
           style={{
-            borderRadius: 'var(--radius-full)',
-            background: mode === 'signin' ? 'var(--color-primary)' : 'transparent',
-            color: mode === 'signin' ? 'white' : 'var(--color-foreground-secondary)',
+            background: mode === 'signin' ? '#FFFFFF' : 'transparent',
+            color: mode === 'signin' ? 'var(--color-foreground)' : 'var(--color-foreground-secondary)',
+            boxShadow: mode === 'signin' ? '0 1px 2px rgba(26, 23, 20, 0.08)' : 'none',
           }}
         >
           Sign In
@@ -104,11 +105,11 @@ function LoginForm() {
             setMode('register');
             setError(null);
           }}
-          className="flex-1 py-1.5 text-xs font-bold transition-all"
+          className="flex-1 rounded-full py-1.5 text-xs font-semibold transition-all"
           style={{
-            borderRadius: 'var(--radius-full)',
-            background: mode === 'register' ? 'var(--color-primary)' : 'transparent',
-            color: mode === 'register' ? 'white' : 'var(--color-foreground-secondary)',
+            background: mode === 'register' ? '#FFFFFF' : 'transparent',
+            color: mode === 'register' ? 'var(--color-foreground)' : 'var(--color-foreground-secondary)',
+            boxShadow: mode === 'register' ? '0 1px 2px rgba(26, 23, 20, 0.08)' : 'none',
           }}
         >
           Create Account
@@ -117,23 +118,22 @@ function LoginForm() {
 
       {error && (
         <div
-          className="mb-5 rounded-lg border p-3 text-xs"
+          className="mb-4 rounded-md border p-2.5 text-xs text-red-800"
           style={{
-            borderColor: 'var(--color-error)',
-            background: 'rgba(208, 74, 90, 0.08)',
-            color: 'var(--color-error)',
+            borderColor: '#F5C6CB',
+            background: '#FFF5F5',
           }}
         >
           {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-3.5">
         <div>
           <label
             htmlFor="username"
             className="mb-1 block text-xs font-semibold"
-            style={{ color: 'var(--color-primary)' }}
+            style={{ color: 'var(--color-foreground)' }}
           >
             Username *
           </label>
@@ -145,11 +145,11 @@ function LoginForm() {
             autoCorrect="off"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            placeholder="e.g., maria"
-            className="w-full bg-white px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2"
+            placeholder="e.g., bashdemy"
+            className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
             style={{
               borderRadius: 'var(--radius-base)',
-              border: '1px solid var(--color-divider)',
+              border: '1px solid var(--color-border)',
               color: 'var(--color-foreground)',
             }}
           />
@@ -160,7 +160,7 @@ function LoginForm() {
             <label
               htmlFor="displayName"
               className="mb-1 block text-xs font-semibold"
-              style={{ color: 'var(--color-primary)' }}
+              style={{ color: 'var(--color-foreground)' }}
             >
               Display Name (optional)
             </label>
@@ -169,11 +169,11 @@ function LoginForm() {
               type="text"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
-              placeholder="e.g., Maria K."
-              className="w-full bg-white px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2"
+              placeholder="e.g., Maria"
+              className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
               style={{
                 borderRadius: 'var(--radius-base)',
-                border: '1px solid var(--color-divider)',
+                border: '1px solid var(--color-border)',
                 color: 'var(--color-foreground)',
               }}
             />
@@ -184,7 +184,7 @@ function LoginForm() {
           <label
             htmlFor="password"
             className="mb-1 block text-xs font-semibold"
-            style={{ color: 'var(--color-primary)' }}
+            style={{ color: 'var(--color-foreground)' }}
           >
             Password *
           </label>
@@ -195,10 +195,10 @@ function LoginForm() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder={mode === 'register' ? 'At least 6 characters' : 'Enter your password'}
-            className="w-full bg-white px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2"
+            className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
             style={{
               borderRadius: 'var(--radius-base)',
-              border: '1px solid var(--color-divider)',
+              border: '1px solid var(--color-border)',
               color: 'var(--color-foreground)',
             }}
           />
@@ -207,16 +207,15 @@ function LoginForm() {
         <button
           type="submit"
           disabled={isSubmitting || !username.trim() || !password}
-          className="mt-2 w-full px-4 py-3 text-sm font-bold text-white transition-all disabled:opacity-50"
+          className="mt-2 w-full rounded-md py-2.5 text-xs font-bold text-white transition-all active:translate-y-[1px] disabled:opacity-50"
           style={{
-            borderRadius: 'var(--radius-base)',
-            background: 'var(--gradient-primary)',
-            boxShadow: 'var(--shadow-primary)',
+            background: 'var(--color-primary)',
+            boxShadow: 'var(--shadow-button-primary)',
           }}
         >
           {isSubmitting
             ? mode === 'signin'
-              ? 'Signing in...'
+              ? 'Authenticating...'
               : 'Creating account...'
             : mode === 'signin'
               ? 'Sign In'
@@ -224,9 +223,9 @@ function LoginForm() {
         </button>
       </form>
 
-      <div className="mt-6 text-center text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
-        <Link href="/" className="hover:underline" style={{ color: 'var(--color-secondary)' }}>
-          ← Back to public library
+      <div className="mt-5 text-center text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
+        <Link href="/" className="hover:underline" style={{ color: 'var(--color-foreground-secondary)' }}>
+          ← Back to library
         </Link>
       </div>
     </div>
@@ -236,7 +235,7 @@ function LoginForm() {
 export default function LoginPage() {
   return (
     <main className="mx-auto flex min-h-[75vh] max-w-7xl items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-      <Suspense fallback={<div className="text-sm">Loading...</div>}>
+      <Suspense fallback={<div className="text-xs">Loading...</div>}>
         <LoginForm />
       </Suspense>
     </main>
