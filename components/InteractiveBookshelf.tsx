@@ -45,10 +45,7 @@ export default function InteractiveBookshelf({
   const [zoomedCubby, setZoomedCubby] = useState<string | null>(null);
   const [selectedGenre, setSelectedGenre] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [hoveredBook, setHoveredBook] = useState<PhysicalBook | null>(null);
   const [selectedBook, setSelectedBook] = useState<PhysicalBook | null>(null);
-  const [hoveredCubbyHotspot, setHoveredCubbyHotspot] = useState<string | null>(null);
-  const [spotlightPos, setSpotlightPos] = useState<{ x: number; y: number } | null>(null);
   const [copiedTitle, setCopiedTitle] = useState(false);
   const [isTallerPhoto, setIsTallerPhoto] = useState<boolean>(true);
   const [drawerMode, setDrawerMode] = useState<'stack' | 'grid'>('stack');
@@ -91,24 +88,11 @@ export default function InteractiveBookshelf({
     );
     if (matched) {
       setActiveCubby(matched.cubby);
-      setHoveredBook(matched);
+      setSelectedBook(matched);
     }
   }, [searchQuery]);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!photoContainerRef.current) return;
-    const rect = photoContainerRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    setSpotlightPos({ x, y });
-  };
-
-  const handleMouseLeave = () => {
-    setSpotlightPos(null);
-    setHoveredCubbyHotspot(null);
-  };
-
-  const currentCubby = zoomedCubby || (activeCubby !== 'all' ? activeCubby : hoveredCubbyHotspot);
+  const currentCubby = zoomedCubby || (activeCubby !== 'all' ? activeCubby : null);
 
   const activeBooks = useMemo(() => {
     let list = PHYSICAL_SHELF_BOOKS;
@@ -121,7 +105,7 @@ export default function InteractiveBookshelf({
     return list;
   }, [currentCubby, booksByCubby, selectedGenre]);
 
-  const activeBook = hoveredBook || selectedBook;
+  const activeBook = selectedBook;
 
   const handleBookClick = (book: PhysicalBook) => {
     setSelectedBook((prev) => (prev?.id === book.id ? null : book));
@@ -268,9 +252,7 @@ export default function InteractiveBookshelf({
       <div className="relative p-4 sm:p-7">
         <div
           ref={photoContainerRef}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-          className={`relative w-full overflow-hidden rounded-2xl border border-pink-200 bg-pink-50/50 cursor-crosshair select-none transition-all duration-500 ${
+          className={`relative w-full overflow-hidden rounded-2xl border border-pink-200 bg-pink-50/50 select-none transition-all duration-500 ${
             isTallerPhoto
               ? 'h-[480px] sm:h-[620px] lg:h-[720px]'
               : 'aspect-[4/3] min-h-[360px] sm:min-h-[480px]'
@@ -296,20 +278,8 @@ export default function InteractiveBookshelf({
               sizes="(max-width: 1400px) 100vw, 1400px"
             />
 
-            {/* Dynamic Ambient Spotlight with Soft Rose Quartz Warmth */}
-            {spotlightPos && !zoomedCubby && (
-              <div
-                className="absolute inset-0 pointer-events-none transition-opacity duration-150"
-                style={{
-                  background: `radial-gradient(circle 240px at ${spotlightPos.x}% ${spotlightPos.y}%, rgba(255,200,225,0.35) 0%, rgba(244,63,94,0.1) 40%, rgba(0,0,0,0) 70%)`,
-                  mixBlendMode: 'screen',
-                }}
-              />
-            )}
-
             {/* Interactive Hotspot Frames (Glowing Pink Neon/Rose) */}
             {Object.entries(CUBBY_HOTSPOTS).map(([key, spot]) => {
-              const isHovered = hoveredCubbyHotspot === key;
               const isZoomed = zoomedCubby === key;
               const isFiltered = activeCubby === key;
               const books = booksByCubby[key] || [];
@@ -318,14 +288,10 @@ export default function InteractiveBookshelf({
                 <div
                   key={key}
                   onClick={() => handleCubbyClick(key)}
-                  onMouseEnter={() => setHoveredCubbyHotspot(key)}
-                  onMouseLeave={() => setHoveredCubbyHotspot(null)}
-                  className={`absolute rounded-xl transition-all duration-300 ${
-                    isZoomed
-                      ? 'border-2 border-pink-500 bg-pink-500/15 shadow-[0_0_35px_rgba(236,72,153,0.5)]'
-                      : isHovered || isFiltered
-                      ? 'border-2 border-pink-500 bg-pink-500/20 backdrop-brightness-105 shadow-[0_0_25px_rgba(236,72,153,0.4)]'
-                      : 'border border-pink-300/70 bg-white/10 hover:border-pink-500 hover:bg-pink-500/15'
+                  className={`group absolute rounded-xl transition-all duration-200 cursor-pointer ${
+                    isZoomed || isFiltered
+                      ? 'border-2 border-pink-500 bg-pink-500/20 shadow-[0_0_25px_rgba(236,72,153,0.35)]'
+                      : 'border border-pink-300/60 bg-white/10 hover:border-2 hover:border-pink-500 hover:bg-pink-500/15'
                   }`}
                   style={{
                     left: `${spot.x}%`,
@@ -424,23 +390,14 @@ export default function InteractiveBookshelf({
                 {copiedTitle ? '✓ Copied' : 'Copy'}
               </button>
 
-              {selectedBook?.id === activeBook.id ? (
-                <button
-                  type="button"
-                  onClick={() => setSelectedBook(null)}
-                  className="rounded-full px-3.5 py-1.5 text-xs font-bold text-pink-900 bg-pink-100 hover:bg-pink-200 border border-pink-300 shadow-2xs"
-                >
-                  Unpin
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => setSelectedBook(activeBook)}
-                  className="rounded-full px-3.5 py-1.5 text-xs font-bold text-white bg-pink-600 hover:bg-pink-500 shadow-md shadow-pink-600/30"
-                >
-                  Pin Volume
-                </button>
-              )}
+              <button
+                type="button"
+                onClick={() => setSelectedBook(null)}
+                className="rounded-full px-3 py-1.5 text-xs font-bold text-pink-700 bg-pink-100 hover:bg-pink-200 border border-pink-300 transition-colors"
+                title="Close volume preview"
+              >
+                ✕ Close
+              </button>
             </div>
           </div>
         </div>
@@ -536,23 +493,20 @@ export default function InteractiveBookshelf({
                   {activeBooks
                     .filter((b) => b.orientation === 'vertical')
                     .map((book) => {
-                      const isHovered = hoveredBook?.id === book.id;
                       const isSelected = selectedBook?.id === book.id;
                       return (
                         <div
                           key={book.id}
-                          onMouseEnter={() => setHoveredBook(book)}
-                          onMouseLeave={() => setHoveredBook(null)}
                           onClick={() => handleBookClick(book)}
-                          className={`group relative flex flex-col justify-between cursor-pointer rounded-lg px-2 py-3 transition-all duration-200 border w-12 sm:w-14 h-48 sm:h-56 select-none ${
-                            isHovered || isSelected
-                              ? '-translate-y-2 border-pink-500 shadow-lg shadow-pink-500/25'
-                              : 'border-pink-200/80 hover:border-pink-400'
+                          className={`group relative flex flex-col justify-between cursor-pointer rounded-lg px-2 py-3 transition-transform duration-150 border w-12 sm:w-14 h-48 sm:h-56 select-none ${
+                            isSelected
+                              ? '-translate-y-2 border-pink-500 shadow-lg shadow-pink-500/25 ring-2 ring-pink-400'
+                              : 'border-pink-200/80 hover:-translate-y-1 hover:border-pink-400'
                           }`}
                           style={{
                             backgroundColor: book.spineColor,
                             color: book.textColor,
-                            boxShadow: isHovered || isSelected ? '0 10px 25px rgba(236,72,153,0.3)' : undefined,
+                            boxShadow: isSelected ? '0 10px 25px rgba(236,72,153,0.3)' : undefined,
                           }}
                         >
                           <div className="text-[9px] font-mono opacity-80">{book.year}</div>
@@ -573,19 +527,16 @@ export default function InteractiveBookshelf({
                 {activeBooks
                   .filter((b) => b.orientation !== 'vertical' || !activeBooks.some((x) => x.orientation === 'vertical'))
                   .map((book, idx) => {
-                    const isHovered = hoveredBook?.id === book.id;
                     const isSelected = selectedBook?.id === book.id;
 
                     return (
                       <div
                         key={book.id}
-                        onMouseEnter={() => setHoveredBook(book)}
-                        onMouseLeave={() => setHoveredBook(null)}
                         onClick={() => handleBookClick(book)}
-                        className={`group relative flex cursor-pointer items-center justify-between rounded-xl px-4 py-2.5 sm:py-3 transition-all duration-200 border ${
-                          isHovered || isSelected
-                            ? 'translate-x-3 sm:translate-x-4 border-pink-500 shadow-md shadow-pink-500/20 z-10'
-                            : 'border-pink-200/70 hover:border-pink-400'
+                        className={`group relative flex cursor-pointer items-center justify-between rounded-xl px-4 py-2.5 sm:py-3 transition-transform duration-150 border ${
+                          isSelected
+                            ? 'translate-x-3 sm:translate-x-4 border-pink-500 shadow-md shadow-pink-500/20 ring-2 ring-pink-400 z-10'
+                            : 'border-pink-200/70 hover:translate-x-2 hover:border-pink-400'
                         }`}
                         style={{
                           backgroundColor: book.spineColor === '#F5F5F3' ? '#FBF9F4' : book.spineColor,
@@ -629,19 +580,16 @@ export default function InteractiveBookshelf({
           /* Spines Grid View with Light Theme */
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 max-h-[420px] overflow-y-auto pr-1">
             {activeBooks.map((book) => {
-              const isHovered = hoveredBook?.id === book.id;
               const isSelected = selectedBook?.id === book.id;
 
               return (
                 <div
                   key={book.id}
-                  onMouseEnter={() => setHoveredBook(book)}
-                  onMouseLeave={() => setHoveredBook(null)}
                   onClick={() => handleBookClick(book)}
-                  className={`group relative flex cursor-pointer items-center justify-between rounded-xl p-3 transition-all duration-200 border ${
-                    isHovered || isSelected
-                      ? '-translate-y-1 scale-[1.01] border-pink-500 bg-pink-50/80 shadow-md shadow-pink-500/15'
-                      : 'border-pink-200/80 bg-white hover:border-pink-400 hover:bg-pink-50/40'
+                  className={`group relative flex cursor-pointer items-center justify-between rounded-xl p-3 transition-transform duration-150 border ${
+                    isSelected
+                      ? '-translate-y-1 scale-[1.01] border-pink-500 bg-pink-50/80 shadow-md shadow-pink-500/15 ring-2 ring-pink-400'
+                      : 'border-pink-200/80 bg-white hover:-translate-y-0.5 hover:border-pink-400 hover:bg-pink-50/40'
                   }`}
                   style={{
                     borderLeftWidth: '5px',
