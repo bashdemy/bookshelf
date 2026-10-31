@@ -4,12 +4,12 @@ A personal reading tracking application to track books and articles you've read.
 
 ## Features
 
-- 📚 Track books and articles you've read
-- 📊 View reading statistics and analytics
-- 🌐 Public view mode for the root user (bashdemy)
-- 🔐 Authentication system (coming soon)
-- 🤖 AI-powered book/article discovery (free via Cloudflare Workers AI)
-- 📈 Advanced dashboard with charts and visualizations (coming soon)
+- 📚 Track books and articles you've read (create, edit, delete, and link to external URLs)
+- 🔍 Search, filter (by genre & tags), and sort your reading collection
+- 📊 Rich reading statistics & analytics (monthly timeline, favorite genres, rating distribution, top tags)
+- 🌐 Public view mode for the root user (`bashdemy`) and shareable public profiles (`/u/[username]`)
+- 🔐 Google OAuth authentication & user onboarding via NextAuth.js
+- 🤖 AI-powered book/article metadata extraction & URL scraping (via Cloudflare Workers AI)
 
 ## Getting Started
 

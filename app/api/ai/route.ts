@@ -32,6 +32,7 @@ function formatSuggestion(result: {
   genre?: string | undefined;
   tags?: string[] | undefined;
   description?: string | undefined;
+  url?: string | undefined;
 }) {
   return {
     type: result.kind || 'article',
@@ -43,6 +44,7 @@ function formatSuggestion(result: {
     genre: result.genre || '',
     tags: result.tags && result.tags.length > 0 ? result.tags.join(', ') : '',
     description: result.description || '',
+    url: result.url || '',
   };
 }
 

@@ -1,3 +1,7 @@
+'use client';
+
+import { useState, useMemo, useEffect } from 'react';
+import Link from 'next/link';
 import { ReadingItem } from '@/types';
 import ReadingItemCard from './ReadingItemCard';
 import { formatItemCount } from '@/utils/statistics';
@@ -7,37 +11,373 @@ interface ReadingSectionProps {
   items: ReadingItem[];
   singularLabel: string;
   pluralLabel: string;
+  canEdit?: boolean;
 }
+
+type SortOption = 'date-desc' | 'date-asc' | 'rating-desc' | 'title-asc' | 'pages-desc';
 
 export default function ReadingSection({
   title,
-  items,
+  items: initialItems,
   singularLabel,
   pluralLabel,
+  canEdit = false,
 }: ReadingSectionProps) {
+  const [items, setItems] = useState<ReadingItem[]>(initialItems);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState('');
+  const [selectedTag, setSelectedTag] = useState('');
+  const [selectedRating, setSelectedRating] = useState('');
+  const [sortBy, setSortBy] = useState<SortOption>('date-desc');
+
+  useEffect(() => {
+    setItems(initialItems);
+  }, [initialItems]);
+
+  const genres = useMemo(() => {
+    const set = new Set<string>();
+    for (const item of items) {
+      if (item.genre) set.add(item.genre);
+    }
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  }, [items]);
+
+  const tags = useMemo(() => {
+    const set = new Set<string>();
+    for (const item of items) {
+      if (item.tags) {
+        for (const tag of item.tags) {
+          set.add(tag);
+        }
+      }
+    }
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  }, [items]);
+
+  const hasBooks = useMemo(() => items.some((i) => i.type === 'book'), [items]);
+
+  const filteredAndSortedItems = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+
+    const filtered = items.filter((item) => {
+      if (selectedGenre && item.genre !== selectedGenre) {
+        return false;
+      }
+      if (selectedTag && (!item.tags || !item.tags.includes(selectedTag))) {
+        return false;
+      }
+      if (selectedRating && (item.rating || 0) < parseInt(selectedRating, 10)) {
+        return false;
+      }
+      if (query) {
+        const matchesTitle = item.title.toLowerCase().includes(query);
+        const matchesAuthor = item.author?.toLowerCase().includes(query) || false;
+        const matchesPub = item.publication?.toLowerCase().includes(query) || false;
+        const matchesDesc = item.description?.toLowerCase().includes(query) || false;
+        const matchesGenre = item.genre?.toLowerCase().includes(query) || false;
+        const matchesTag = item.tags?.some((t) => t.toLowerCase().includes(query)) || false;
+        return matchesTitle || matchesAuthor || matchesPub || matchesDesc || matchesGenre || matchesTag;
+      }
+      return true;
+    });
+
+    return filtered.sort((a, b) => {
+      switch (sortBy) {
+        case 'date-asc':
+          return new Date(a.readDate).getTime() - new Date(b.readDate).getTime();
+        case 'rating-desc':
+          return (b.rating || 0) - (a.rating || 0);
+        case 'title-asc':
+          return a.title.localeCompare(b.title);
+        case 'pages-desc':
+          return (b.pages || 0) - (a.pages || 0);
+        case 'date-desc':
+        default:
+          return new Date(b.readDate).getTime() - new Date(a.readDate).getTime();
+      }
+    });
+  }, [items, searchQuery, selectedGenre, selectedTag, selectedRating, sortBy]);
+
+  const hasActiveFilters = Boolean(searchQuery || selectedGenre || selectedTag || selectedRating);
+
+  const clearFilters = () => {
+    setSearchQuery('');
+    setSelectedGenre('');
+    setSelectedTag('');
+    setSelectedRating('');
+  };
+
+  const handleTagClick = (tag: string) => {
+    setSelectedTag((prev) => (prev === tag ? '' : tag));
+  };
+
+  const handleItemUpdated = (updated: ReadingItem) => {
+    setItems((prev) => prev.map((item) => (item.id === updated.id ? updated : item)));
+  };
+
+  const handleItemDeleted = (id: string) => {
+    setItems((prev) => prev.filter((item) => item.id !== id));
+  };
+
   return (
     <section className="mb-16">
-      <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-3xl font-bold tracking-tight" style={{ color: 'var(--color-primary)' }}>
           {title}
         </h2>
-        <span 
-          className="inline-flex items-center gap-2 px-4 py-1.5 text-sm font-semibold"
-          style={{ 
-            borderRadius: 'var(--radius-full)',
-            background: 'var(--color-accent-blush)',
-            color: 'var(--color-accent-plum)',
+        <div className="flex items-center gap-3">
+          <span 
+            className="inline-flex items-center gap-2 px-4 py-1.5 text-sm font-semibold"
+            style={{ 
+              borderRadius: 'var(--radius-full)',
+              background: 'var(--color-accent-blush)',
+              color: 'var(--color-accent-plum)',
+            }}
+          >
+            <span>
+              {hasActiveFilters
+                ? `${filteredAndSortedItems.length} of ${formatItemCount(items.length, singularLabel, pluralLabel)}`
+                : formatItemCount(items.length, singularLabel, pluralLabel)}
+            </span>
+          </span>
+          {canEdit && (
+            <Link
+              href="/add"
+              className="inline-flex items-center gap-1.5 px-4 py-1.5 text-sm font-bold text-white transition-all hover:opacity-90"
+              style={{
+                borderRadius: 'var(--radius-full)',
+                background: 'var(--color-primary)',
+                boxShadow: 'var(--shadow-sm)',
+              }}
+            >
+              + Add {singularLabel}
+            </Link>
+          )}
+        </div>
+      </div>
+
+      {items.length > 0 && (
+        <div
+          className="mb-8 p-4"
+          style={{
+            borderRadius: 'var(--radius-lg)',
+            border: '1px solid var(--color-divider)',
+            background: 'var(--color-paper)',
+            boxShadow: 'var(--shadow-sm)',
           }}
         >
-          <span>{formatItemCount(items.length, singularLabel, pluralLabel)}</span>
-        </span>
-      </div>
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {items.map((item) => (
-          <ReadingItemCard key={item.id} item={item} />
-        ))}
-      </div>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            <div className="sm:col-span-2">
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={`Search ${pluralLabel} by title, author, tag...`}
+                aria-label={`Search ${pluralLabel}`}
+                className="w-full bg-white px-3.5 py-2 text-sm focus:outline-none focus:ring-2"
+                style={{
+                  borderRadius: 'var(--radius-base)',
+                  border: '1px solid var(--color-divider)',
+                  color: 'var(--color-foreground)',
+                }}
+              />
+            </div>
+
+            {genres.length > 0 && (
+              <div>
+                <select
+                  value={selectedGenre}
+                  onChange={(e) => setSelectedGenre(e.target.value)}
+                  aria-label="Filter by genre"
+                  className="w-full bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2"
+                  style={{
+                    borderRadius: 'var(--radius-base)',
+                    border: '1px solid var(--color-divider)',
+                    color: 'var(--color-foreground)',
+                  }}
+                >
+                  <option value="">All Genres</option>
+                  {genres.map((genre) => (
+                    <option key={genre} value={genre}>
+                      {genre}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {tags.length > 0 && (
+              <div>
+                <select
+                  value={selectedTag}
+                  onChange={(e) => setSelectedTag(e.target.value)}
+                  aria-label="Filter by tag"
+                  className="w-full bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2"
+                  style={{
+                    borderRadius: 'var(--radius-base)',
+                    border: '1px solid var(--color-divider)',
+                    color: 'var(--color-foreground)',
+                  }}
+                >
+                  <option value="">All Tags</option>
+                  {tags.map((tag) => (
+                    <option key={tag} value={tag}>
+                      #{tag}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            <div className="flex gap-2">
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as SortOption)}
+                aria-label="Sort items"
+                className="w-full bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2"
+                style={{
+                  borderRadius: 'var(--radius-base)',
+                  border: '1px solid var(--color-divider)',
+                  color: 'var(--color-foreground)',
+                }}
+              >
+                <option value="date-desc">Newest Read</option>
+                <option value="date-asc">Oldest Read</option>
+                <option value="rating-desc">Highest Rated</option>
+                <option value="title-asc">Title (A–Z)</option>
+                {hasBooks && <option value="pages-desc">Most Pages</option>}
+              </select>
+            </div>
+          </div>
+
+          {hasActiveFilters && (
+            <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t pt-3 text-xs" style={{ borderColor: 'var(--color-divider)' }}>
+              <div className="flex flex-wrap items-center gap-2">
+                <span style={{ color: 'var(--color-foreground-secondary)' }}>Active filters:</span>
+                {searchQuery && (
+                  <span
+                    className="inline-flex items-center gap-1 px-2.5 py-1 font-medium"
+                    style={{
+                      borderRadius: 'var(--radius-full)',
+                      background: 'var(--color-accent-blush)',
+                      color: 'var(--color-accent-plum)',
+                    }}
+                  >
+                    &ldquo;{searchQuery}&rdquo;
+                  </span>
+                )}
+                {selectedGenre && (
+                  <span
+                    className="inline-flex items-center gap-1 px-2.5 py-1 font-medium"
+                    style={{
+                      borderRadius: 'var(--radius-full)',
+                      background: 'var(--color-accent-blush)',
+                      color: 'var(--color-accent-plum)',
+                    }}
+                  >
+                    Genre: {selectedGenre}
+                  </span>
+                )}
+                {selectedTag && (
+                  <span
+                    className="inline-flex items-center gap-1 px-2.5 py-1 font-medium"
+                    style={{
+                      borderRadius: 'var(--radius-full)',
+                      background: 'var(--color-accent-lavender)',
+                      color: 'var(--color-accent-plum)',
+                    }}
+                  >
+                    #{selectedTag}
+                  </span>
+                )}
+              </div>
+              <button
+                type="button"
+                onClick={clearFilters}
+                className="font-semibold hover:underline"
+                style={{ color: 'var(--color-primary)' }}
+              >
+                Clear all filters
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {items.length === 0 ? (
+        <div
+          className="flex flex-col items-center justify-center p-12 text-center"
+          style={{
+            borderRadius: 'var(--radius-lg)',
+            border: '1px dashed var(--color-divider)',
+            background: 'var(--color-paper)',
+          }}
+        >
+          <div className="mb-3 text-5xl">{singularLabel === 'book' ? '📚' : '✨'}</div>
+          <h3 className="mb-2 text-xl font-bold" style={{ color: 'var(--color-primary)' }}>
+            No {pluralLabel} tracked yet
+          </h3>
+          <p className="mb-6 max-w-md text-sm" style={{ color: 'var(--color-foreground-secondary)' }}>
+            {canEdit
+              ? `Start building your collection by adding the first ${singularLabel} you've read.`
+              : `This bookshelf doesn't have any ${pluralLabel} yet.`}
+          </p>
+          {canEdit && (
+            <Link
+              href="/add"
+              className="px-6 py-3 text-sm font-bold text-white transition-all hover:opacity-90"
+              style={{
+                borderRadius: 'var(--radius-full)',
+                background: 'var(--gradient-primary)',
+                boxShadow: 'var(--shadow-primary)',
+              }}
+            >
+              Add Your First {singularLabel.charAt(0).toUpperCase() + singularLabel.slice(1)}
+            </Link>
+          )}
+        </div>
+      ) : filteredAndSortedItems.length === 0 ? (
+        <div
+          className="flex flex-col items-center justify-center p-10 text-center"
+          style={{
+            borderRadius: 'var(--radius-lg)',
+            border: '1px solid var(--color-divider)',
+            background: 'var(--color-paper)',
+          }}
+        >
+          <p className="mb-3 text-lg font-semibold" style={{ color: 'var(--color-foreground)' }}>
+            No matching {pluralLabel} found
+          </p>
+          <p className="mb-4 text-sm" style={{ color: 'var(--color-foreground-secondary)' }}>
+            Try adjusting your search query or clearing your active filters.
+          </p>
+          <button
+            type="button"
+            onClick={clearFilters}
+            className="px-5 py-2 text-sm font-bold text-white"
+            style={{
+              borderRadius: 'var(--radius-full)',
+              background: 'var(--color-primary)',
+            }}
+          >
+            Clear Filters
+          </button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {filteredAndSortedItems.map((item) => (
+            <ReadingItemCard
+              key={item.id}
+              item={item}
+              canEdit={canEdit}
+              onTagClick={handleTagClick}
+              activeTag={selectedTag}
+              onItemUpdated={handleItemUpdated}
+              onItemDeleted={handleItemDeleted}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }
-

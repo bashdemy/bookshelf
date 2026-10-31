@@ -12,7 +12,8 @@
     "start": "next start",
     "lint": "eslint",
     "migrate": "dotenv -e .env.local -- tsx scripts/migrate.ts",
-    "migrate:schema": "dotenv -e .env.local -- tsx scripts/migrate.ts --schema-only"
+    "migrate:schema": "dotenv -e .env.local -- tsx scripts/migrate.ts --schema-only",
+    "set-password": "dotenv -e .env.local -- tsx scripts/set-password.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",

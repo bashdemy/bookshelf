@@ -103,6 +103,10 @@ async function createSchema() {
     await sql`ALTER TABLE users ADD COLUMN avatar_url TEXT`;
   }
 
+  if (!columnNames.includes('password_hash')) {
+    await sql`ALTER TABLE users ADD COLUMN password_hash TEXT`;
+  }
+
   if (columnNames.includes('username')) {
     try {
       const constraints = await sql`
@@ -143,9 +147,14 @@ async function createSchema() {
       rating INTEGER CHECK (rating >= 1 AND rating <= 5),
       genre TEXT,
       description TEXT,
+      url TEXT,
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW()
     )
+  `;
+
+  await sql`
+    ALTER TABLE reading_items ADD COLUMN IF NOT EXISTS url TEXT
   `;
 
   await sql`
@@ -163,6 +172,10 @@ async function createSchema() {
 
   await sql`
     CREATE INDEX IF NOT EXISTS idx_reading_items_type ON reading_items(type)
+  `;
+
+  await sql`
+    CREATE INDEX IF NOT EXISTS idx_reading_items_user_type_date ON reading_items(user_id, type, read_date DESC)
   `;
 
   await sql`
@@ -192,7 +205,7 @@ async function seedReadingItems() {
     await sql`
       INSERT INTO reading_items (
         id, user_id, type, title, author, publication, year, pages,
-        read_date, rating, genre, description
+        read_date, rating, genre, description, url
       )
       VALUES (
         ${item.id},
@@ -206,7 +219,8 @@ async function seedReadingItems() {
         ${item.readDate},
         ${item.rating || null},
         ${item.genre || null},
-        ${item.description || null}
+        ${item.description || null},
+        ${item.url || null}
       )
       ON CONFLICT (id) DO NOTHING
     `;

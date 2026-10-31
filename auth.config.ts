@@ -1,30 +1,19 @@
 import type { NextAuthConfig } from 'next-auth';
-import Google from 'next-auth/providers/google';
 
 export const authConfig = {
   pages: {
-    signIn: '/',
-    error: '/',
+    signIn: '/login',
+    error: '/login',
   },
-  providers: [
-    Google({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
-  ],
+  providers: [],
   callbacks: {
-    async signIn({ user, account, profile }) {
-      if (account?.provider === 'google') {
-        return true;
-      }
-      return false;
-    },
     async session({ session, token }) {
       if (session.user && token.sub) {
         session.user.id = token.sub;
+        session.user.username = token.username as string | null;
+        session.user.displayName = token.displayName as string | null;
       }
       return session;
     },
   },
 } satisfies NextAuthConfig;
-

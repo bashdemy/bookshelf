@@ -13,12 +13,14 @@ export interface ReadingItem {
   genre?: string;
   tags?: string[];
   description?: string;
+  url?: string;
 }
 
 export interface User {
   id: string;
-  username: string;
+  username: string | null;
   displayName: string;
+  avatarUrl?: string | null;
   isRoot: boolean;
 }
 

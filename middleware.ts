@@ -1,42 +1,18 @@
 import { auth } from './auth';
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { sql } from './lib/db';
-
-async function checkUserOnboarding(userId: string): Promise<boolean> {
-  try {
-    const result = await sql`
-      SELECT username, display_name
-      FROM users
-      WHERE id = ${userId}
-      LIMIT 1
-    ` as Array<{
-      username: string | null;
-      display_name: string;
-    }>;
-
-    if (!result[0]) return false;
-    return !!(result[0].username && result[0].display_name);
-  } catch {
-    return false;
-  }
-}
 
 export default auth(async (req) => {
   const { pathname } = req.nextUrl;
   const isAuthenticated = !!req.auth;
 
   if (pathname.startsWith('/add') && !isAuthenticated) {
-    const signInUrl = new URL('/api/auth/signin', req.url);
-    signInUrl.searchParams.set('callbackUrl', pathname);
-    return NextResponse.redirect(signInUrl);
+    const loginUrl = new URL('/login', req.url);
+    loginUrl.searchParams.set('callbackUrl', pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
-  if (isAuthenticated && req.auth?.user?.id && pathname !== '/onboarding' && !pathname.startsWith('/api')) {
-    const isOnboarded = await checkUserOnboarding(req.auth.user.id);
-    if (!isOnboarded) {
-      return NextResponse.redirect(new URL('/onboarding', req.url));
-    }
+  if (pathname === '/login' && isAuthenticated) {
+    return NextResponse.redirect(new URL('/', req.url));
   }
 
   return NextResponse.next();
@@ -45,4 +21,3 @@ export default auth(async (req) => {
 export const config = {
   matcher: ['/((?!api/auth|_next/static|_next/image|favicon.ico).*)'],
 };
-

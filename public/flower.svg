@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFF5F8" />
+      <stop offset="100%" stop-color="#FEDCE7" />
+    </radialGradient>
+    <linearGradient id="petalGrad1" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#FEDCE7" />
+      <stop offset="45%" stop-color="#F28EB5" />
+      <stop offset="100%" stop-color="#D95886" />
+    </linearGradient>
+    <radialGradient id="centerPistil" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFE885" />
+      <stop offset="50%" stop-color="#E178A0" />
+      <stop offset="100%" stop-color="#80355A" />
+    </radialGradient>
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#80355A" flood-opacity="0.2" />
+    </filter>
+  </defs>
+
+  <!-- Background Soft Circle -->
+  <circle cx="64" cy="64" r="60" fill="url(#bg)" />
+
+  <!-- Flower Petals Group -->
+  <g filter="url(#softGlow)">
+    <!-- 5 Petals rotated at 0, 72, 144, 216, 288 deg around (64, 64) -->
+    <!-- Petal 1 (Top) -->
+    <path d="M 64 64 C 50 48 38 34 50 20 C 56 12 61 17 64 19 C 67 17 72 12 78 20 C 90 34 78 48 64 64 Z" fill="url(#petalGrad1)" />
+    <!-- Petal 2 -->
+    <path d="M 64 64 C 50 48 38 34 50 20 C 56 12 61 17 64 19 C 67 17 72 12 78 20 C 90 34 78 48 64 64 Z" fill="url(#petalGrad1)" transform="rotate(72 64 64)" />
+    <!-- Petal 3 -->
+    <path d="M 64 64 C 50 48 38 34 50 20 C 56 12 61 17 64 19 C 67 17 72 12 78 20 C 90 34 78 48 64 64 Z" fill="url(#petalGrad1)" transform="rotate(144 64 64)" />
+    <!-- Petal 4 -->
+    <path d="M 64 64 C 50 48 38 34 50 20 C 56 12 61 17 64 19 C 67 17 72 12 78 20 C 90 34 78 48 64 64 Z" fill="url(#petalGrad1)" transform="rotate(216 64 64)" />
+    <!-- Petal 5 -->
+    <path d="M 64 64 C 50 48 38 34 50 20 C 56 12 61 17 64 19 C 67 17 72 12 78 20 C 90 34 78 48 64 64 Z" fill="url(#petalGrad1)" transform="rotate(288 64 64)" />
+  </g>
+
+  <!-- Inner Flower Center Details -->
+  <!-- Stamens radiating outward -->
+  <g stroke="#91305C" stroke-width="1.6" stroke-linecap="round">
+    <line x1="64" y1="64" x2="64" y2="46" />
+    <line x1="64" y1="64" x2="79" y2="52" />
+    <line x1="64" y1="64" x2="74" y2="76" />
+    <line x1="64" y1="64" x2="54" y2="76" />
+    <line x1="64" y1="64" x2="49" y2="52" />
+    
+    <line x1="64" y1="64" x2="72" y2="48" />
+    <line x1="64" y1="64" x2="78" y2="64" />
+    <line x1="64" y1="64" x2="64" y2="78" />
+    <line x1="64" y1="64" x2="50" y2="64" />
+    <line x1="64" y1="64" x2="56" y2="48" />
+  </g>
+
+  <!-- Golden Pollen Tips -->
+  <g fill="#FFAE33">
+    <circle cx="64" cy="45" r="2.8" />
+    <circle cx="80" cy="51" r="2.8" />
+    <circle cx="75" cy="77" r="2.8" />
+    <circle cx="53" cy="77" r="2.8" />
+    <circle cx="48" cy="51" r="2.8" />
+    
+    <circle cx="73" cy="47" r="2.2" />
+    <circle cx="79" cy="64" r="2.2" />
+    <circle cx="64" cy="79" r="2.2" />
+    <circle cx="49" cy="64" r="2.2" />
+    <circle cx="55" cy="47" r="2.2" />
+  </g>
+
+  <!-- Center Blossom Pistil Core -->
+  <circle cx="64" cy="64" r="10" fill="url(#centerPistil)" />
+  <circle cx="64" cy="64" r="4.5" fill="#FFE885" />
+</svg>

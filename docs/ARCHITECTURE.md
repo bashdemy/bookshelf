@@ -222,36 +222,31 @@ The application uses Neon Postgres with the following schema:
 ## Authentication Flow
 
 ### Current State
-- Unauthenticated mode: Shows root user (bashdemy) data
-- Sign-in button is a placeholder (no functionality yet)
-
-### Future Implementation
-- Google OAuth integration
-- Session management
-- User-specific data storage
-- Edit permissions based on authentication state
+- Unauthenticated mode: Shows root user (`bashdemy`) data in read-only mode
+- Authenticated mode: Google OAuth integration via NextAuth.js v5
+- New users are directed to `/onboarding` to set their unique username and display name
+- Authenticated users can create, edit, and delete their own reading items, and share their public profile at `/u/[username]`
 
 ## Feature Roadmap
 
-### Phase 1 (Current)
+### Phase 1
 - ✅ Display root user reading list
 - ✅ Statistics dashboard
 - ✅ Responsive design
-- ✅ Dark mode support
 - ✅ Database integration with Neon Postgres
 - ✅ Data migration and seeding
 
-### Phase 2 (Planned)
-- [ ] Google authentication
-- [ ] User-specific data storage
-- [ ] Manual book/article entry
-- [ ] Edit functionality for authenticated users
+### Phase 2
+- ✅ Google authentication & onboarding flow
+- ✅ User-specific data storage
+- ✅ Manual & AI-assisted book/article entry
+- ✅ Edit and delete functionality for authenticated users
+- ✅ Search, filter (by genre/tag), and sort on Books and Articles pages
 
-### Phase 3 (Planned)
-- [ ] AI-powered book/article discovery
-- [ ] Advanced dashboard with charts and visualizations
-- [ ] Genre analysis and favorite genres
-- [ ] Custom feeds and following other users
+### Phase 3
+- ✅ AI-powered book/article metadata & URL extraction
+- ✅ Advanced statistics dashboard (monthly activity, genre breakdown, rating distribution, top tags)
+- ✅ Public user profiles (`/u/[username]`)
 
 ## Design Principles
 

@@ -1,12 +1,8 @@
 'use client';
 
-import { signIn } from 'next-auth/react';
+import Link from 'next/link';
 
 export default function AuthPrompt() {
-  async function handleSignInClick() {
-    await signIn('google', { callbackUrl: '/' });
-  }
-
   return (
     <div className="fixed bottom-6 left-6 z-50 animate-float cursor-pointer">
       <div 
@@ -22,8 +18,8 @@ export default function AuthPrompt() {
             Showing data for{' '}
             <span className="font-bold">bashdemy</span>
           </span>
-          <button
-            onClick={handleSignInClick}
+          <Link
+            href="/login"
             className="ml-2 px-3 py-1 text-xs font-bold text-white transition-all active:scale-95"
             style={{ 
               borderRadius: 'var(--radius-full)',
@@ -33,7 +29,7 @@ export default function AuthPrompt() {
             onMouseLeave={(e) => e.currentTarget.style.background = 'var(--color-primary)'}
           >
             Log in
-          </button>
+          </Link>
         </div>
         <div 
           className="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 rounded-sm"

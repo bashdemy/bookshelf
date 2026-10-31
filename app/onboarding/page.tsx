@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
@@ -8,9 +8,31 @@ export default function OnboardingPage() {
   const { data: session, update } = useSession();
   const router = useRouter();
   const [username, setUsername] = useState('');
-  const [displayName, setDisplayName] = useState(session?.user?.name || '');
+  const [displayName, setDisplayName] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (session?.user) {
+      if (!displayName && (session.user.displayName || session.user.name)) {
+        setDisplayName(session.user.displayName || session.user.name || '');
+      }
+      if (!username) {
+        if (session.user.username) {
+          setUsername(session.user.username);
+        } else if (session.user.email) {
+          const suggested = session.user.email
+            .split('@')[0]
+            .toLowerCase()
+            .replace(/[^a-z0-9_-]/g, '')
+            .slice(0, 20);
+          if (suggested.length >= 3) {
+            setUsername(suggested);
+          }
+        }
+      }
+    }
+  }, [session, displayName, username]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -52,7 +74,7 @@ export default function OnboardingPage() {
           Welcome to Bookshelf! 📚
         </h1>
         <p className="mb-8" style={{ color: 'var(--color-foreground-secondary)' }}>
-          Let's set up your profile to get started
+          Let&apos;s set up your profile to get started
         </p>
 
         {error && (

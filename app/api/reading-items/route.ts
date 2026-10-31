@@ -41,6 +41,7 @@ export async function POST(request: NextRequest) {
       genre: item.genre,
       tags: item.tags,
       description: item.description,
+      url: item.url,
     };
 
     const created = await createReadingItem(userId, readingItem);

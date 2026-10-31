@@ -34,6 +34,28 @@ export async function getUserProfile(userId: string) {
   }
 }
 
+export async function getUserByUsername(username: string) {
+  try {
+    const result = await sql`
+      SELECT id, username, display_name, avatar_url, is_root
+      FROM users
+      WHERE LOWER(username) = LOWER(${username})
+      LIMIT 1
+    ` as Array<{
+      id: string;
+      username: string | null;
+      display_name: string;
+      avatar_url: string | null;
+      is_root: boolean;
+    }>;
+
+    return result[0] || null;
+  } catch (error) {
+    console.error('Error fetching user by username:', error);
+    return null;
+  }
+}
+
 export async function checkUserOnboarding(userId: string): Promise<boolean> {
   try {
     const result = await sql`

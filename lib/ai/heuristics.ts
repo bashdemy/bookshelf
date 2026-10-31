@@ -111,6 +111,7 @@ export function heuristicExtract(
     title: meta.title || '',
     author: meta.author || '',
     publication,
+    description: meta.description || undefined,
     source: 'heuristic' as const,
     url,
   };

@@ -16,6 +16,7 @@ interface FormData {
   genre: string;
   tags: string;
   description: string;
+  url: string;
   readDate: string;
   rating: string;
 }
@@ -30,6 +31,7 @@ interface Suggestion {
   genre?: string;
   tags?: string;
   description?: string;
+  url?: string;
 }
 
 export default function AddPage() {
@@ -96,6 +98,7 @@ export default function AddPage() {
       genre: suggestion.genre || '',
       tags: suggestion.tags || '',
       description: suggestion.description || '',
+      url: suggestion.url || '',
       readDate: new Date().toISOString().split('T')[0],
       rating: '',
     });
@@ -113,6 +116,7 @@ export default function AddPage() {
       genre: '',
       tags: '',
       description: '',
+      url: '',
       readDate: new Date().toISOString().split('T')[0],
       rating: '',
     });
@@ -140,6 +144,7 @@ export default function AddPage() {
           .map((t) => t.trim())
           .filter((t) => t.length > 0),
         description: formData.description.trim() || undefined,
+        url: formData.url.trim() || undefined,
         readDate: formData.readDate,
         rating: formData.rating ? parseInt(formData.rating, 10) : undefined,
       };
@@ -183,7 +188,7 @@ export default function AddPage() {
           Add Reading Item
         </h1>
         <p className="mt-2" style={{ color: 'var(--color-foreground-secondary)' }}>
-          Describe what you've read and let AI help fill in the details
+          Describe what you&apos;ve read and let AI help fill in the details
         </p>
       </div>
 
@@ -344,7 +349,7 @@ export default function AddPage() {
               />
             </div>
 
-            {formData.type === 'book' ? (
+            <div className={formData.type === 'article' ? 'grid grid-cols-1 gap-4 sm:grid-cols-2' : ''}>
               <div>
                 <label htmlFor="author" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-primary)' }}>
                   Author
@@ -363,26 +368,48 @@ export default function AddPage() {
                   } as React.CSSProperties}
                 />
               </div>
-            ) : (
-              <div>
-                <label htmlFor="publication" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-primary)' }}>
-                  Publication
-                </label>
-                <input
-                  id="publication"
-                  type="text"
-                  value={formData.publication}
-                  onChange={(e) => handleInputChange('publication', e.target.value)}
-                  className="w-full bg-white px-4 py-2 focus:outline-none focus:ring-2"
-                  style={{ 
-                    borderRadius: 'var(--radius-base)',
-                    border: '1px solid var(--color-divider)',
-                    color: 'var(--color-foreground)',
-                    '--tw-ring-color': 'var(--color-primary)',
-                  } as React.CSSProperties}
-                />
-              </div>
-            )}
+
+              {formData.type === 'article' && (
+                <div>
+                  <label htmlFor="publication" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-primary)' }}>
+                    Publication
+                  </label>
+                  <input
+                    id="publication"
+                    type="text"
+                    value={formData.publication}
+                    onChange={(e) => handleInputChange('publication', e.target.value)}
+                    className="w-full bg-white px-4 py-2 focus:outline-none focus:ring-2"
+                    style={{ 
+                      borderRadius: 'var(--radius-base)',
+                      border: '1px solid var(--color-divider)',
+                      color: 'var(--color-foreground)',
+                      '--tw-ring-color': 'var(--color-primary)',
+                    } as React.CSSProperties}
+                  />
+                </div>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="url" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-primary)' }}>
+                Link / URL (optional)
+              </label>
+              <input
+                id="url"
+                type="url"
+                value={formData.url}
+                onChange={(e) => handleInputChange('url', e.target.value)}
+                placeholder="https://..."
+                className="w-full bg-white px-4 py-2 focus:outline-none focus:ring-2"
+                style={{ 
+                  borderRadius: 'var(--radius-base)',
+                  border: '1px solid var(--color-divider)',
+                  color: 'var(--color-foreground)',
+                  '--tw-ring-color': 'var(--color-primary)',
+                } as React.CSSProperties}
+              />
+            </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>

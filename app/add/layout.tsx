@@ -10,7 +10,7 @@ export default async function AddLayout({
   const session = await auth();
 
   if (!session?.user?.id) {
-    redirect('/api/auth/signin?callbackUrl=/add');
+    redirect('/login?callbackUrl=/add');
   }
 
   const isOnboarded = await checkUserOnboarding(session.user.id);

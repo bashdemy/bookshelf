@@ -1,11 +1,12 @@
 import { getArticlesByUser } from '@/lib/reading-items';
 import ReadingSection from '@/components/ReadingSection';
-import { getCurrentUserId } from '@/lib/auth-helpers';
+import { getCurrentUser } from '@/lib/auth-helpers';
 
 export const dynamic = 'force-dynamic';
 
 export default async function ArticlesPage() {
-  const userId = await getCurrentUserId();
+  const user = await getCurrentUser();
+  const userId = user?.id || 'bashdemy';
   const articles = await getArticlesByUser(userId);
 
   return (
@@ -15,8 +16,8 @@ export default async function ArticlesPage() {
         items={articles}
         singularLabel="article"
         pluralLabel="articles"
+        canEdit={!!user}
       />
     </main>
   );
 }
-
