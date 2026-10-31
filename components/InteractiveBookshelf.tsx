@@ -148,27 +148,27 @@ export default function InteractiveBookshelf({
     <div
       className={`relative overflow-hidden rounded-3xl border ${className}`}
       style={{
-        background: '#190E17',
-        borderColor: '#4A1D34',
-        boxShadow: '0 30px 70px -15px rgba(131, 24, 67, 0.45), 0 0 0 1px rgba(244, 114, 182, 0.15)',
+        background: '#FFFFFF',
+        borderColor: '#FBCFE8',
+        boxShadow: '0 20px 50px -10px rgba(225, 29, 72, 0.12), 0 0 0 1px rgba(244, 114, 182, 0.25)',
       }}
     >
       {/* Ambient Cherry Blossom Light Overhead Wash */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-4/5 h-44 bg-pink-500/22 blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-4/5 h-44 bg-pink-100/70 blur-[90px] pointer-events-none" />
 
       {/* Top Gallery Header Bar */}
-      <div className="relative z-10 flex flex-col gap-4 p-5 sm:p-7 md:flex-row md:items-center md:justify-between border-b border-pink-950/60">
+      <div className="relative z-10 flex flex-col gap-4 p-5 sm:p-7 md:flex-row md:items-center md:justify-between border-b border-pink-200/80 bg-pink-50/50">
         <div>
           <div className="flex flex-wrap items-center gap-2.5">
-            <span className="inline-flex h-2.5 w-2.5 rounded-full bg-pink-400 shadow-[0_0_12px_rgba(244,114,182,1)] animate-pulse" />
-            <h2 className="text-xl sm:text-2xl font-black tracking-tight text-pink-50 font-serif">
+            <span className="inline-flex h-2.5 w-2.5 rounded-full bg-pink-500 shadow-[0_0_10px_rgba(236,72,153,0.9)] animate-pulse" />
+            <h2 className="text-xl sm:text-2xl font-black tracking-tight text-pink-950 font-serif">
               Physical Bookshelf Camera
             </h2>
-            <span className="rounded-full bg-pink-950/90 border border-pink-700/70 px-2.5 py-0.5 text-[10px] font-mono font-bold text-pink-300 uppercase tracking-widest shadow-sm">
+            <span className="rounded-full bg-pink-100 border border-pink-300 px-2.5 py-0.5 text-[10px] font-mono font-bold text-pink-700 uppercase tracking-widest shadow-xs">
               Live Lens 2.9× 🌸
             </span>
           </div>
-          <p className="mt-1.5 text-xs sm:text-sm text-pink-200/70 max-w-xl">
+          <p className="mt-1.5 text-xs sm:text-sm text-pink-900/70 max-w-xl">
             Directly mapped to your 4×2 bookcase • Click any horizontal cubby to zoom in up close • Hover book spines to pull out
           </p>
         </div>
@@ -194,8 +194,8 @@ export default function InteractiveBookshelf({
             onClick={() => setIsTallerPhoto((v) => !v)}
             className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all border ${
               isTallerPhoto
-                ? 'bg-pink-600/30 text-pink-200 border-pink-400/80 shadow-[0_0_12px_rgba(244,114,182,0.3)]'
-                : 'bg-stone-900/80 text-pink-300/70 border-stone-800 hover:text-pink-100'
+                ? 'bg-pink-100 text-pink-800 border-pink-300 shadow-xs'
+                : 'bg-white text-pink-900/80 border-pink-200 hover:bg-pink-50'
             }`}
             title="Toggle taller camera view for immersive shelf inspection"
           >
@@ -208,13 +208,13 @@ export default function InteractiveBookshelf({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Find volume on shelf..."
-              className="w-48 sm:w-60 rounded-full border border-pink-900/80 bg-stone-950/90 px-3.5 py-1.5 text-xs text-pink-100 placeholder:text-pink-400/50 focus:border-pink-400 focus:outline-none focus:ring-1 focus:ring-pink-400 transition-colors"
+              className="w-48 sm:w-60 rounded-full border border-pink-200 bg-white px-3.5 py-1.5 text-xs text-pink-950 placeholder:text-pink-400 focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-400 transition-colors shadow-2xs"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-pink-400 hover:text-pink-200"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-pink-500 hover:text-pink-700"
               >
                 ✕
               </button>
@@ -223,18 +223,18 @@ export default function InteractiveBookshelf({
         </div>
       </div>
 
-      {/* Cubby Selector Bar (Brass Roman Numerals with Pink Glow) */}
-      <div className="relative z-10 flex items-center gap-1.5 overflow-x-auto px-5 py-2.5 bg-stone-950/90 border-b border-pink-950/40 text-xs">
+      {/* Cubby Selector Bar */}
+      <div className="relative z-10 flex items-center gap-1.5 overflow-x-auto px-5 py-2.5 bg-pink-50/70 border-b border-pink-200/80 text-xs">
         <button
           type="button"
           onClick={() => {
             setActiveCubby('all');
             setZoomedCubby(null);
           }}
-          className={`rounded-full px-3 py-1 font-bold whitespace-nowrap transition-all ${
+          className={`rounded-full px-3 py-1 font-bold whitespace-nowrap transition-all border ${
             activeCubby === 'all' && !zoomedCubby
-              ? 'bg-pink-500 text-white shadow-md shadow-pink-500/30'
-              : 'bg-stone-900/80 text-pink-200/60 hover:text-pink-100 hover:bg-stone-800'
+              ? 'bg-pink-600 text-white border-pink-600 shadow-sm shadow-pink-600/30'
+              : 'bg-white text-pink-900 border-pink-200 hover:bg-pink-100'
           }`}
         >
           Entire Shelf (84)
@@ -250,13 +250,13 @@ export default function InteractiveBookshelf({
               onClick={() => handleCubbyClick(c.id)}
               className={`flex items-center gap-1.5 rounded-full px-3 py-1 font-semibold whitespace-nowrap transition-all border ${
                 isSelected
-                  ? 'bg-pink-500/25 text-pink-200 border-pink-400/90 shadow-[0_0_15px_rgba(244,114,182,0.3)]'
-                  : 'bg-stone-900/60 text-pink-300/60 border-stone-850 hover:border-pink-800 hover:text-pink-200'
+                  ? 'bg-pink-600 text-white border-pink-600 shadow-sm shadow-pink-600/30'
+                  : 'bg-white text-pink-900 border-pink-200 hover:bg-pink-100 hover:border-pink-300'
               }`}
             >
-              <span className="font-serif text-[11px] font-bold text-pink-400">{roman}</span>
+              <span className={`font-serif text-[11px] font-bold ${isSelected ? 'text-white' : 'text-pink-600'}`}>{roman}</span>
               <span>{c.title.split(' ')[0]}</span>
-              <span className="rounded-full bg-pink-950/80 px-1.5 py-0.2 text-[10px] text-pink-300 border border-pink-900/50">
+              <span className={`rounded-full px-1.5 py-0.2 text-[10px] font-mono ${isSelected ? 'bg-pink-700 text-white' : 'bg-pink-100 text-pink-800'}`}>
                 {count}
               </span>
             </button>
@@ -270,13 +270,13 @@ export default function InteractiveBookshelf({
           ref={photoContainerRef}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          className={`relative w-full overflow-hidden rounded-2xl border border-pink-900/50 bg-stone-950 cursor-crosshair select-none transition-all duration-500 ${
+          className={`relative w-full overflow-hidden rounded-2xl border border-pink-200 bg-pink-50/50 cursor-crosshair select-none transition-all duration-500 ${
             isTallerPhoto
               ? 'h-[480px] sm:h-[620px] lg:h-[720px]'
               : 'aspect-[4/3] min-h-[360px] sm:min-h-[480px]'
           }`}
           style={{
-            boxShadow: 'inset 0 0 50px rgba(0,0,0,0.85), 0 12px 35px rgba(0,0,0,0.6)',
+            boxShadow: 'inset 0 0 30px rgba(225, 29, 72, 0.08), 0 8px 25px rgba(225, 29, 72, 0.1)',
           }}
         >
           {/* Zoomable Photographic Plane */}
@@ -322,10 +322,10 @@ export default function InteractiveBookshelf({
                   onMouseLeave={() => setHoveredCubbyHotspot(null)}
                   className={`absolute rounded-xl transition-all duration-300 ${
                     isZoomed
-                      ? 'border-2 border-pink-400 bg-pink-500/10 shadow-[0_0_40px_rgba(244,114,182,0.45)]'
+                      ? 'border-2 border-pink-500 bg-pink-500/15 shadow-[0_0_35px_rgba(236,72,153,0.5)]'
                       : isHovered || isFiltered
-                      ? 'border-2 border-pink-400 bg-pink-500/20 backdrop-brightness-110 shadow-[0_0_30px_rgba(244,114,182,0.4)]'
-                      : 'border border-pink-200/30 bg-black/10 hover:border-pink-400/80 hover:bg-pink-950/20'
+                      ? 'border-2 border-pink-500 bg-pink-500/20 backdrop-brightness-105 shadow-[0_0_25px_rgba(236,72,153,0.4)]'
+                      : 'border border-pink-300/70 bg-white/10 hover:border-pink-500 hover:bg-pink-500/15'
                   }`}
                   style={{
                     left: `${spot.x}%`,
@@ -336,15 +336,15 @@ export default function InteractiveBookshelf({
                 >
                   {/* Brass & Rose Engraved Tag */}
                   <div className="absolute top-2 left-2 flex items-center gap-1.5 pointer-events-none">
-                    <span className="flex items-center gap-1.5 rounded-md bg-stone-950/90 backdrop-blur-md px-2 py-0.5 text-[10px] font-bold text-pink-300 border border-pink-800/80 shadow-md">
+                    <span className="flex items-center gap-1.5 rounded-md bg-white/95 backdrop-blur-md px-2 py-0.5 text-[10px] font-bold text-pink-900 border border-pink-300 shadow-xs">
                       <span className="font-serif font-black">{spot.roman}</span>
-                      <span className="text-pink-400 font-normal font-mono">• {books.length}</span>
+                      <span className="text-pink-600 font-normal font-mono">• {books.length}</span>
                     </span>
                   </div>
 
                   {/* Zoom prompt badge */}
                   <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                    <span className="rounded bg-black/85 px-2 py-0.5 text-[9px] font-bold text-pink-200 border border-pink-800 shadow-sm">
+                    <span className="rounded bg-white/95 px-2 py-0.5 text-[9px] font-bold text-pink-900 border border-pink-300 shadow-sm">
                       {isZoomed ? 'Zoom out' : 'Inspect 🔍'}
                     </span>
                   </div>
@@ -354,20 +354,20 @@ export default function InteractiveBookshelf({
           </div>
 
           {/* Minimap HUD Radar */}
-          <div className="absolute bottom-3 left-3 z-20 hidden sm:flex items-center gap-2.5 rounded-xl bg-stone-950/90 backdrop-blur-md p-2.5 border border-pink-900/60 shadow-2xl">
+          <div className="absolute bottom-3 left-3 z-20 hidden sm:flex items-center gap-2.5 rounded-xl bg-white/95 backdrop-blur-md p-2.5 border border-pink-200 shadow-lg">
             <div className="grid grid-cols-4 grid-rows-2 gap-1 w-20 h-10">
               {Object.keys(CUBBY_HOTSPOTS).map((k) => (
                 <div
                   key={k}
                   className={`rounded-xs transition-all ${
                     zoomedCubby === k || activeCubby === k
-                      ? 'bg-pink-400 shadow-[0_0_8px_rgba(244,114,182,0.9)]'
-                      : 'bg-stone-800'
+                      ? 'bg-pink-600 shadow-[0_0_8px_rgba(236,72,153,0.8)]'
+                      : 'bg-pink-100'
                   }`}
                 />
               ))}
             </div>
-            <div className="text-[10px] text-pink-300 font-medium pr-1">
+            <div className="text-[10px] text-pink-950 font-semibold pr-1">
               {zoomedCubby
                 ? `Cubby ${CUBBY_HOTSPOTS[zoomedCubby]?.roman}`
                 : 'Overview'}
@@ -378,40 +378,40 @@ export default function InteractiveBookshelf({
 
       {/* Archival Specimen / Inspection Card */}
       {activeBook && (
-        <div className="mx-4 mb-5 sm:mx-7 rounded-2xl border border-pink-500/50 bg-gradient-to-r from-stone-950 via-[#260C1D] to-stone-950 p-5 sm:p-6 shadow-2xl animate-fadeIn">
+        <div className="mx-4 mb-5 sm:mx-7 rounded-2xl border border-pink-300 bg-gradient-to-br from-pink-50 via-white to-pink-100/60 p-5 sm:p-6 shadow-xl shadow-pink-500/10 animate-fadeIn">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div className="flex-1">
               <div className="flex flex-wrap items-center gap-2">
                 <span
-                  className="rounded-md px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-white shadow-sm"
+                  className="rounded-md px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-white shadow-xs"
                   style={{ background: activeBook.spineColor === '#F5F5F3' ? '#444' : activeBook.spineColor }}
                 >
                   {activeBook.cubbyLabel}
                 </span>
-                <span className="rounded-full bg-pink-500/20 border border-pink-400/50 px-2 py-0.5 text-[10px] font-bold text-pink-300">
+                <span className="rounded-full bg-pink-100 border border-pink-300 px-2 py-0.5 text-[10px] font-bold text-pink-800">
                   {activeBook.genre}
                 </span>
-                <span className="text-xs text-pink-300/70 font-mono">
+                <span className="text-xs text-pink-900/70 font-mono">
                   {activeBook.year > 0 ? activeBook.year : `${Math.abs(activeBook.year)} BC`} • {activeBook.pages} pages
                 </span>
               </div>
 
-              <h3 className="mt-2 text-lg sm:text-xl font-bold text-pink-50 font-serif leading-tight">
+              <h3 className="mt-2 text-lg sm:text-xl font-bold text-pink-950 font-serif leading-tight">
                 {activeBook.title}
               </h3>
-              <p className="mt-0.5 text-xs font-semibold text-pink-300">
-                by <span className="text-white font-bold">{activeBook.author}</span>
+              <p className="mt-0.5 text-xs font-semibold text-pink-800">
+                by <span className="font-bold">{activeBook.author}</span>
               </p>
-              <p className="mt-2 text-xs sm:text-sm text-pink-100/80 leading-relaxed max-w-3xl">
+              <p className="mt-2 text-xs sm:text-sm text-pink-950/80 leading-relaxed max-w-3xl">
                 {activeBook.description}
               </p>
             </div>
 
             {/* Actions: Pin / Copy */}
             <div className="flex flex-wrap items-center gap-2.5 self-end sm:self-start shrink-0">
-              <div className="flex items-center text-pink-400 text-base">
+              <div className="flex items-center text-pink-600 text-base">
                 {'★'.repeat(activeBook.rating)}
-                <span className="text-pink-300/70 text-xs ml-1.5 font-bold font-mono">
+                <span className="text-pink-900/70 text-xs ml-1.5 font-bold font-mono">
                   {activeBook.rating}/5
                 </span>
               </div>
@@ -419,7 +419,7 @@ export default function InteractiveBookshelf({
               <button
                 type="button"
                 onClick={() => handleCopyTitle(activeBook.title)}
-                className="rounded-full px-3 py-1.5 text-xs font-medium text-pink-200 bg-stone-900 hover:bg-stone-800 border border-pink-800/80 transition-colors"
+                className="rounded-full px-3 py-1.5 text-xs font-semibold text-pink-900 bg-white hover:bg-pink-100 border border-pink-300 transition-colors shadow-2xs"
               >
                 {copiedTitle ? '✓ Copied' : 'Copy'}
               </button>
@@ -428,7 +428,7 @@ export default function InteractiveBookshelf({
                 <button
                   type="button"
                   onClick={() => setSelectedBook(null)}
-                  className="rounded-full px-3.5 py-1.5 text-xs font-bold text-pink-300 bg-stone-900 hover:bg-stone-800 border border-pink-700"
+                  className="rounded-full px-3.5 py-1.5 text-xs font-bold text-pink-900 bg-pink-100 hover:bg-pink-200 border border-pink-300 shadow-2xs"
                 >
                   Unpin
                 </button>
@@ -447,10 +447,10 @@ export default function InteractiveBookshelf({
       )}
 
       {/* Tactile Book Spines Drawer */}
-      <div className="border-t border-pink-950/50 bg-stone-950/95 p-5 sm:p-7">
+      <div className="border-t border-pink-200/80 bg-pink-50/40 p-5 sm:p-7">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
           <div>
-            <h4 className="text-sm font-bold text-pink-100 font-serif flex items-center gap-2">
+            <h4 className="text-sm font-bold text-pink-950 font-serif flex items-center gap-2">
               <span>🌸</span>
               <span>
                 {currentCubby && currentCubby !== 'all'
@@ -458,7 +458,7 @@ export default function InteractiveBookshelf({
                   : 'Active Shelf Selection'}
               </span>
             </h4>
-            <p className="text-xs text-pink-300/60 mt-0.5">
+            <p className="text-xs text-pink-900/70 mt-0.5">
               {currentCubby && currentCubby !== 'all'
                 ? `${SHELF_CUBBIES[currentCubby]?.description} • Stacked horizontally as on the physical shelf`
                 : 'Hover any book spine below to pull it out and reveal its archival record'}
@@ -467,14 +467,14 @@ export default function InteractiveBookshelf({
 
           <div className="flex flex-wrap items-center gap-2">
             {/* View Mode Toggle: Stack vs Grid */}
-            <div className="flex items-center gap-1 rounded-full bg-stone-900/90 p-0.5 border border-pink-900/60 text-xs">
+            <div className="flex items-center gap-1 rounded-full bg-white p-0.5 border border-pink-200 text-xs shadow-2xs">
               <button
                 type="button"
                 onClick={() => setDrawerMode('stack')}
                 className={`rounded-full px-3 py-1 font-bold transition-all ${
                   drawerMode === 'stack'
                     ? 'bg-pink-600 text-white shadow-sm shadow-pink-600/30'
-                    : 'text-pink-300/60 hover:text-pink-200'
+                    : 'text-pink-900/70 hover:text-pink-950'
                 }`}
               >
                 📚 Shelf Stack
@@ -485,7 +485,7 @@ export default function InteractiveBookshelf({
                 className={`rounded-full px-3 py-1 font-bold transition-all ${
                   drawerMode === 'grid'
                     ? 'bg-pink-600 text-white shadow-sm shadow-pink-600/30'
-                    : 'text-pink-300/60 hover:text-pink-200'
+                    : 'text-pink-900/70 hover:text-pink-950'
                 }`}
               >
                 ⊞ Grid
@@ -497,10 +497,10 @@ export default function InteractiveBookshelf({
               <button
                 type="button"
                 onClick={() => setSelectedGenre('all')}
-                className={`rounded-full px-2.5 py-1 font-semibold transition-colors ${
+                className={`rounded-full px-2.5 py-1 font-semibold transition-colors border ${
                   selectedGenre === 'all'
-                    ? 'bg-pink-500 text-white shadow-sm shadow-pink-500/30'
-                    : 'bg-stone-900 text-pink-300/70 hover:text-pink-100'
+                    ? 'bg-pink-600 text-white border-pink-600 shadow-sm shadow-pink-600/30'
+                    : 'bg-white text-pink-900 border-pink-200 hover:bg-pink-100'
                 }`}
               >
                 All ({activeBooks.length})
@@ -512,8 +512,8 @@ export default function InteractiveBookshelf({
                   onClick={() => setSelectedGenre(selectedGenre === g ? 'all' : g)}
                   className={`rounded-full px-2.5 py-1 font-semibold transition-colors border ${
                     selectedGenre === g
-                      ? 'bg-pink-500 text-white border-pink-400 shadow-sm shadow-pink-500/30'
-                      : 'bg-stone-900/60 text-pink-300/70 border-stone-850 hover:text-pink-100 hover:border-pink-800'
+                      ? 'bg-pink-600 text-white border-pink-600 shadow-sm shadow-pink-600/30'
+                      : 'bg-white text-pink-900 border-pink-200 hover:bg-pink-100'
                   }`}
                 >
                   {g.split(' ')[0]}
@@ -525,12 +525,12 @@ export default function InteractiveBookshelf({
 
         {/* Physical Stack View (Horizontal spines stacked like the photo) */}
         {drawerMode === 'stack' ? (
-          <div className="rounded-2xl border border-pink-900/40 bg-black/40 p-3 sm:p-5">
+          <div className="rounded-2xl border border-pink-200 bg-white p-3 sm:p-5 shadow-xs">
             <div className="flex flex-col md:flex-row items-stretch gap-4">
               {/* Leaning Vertical Books (e.g. Algorithms, Art of Uncertainty) */}
               {activeBooks.some((b) => b.orientation === 'vertical') && (
-                <div className="flex items-end gap-2.5 pb-1 border-b md:border-b-0 md:border-r border-pink-900/40 md:pr-4 shrink-0">
-                  <span className="text-[10px] uppercase tracking-widest font-mono text-pink-400/60 [writing-mode:vertical-rl] rotate-180 mb-2 hidden md:block">
+                <div className="flex items-end gap-2.5 pb-1 border-b md:border-b-0 md:border-r border-pink-200 md:pr-4 shrink-0">
+                  <span className="text-[10px] uppercase tracking-widest font-mono text-pink-600 [writing-mode:vertical-rl] rotate-180 mb-2 hidden md:block">
                     Leaning
                   </span>
                   {activeBooks
@@ -546,13 +546,13 @@ export default function InteractiveBookshelf({
                           onClick={() => handleBookClick(book)}
                           className={`group relative flex flex-col justify-between cursor-pointer rounded-lg px-2 py-3 transition-all duration-200 border w-12 sm:w-14 h-48 sm:h-56 select-none ${
                             isHovered || isSelected
-                              ? '-translate-y-2 border-pink-400 shadow-xl shadow-pink-500/30'
-                              : 'border-stone-800 hover:border-pink-500/70'
+                              ? '-translate-y-2 border-pink-500 shadow-lg shadow-pink-500/25'
+                              : 'border-pink-200/80 hover:border-pink-400'
                           }`}
                           style={{
                             backgroundColor: book.spineColor,
                             color: book.textColor,
-                            boxShadow: isHovered || isSelected ? '0 10px 25px rgba(244,114,182,0.35)' : undefined,
+                            boxShadow: isHovered || isSelected ? '0 10px 25px rgba(236,72,153,0.3)' : undefined,
                           }}
                         >
                           <div className="text-[9px] font-mono opacity-80">{book.year}</div>
@@ -584,12 +584,12 @@ export default function InteractiveBookshelf({
                         onClick={() => handleBookClick(book)}
                         className={`group relative flex cursor-pointer items-center justify-between rounded-xl px-4 py-2.5 sm:py-3 transition-all duration-200 border ${
                           isHovered || isSelected
-                            ? 'translate-x-3 sm:translate-x-4 border-pink-400 shadow-xl shadow-pink-500/25 z-10'
-                            : 'border-stone-800/80 hover:border-pink-800'
+                            ? 'translate-x-3 sm:translate-x-4 border-pink-500 shadow-md shadow-pink-500/20 z-10'
+                            : 'border-pink-200/70 hover:border-pink-400'
                         }`}
                         style={{
-                          backgroundColor: book.spineColor === '#F5F5F3' ? '#222' : book.spineColor,
-                          color: book.textColor === '#1A1A1A' && book.spineColor === '#F5F5F3' ? '#F4F4F5' : book.textColor,
+                          backgroundColor: book.spineColor === '#F5F5F3' ? '#FBF9F4' : book.spineColor,
+                          color: book.textColor === '#1A1A1A' && book.spineColor === '#F5F5F3' ? '#2A141E' : book.textColor,
                           borderLeftWidth: '8px',
                           borderLeftColor: book.accentColor || '#EC4899',
                         }}
@@ -609,13 +609,13 @@ export default function InteractiveBookshelf({
                         </div>
 
                         <div className="flex items-center gap-2.5 shrink-0 ml-2">
-                          <span className="hidden sm:inline-block rounded px-1.5 py-0.5 text-[9px] font-mono bg-black/40 border border-white/10">
+                          <span className="hidden sm:inline-block rounded px-1.5 py-0.5 text-[9px] font-mono bg-black/10 border border-black/10">
                             {book.pages} pp
                           </span>
                           <span className="text-[10px] font-mono opacity-80">
                             {book.year > 0 ? book.year : `${Math.abs(book.year)} BC`}
                           </span>
-                          <span className="text-pink-300 text-xs">
+                          <span className="text-pink-600 text-xs">
                             {'★'.repeat(book.rating)}
                           </span>
                         </div>
@@ -626,7 +626,7 @@ export default function InteractiveBookshelf({
             </div>
           </div>
         ) : (
-          /* 3D Spines Grid View with Pink Glow */
+          /* Spines Grid View with Light Theme */
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 max-h-[420px] overflow-y-auto pr-1">
             {activeBooks.map((book) => {
               const isHovered = hoveredBook?.id === book.id;
@@ -640,8 +640,8 @@ export default function InteractiveBookshelf({
                   onClick={() => handleBookClick(book)}
                   className={`group relative flex cursor-pointer items-center justify-between rounded-xl p-3 transition-all duration-200 border ${
                     isHovered || isSelected
-                      ? '-translate-y-1.5 scale-[1.02] border-pink-400 bg-pink-950/40 shadow-xl shadow-pink-500/20'
-                      : 'border-stone-850 bg-stone-900/80 hover:border-pink-800 hover:bg-stone-850'
+                      ? '-translate-y-1 scale-[1.01] border-pink-500 bg-pink-50/80 shadow-md shadow-pink-500/15'
+                      : 'border-pink-200/80 bg-white hover:border-pink-400 hover:bg-pink-50/40'
                   }`}
                   style={{
                     borderLeftWidth: '5px',
@@ -650,20 +650,20 @@ export default function InteractiveBookshelf({
                 >
                   <div className="flex items-center gap-2.5 truncate">
                     <div className="truncate">
-                      <p className="truncate text-xs font-bold text-stone-100 group-hover:text-pink-300 transition-colors">
+                      <p className="truncate text-xs font-bold text-pink-950 font-serif group-hover:text-pink-700 transition-colors">
                         {book.title}
                       </p>
-                      <p className="truncate text-[11px] text-pink-300/60">
+                      <p className="truncate text-[11px] text-pink-900/70">
                         {book.author}
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0 ml-2">
-                    <span className="text-[10px] font-mono text-pink-300/60">
+                    <span className="text-[10px] font-mono text-pink-900/60">
                       {book.year > 0 ? book.year : `${Math.abs(book.year)} BC`}
                     </span>
-                    <span className="text-pink-400 text-xs">
+                    <span className="text-pink-600 text-xs">
                       {'★'.repeat(book.rating)}
                     </span>
                   </div>
