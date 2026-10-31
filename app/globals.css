@@ -46,6 +46,7 @@
   --color-foreground-secondary: var(--foreground-secondary);
   
   --font-sans: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: Charter, "Bitstream Charter", "Sitka Text", Cambria, Georgia, serif;
   --font-mono: var(--font-geist-mono);
   
   --color-primary: var(--color-primary);
