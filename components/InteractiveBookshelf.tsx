@@ -3,7 +3,6 @@
 import React, { useState, useRef, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import {
-  IconCamera,
   IconSearch,
   IconZoomIn,
   IconZoomOut,
@@ -167,10 +166,6 @@ export default function InteractiveBookshelf({
             <h2 className="text-xl sm:text-2xl font-black tracking-tight text-pink-950 font-serif">
               Physical Bookshelf Camera
             </h2>
-            <span className="inline-flex items-center gap-1.5 rounded-md bg-pink-100/90 border border-pink-300/80 px-2.5 py-0.5 text-[10px] font-serif font-bold text-pink-800 uppercase tracking-widest shadow-2xs">
-              <IconCamera size={13} className="text-pink-600" />
-              <span>Live Lens 2.9×</span>
-            </span>
           </div>
           <p className="mt-1.5 text-xs sm:text-sm text-pink-900/70 max-w-xl">
             Directly mapped to your 2×4 vertical bookcase • Click any cubby to zoom in up close • Tap book spines to inspect
