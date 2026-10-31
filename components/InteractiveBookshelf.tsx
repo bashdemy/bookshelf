@@ -26,14 +26,18 @@ interface CubbyHotspot {
 }
 
 const CUBBY_HOTSPOTS: Record<string, CubbyHotspot> = {
-  r1c1: { id: 'r1c1', x: 3.6, y: 19.6, width: 22.8, height: 34.1, zoomOrigin: '15.0% 36.6%', roman: 'I' },
-  r1c2: { id: 'r1c2', x: 26.9, y: 19.6, width: 22.8, height: 34.1, zoomOrigin: '38.3% 36.6%', roman: 'II' },
-  r1c3: { id: 'r1c3', x: 50.3, y: 19.6, width: 22.8, height: 34.1, zoomOrigin: '61.7% 36.6%', roman: 'III' },
-  r1c4: { id: 'r1c4', x: 73.6, y: 19.6, width: 22.8, height: 34.1, zoomOrigin: '85.0% 36.6%', roman: 'IV' },
-  r2c1: { id: 'r2c1', x: 3.6, y: 55.2, width: 22.8, height: 33.7, zoomOrigin: '15.0% 72.0%', roman: 'V' },
-  r2c2: { id: 'r2c2', x: 26.9, y: 55.2, width: 22.8, height: 33.7, zoomOrigin: '38.3% 72.0%', roman: 'VI' },
-  r2c3: { id: 'r2c3', x: 50.3, y: 55.2, width: 22.8, height: 33.7, zoomOrigin: '61.7% 72.0%', roman: 'VII' },
-  r2c4: { id: 'r2c4', x: 73.6, y: 55.2, width: 22.8, height: 33.7, zoomOrigin: '85.0% 72.0%', roman: 'VIII' },
+  // Tier 1 (Top)
+  r2c1: { id: 'r2c1', x: 13.7, y: 3.1, width: 33.0, height: 24.7, zoomOrigin: '30% 15%', roman: 'I' },
+  r1c1: { id: 'r1c1', x: 47.8, y: 3.1, width: 33.0, height: 24.7, zoomOrigin: '65% 15%', roman: 'II' },
+  // Tier 2 (Upper Middle)
+  r2c2: { id: 'r2c2', x: 13.7, y: 29.2, width: 33.0, height: 24.4, zoomOrigin: '30% 41%', roman: 'III' },
+  r1c2: { id: 'r1c2', x: 47.8, y: 29.2, width: 33.0, height: 24.4, zoomOrigin: '65% 41%', roman: 'IV' },
+  // Tier 3 (Lower Middle)
+  r2c3: { id: 'r2c3', x: 13.7, y: 54.4, width: 33.8, height: 20.8, zoomOrigin: '30% 65%', roman: 'V' },
+  r1c3: { id: 'r1c3', x: 47.8, y: 54.4, width: 33.0, height: 20.8, zoomOrigin: '65% 65%', roman: 'VI' },
+  // Tier 4 (Bottom)
+  r2c4: { id: 'r2c4', x: 13.7, y: 76.4, width: 33.0, height: 19.4, zoomOrigin: '30% 86%', roman: 'VII' },
+  r1c4: { id: 'r1c4', x: 47.8, y: 76.4, width: 33.0, height: 19.4, zoomOrigin: '65% 86%', roman: 'VIII' },
 };
 
 export default function InteractiveBookshelf({
@@ -47,19 +51,18 @@ export default function InteractiveBookshelf({
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedBook, setSelectedBook] = useState<PhysicalBook | null>(null);
   const [copiedTitle, setCopiedTitle] = useState(false);
-  const [isTallerPhoto, setIsTallerPhoto] = useState<boolean>(true);
   const [drawerMode, setDrawerMode] = useState<'stack' | 'grid'>('stack');
   const photoContainerRef = useRef<HTMLDivElement>(null);
 
   const cubbiesList: ShelfCubbyInfo[] = useMemo(() => [
-    SHELF_CUBBIES.r1c1,
-    SHELF_CUBBIES.r1c2,
-    SHELF_CUBBIES.r1c3,
-    SHELF_CUBBIES.r1c4,
-    SHELF_CUBBIES.r2c1,
-    SHELF_CUBBIES.r2c2,
-    SHELF_CUBBIES.r2c3,
-    SHELF_CUBBIES.r2c4,
+    SHELF_CUBBIES.r2c1, // I: Tier 1 Left
+    SHELF_CUBBIES.r1c1, // II: Tier 1 Right
+    SHELF_CUBBIES.r2c2, // III: Tier 2 Left
+    SHELF_CUBBIES.r1c2, // IV: Tier 2 Right
+    SHELF_CUBBIES.r2c3, // V: Tier 3 Left
+    SHELF_CUBBIES.r1c3, // VI: Tier 3 Right
+    SHELF_CUBBIES.r2c4, // VII: Tier 4 Left
+    SHELF_CUBBIES.r1c4, // VIII: Tier 4 Right
   ], []);
 
   const booksByCubby = useMemo(() => {
@@ -153,7 +156,7 @@ export default function InteractiveBookshelf({
             </span>
           </div>
           <p className="mt-1.5 text-xs sm:text-sm text-pink-900/70 max-w-xl">
-            Directly mapped to your 4×2 bookcase • Click any horizontal cubby to zoom in up close • Hover book spines to pull out
+            Directly mapped to your 2×4 vertical bookcase • Click any cubby to zoom in up close • Tap book spines to inspect
           </p>
         </div>
 
@@ -172,19 +175,6 @@ export default function InteractiveBookshelf({
               <span>Overview</span>
             </button>
           )}
-
-          <button
-            type="button"
-            onClick={() => setIsTallerPhoto((v) => !v)}
-            className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all border ${
-              isTallerPhoto
-                ? 'bg-pink-100 text-pink-800 border-pink-300 shadow-xs'
-                : 'bg-white text-pink-900/80 border-pink-200 hover:bg-pink-50'
-            }`}
-            title="Toggle taller camera view for immersive shelf inspection"
-          >
-            <span>{isTallerPhoto ? '⇕ Taller Camera (On)' : '↕ Taller Camera'}</span>
-          </button>
 
           <div className="relative">
             <input
@@ -248,15 +238,11 @@ export default function InteractiveBookshelf({
         })}
       </div>
 
-      {/* Main Photographic Canvas */}
+      {/* Main Photographic Canvas (Full 2x4 Vertical Bookcase, 3:4 Aspect Ratio) */}
       <div className="relative p-4 sm:p-7">
         <div
           ref={photoContainerRef}
-          className={`relative w-full overflow-hidden rounded-2xl border border-pink-200 bg-pink-50/50 select-none transition-all duration-500 ${
-            isTallerPhoto
-              ? 'h-[480px] sm:h-[620px] lg:h-[720px]'
-              : 'aspect-[4/3] min-h-[360px] sm:min-h-[480px]'
-          }`}
+          className="relative mx-auto w-full max-w-xl aspect-[3/4] overflow-hidden rounded-2xl border border-pink-200 bg-pink-50/50 select-none shadow-md shadow-pink-500/5 transition-all duration-500"
           style={{
             boxShadow: 'inset 0 0 30px rgba(225, 29, 72, 0.08), 0 8px 25px rgba(225, 29, 72, 0.1)',
           }}
@@ -266,12 +252,12 @@ export default function InteractiveBookshelf({
             className="absolute inset-0 transition-transform duration-700 ease-out will-change-transform"
             style={{
               transformOrigin: zoomedCubby ? CUBBY_HOTSPOTS[zoomedCubby]?.zoomOrigin : '50% 50%',
-              transform: zoomedCubby ? 'scale(2.95)' : isTallerPhoto ? 'scale(1.15)' : 'scale(1)',
+              transform: zoomedCubby ? 'scale(2.35)' : 'scale(1)',
             }}
           >
             <Image
               src="/bookshelf_web.jpg"
-              alt="Physical bookshelf"
+              alt="Maria's 2x4 physical bookshelf"
               fill
               priority
               className="object-cover"
@@ -319,14 +305,14 @@ export default function InteractiveBookshelf({
             })}
           </div>
 
-          {/* Minimap HUD Radar */}
+          {/* Minimap HUD Radar (2 Columns x 4 Rows) */}
           <div className="absolute bottom-3 left-3 z-20 hidden sm:flex items-center gap-2.5 rounded-xl bg-white/95 backdrop-blur-md p-2.5 border border-pink-200 shadow-lg">
-            <div className="grid grid-cols-4 grid-rows-2 gap-1 w-20 h-10">
-              {Object.keys(CUBBY_HOTSPOTS).map((k) => (
+            <div className="grid grid-cols-2 grid-rows-4 gap-1 w-9 h-18">
+              {cubbiesList.map((c) => (
                 <div
-                  key={k}
+                  key={c.id}
                   className={`rounded-xs transition-all ${
-                    zoomedCubby === k || activeCubby === k
+                    zoomedCubby === c.id || activeCubby === c.id
                       ? 'bg-pink-600 shadow-[0_0_8px_rgba(236,72,153,0.8)]'
                       : 'bg-pink-100'
                   }`}
@@ -417,8 +403,8 @@ export default function InteractiveBookshelf({
             </h4>
             <p className="text-xs text-pink-900/70 mt-0.5">
               {currentCubby && currentCubby !== 'all'
-                ? `${SHELF_CUBBIES[currentCubby]?.description} • Stacked horizontally as on the physical shelf`
-                : 'Hover any book spine below to pull it out and reveal its archival record'}
+                ? `${SHELF_CUBBIES[currentCubby]?.description} • Books indexed in your 2×4 vertical bookcase`
+                : 'Click any book spine below to reveal its archival record'}
             </p>
           </div>
 

@@ -18,77 +18,77 @@ export interface PhysicalBook {
 
 export interface ShelfCubbyInfo {
   id: 'r1c1' | 'r1c2' | 'r1c3' | 'r1c4' | 'r2c1' | 'r2c2' | 'r2c3' | 'r2c4';
-  row: 1 | 2;
-  col: 1 | 2 | 3 | 4;
+  row: 1 | 2 | 3 | 4;
+  col: 1 | 2;
   title: string;
   subtitle: string;
   description: string;
 }
 
 export const SHELF_CUBBIES: Record<string, ShelfCubbyInfo> = {
+  r2c1: {
+    id: 'r2c1',
+    row: 1,
+    col: 1,
+    title: 'Epic Classics, Science & Cosmos',
+    subtitle: 'Tier 1 • Left (Top)',
+    description: 'Cosmology, War and Peace, Russian originals, American classics, and Australian literature.',
+  },
   r1c1: {
     id: 'r1c1',
     row: 1,
-    col: 1,
-    title: 'History, Algorithms & Human Nature',
-    subtitle: 'Top Row • Cubby 1 (Left)',
-    description: 'Computer science principles, evolutionary history, and grand historical epics.',
-  },
-  r1c2: {
-    id: 'r1c2',
-    row: 1,
     col: 2,
-    title: 'Mind, Psychology & Society',
-    subtitle: 'Top Row • Cubby 2',
-    description: 'Modern psychology, neurodiversity, statistics, uncertainty, and personal transformation.',
-  },
-  r1c3: {
-    id: 'r1c3',
-    row: 1,
-    col: 3,
-    title: 'Crimson Vintage Classics & Occult',
-    subtitle: 'Top Row • Cubby 3',
-    description: 'Iconic crimson vintage paperbacks, Russian folklore, witchcraft history, and mid-century literature.',
-  },
-  r1c4: {
-    id: 'r1c4',
-    row: 1,
-    col: 4,
-    title: 'Dystopian, Gothic & World Lit',
-    subtitle: 'Top Row • Cubby 4 (Right)',
-    description: 'Timeless masterworks spanning Austen, Solzhenitsyn, Orwell, Atwood, Homer, and Poe.',
-  },
-  r2c1: {
-    id: 'r2c1',
-    row: 2,
-    col: 1,
-    title: 'Epic Classics, Science & Cosmos',
-    subtitle: 'Bottom Row • Cubby 1 (Left)',
-    description: 'Cosmology, War and Peace, Russian originals, American classics, and Australian literature.',
+    title: 'History, Sapiens & Algorithms',
+    subtitle: 'Tier 1 • Right (Top)',
+    description: 'Computer science principles, evolutionary history, and grand historical epics.',
   },
   r2c2: {
     id: 'r2c2',
     row: 2,
-    col: 2,
+    col: 1,
     title: 'Penguin Orange Classics',
-    subtitle: 'Bottom Row • Cubby 2',
+    subtitle: 'Tier 2 • Left',
     description: 'The iconic orange Penguin Classics collection, philosophy, and Blue Mountains trail guide.',
+  },
+  r1c2: {
+    id: 'r1c2',
+    row: 2,
+    col: 2,
+    title: 'Mind, Psychology & Society',
+    subtitle: 'Tier 2 • Right',
+    description: 'Modern psychology, neurodiversity, statistics, uncertainty, and personal transformation.',
   },
   r2c3: {
     id: 'r2c3',
-    row: 2,
-    col: 3,
+    row: 3,
+    col: 1,
     title: 'Black Spine Classics & Australian Drinks',
-    subtitle: 'Bottom Row • Cubby 3',
+    subtitle: 'Tier 3 • Left',
     description: 'Penguin Black Classics, European existentialism, Russian realism, and Max Allen’s drinks history.',
+  },
+  r1c3: {
+    id: 'r1c3',
+    row: 3,
+    col: 2,
+    title: 'Crimson Vintage Classics & Occult',
+    subtitle: 'Tier 3 • Right',
+    description: 'Iconic crimson vintage paperbacks, Russian folklore, witchcraft history, and mid-century literature.',
   },
   r2c4: {
     id: 'r2c4',
-    row: 2,
-    col: 4,
+    row: 4,
+    col: 1,
     title: 'Sci-Fi, Crime & Human Strategy',
-    subtitle: 'Bottom Row • Cubby 4 (Right)',
+    subtitle: 'Tier 4 • Left (Bottom)',
     description: 'From Hitchhiker’s Guide and Moby-Dick to Agatha Christie and the 48 Laws of Power.',
+  },
+  r1c4: {
+    id: 'r1c4',
+    row: 4,
+    col: 2,
+    title: 'Dystopian, Gothic & World Lit',
+    subtitle: 'Tier 4 • Right (Bottom)',
+    description: 'Timeless masterworks spanning Austen, Solzhenitsyn, Orwell, Atwood, Homer, and Poe.',
   },
 };
 
