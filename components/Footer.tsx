@@ -17,9 +17,10 @@ export default function Footer() {
               href="https://bashdemy.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-bold transition-colors hover:text-pink-600 hover:underline"
+              className="inline-flex items-center gap-1.5 font-bold text-pink-950 transition-all hover:text-pink-600 hover:scale-105"
             >
-              bashdemy.com
+              <span>built by bashdemy</span>
+              <span className="text-sm transition-transform hover:scale-125">🩷</span>
             </a>
             <span className="text-pink-400 font-mono">© {currentYear}</span>
           </div>
