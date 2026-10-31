@@ -496,7 +496,7 @@ export default function ReadingItemCard({
                     type="button"
                     onClick={() => setIsConfirmingDelete(false)}
                     disabled={isDeleting}
-                    className="rounded px-2 py-1 font-semibold text-gray-600 hover:bg-gray-100"
+                    className="rounded px-2.5 py-1 font-serif font-semibold text-pink-900/80 hover:bg-pink-100/70 border border-pink-200"
                   >
                     Cancel
                   </button>

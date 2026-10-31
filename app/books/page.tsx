@@ -15,7 +15,7 @@ export default async function BooksPage() {
       <InteractiveBookshelf />
 
       <ReadingSection
-        title="All Cataloged Books"
+        title="Every Book on the Shelf"
         items={books}
         singularLabel="book"
         pluralLabel="books"

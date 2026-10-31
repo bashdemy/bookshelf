@@ -55,11 +55,11 @@ export default async function PublicProfilePage({
             </div>
           )}
           <div>
-            <h1 className="text-2xl font-bold tracking-tight" style={{ color: 'var(--color-foreground)' }}>
+            <h1 className="text-2xl font-bold font-serif tracking-tight text-pink-950">
               {profileUser.display_name}&apos;s Bookshelf
             </h1>
             {profileUser.username && (
-              <p className="text-xs font-semibold" style={{ color: 'var(--color-foreground-secondary)' }}>
+              <p className="text-xs font-serif text-pink-900/70">
                 @{profileUser.username}
               </p>
             )}

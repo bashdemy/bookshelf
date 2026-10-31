@@ -21,18 +21,18 @@ export default function StatsCard({ title, value, subtitle, icon }: StatsCardPro
       }}
     >
       <div className="mb-2 flex items-center justify-between">
-        <p className="text-[11px] font-bold uppercase tracking-wider" style={{ color: 'var(--color-foreground-secondary)' }}>
+        <p className="text-[11px] font-serif font-bold uppercase tracking-wider text-pink-700">
           {title}
         </p>
         {icon && (
           <span className="text-xl opacity-80">{icon}</span>
         )}
       </div>
-      <p className="mb-1 text-3xl font-extrabold tracking-tight" style={{ color: 'var(--color-foreground)' }}>
+      <p className="mb-1 text-3xl font-extrabold tracking-tight font-serif text-pink-950">
         {value}
       </p>
       {subtitle && (
-        <p className="text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
+        <p className="text-xs text-pink-900/70">
           {subtitle}
         </p>
       )}

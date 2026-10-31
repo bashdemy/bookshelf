@@ -164,11 +164,11 @@ export default function InteractiveBookshelf({
           <div className="flex flex-wrap items-center gap-2.5">
             <span className="inline-flex h-2.5 w-2.5 rounded-full bg-pink-500 shadow-[0_0_10px_rgba(236,72,153,0.9)] animate-pulse" />
             <h2 className="text-xl sm:text-2xl font-black tracking-tight text-pink-950 font-serif">
-              Physical Bookshelf Camera
+              The Real Bookshelf
             </h2>
           </div>
-          <p className="mt-1.5 text-xs sm:text-sm text-pink-900/70 max-w-xl">
-            Directly mapped to your 2×4 vertical bookcase • Click any cubby to zoom in up close • Tap book spines to inspect
+          <p className="mt-1.5 text-xs sm:text-sm text-pink-900/80 max-w-xl">
+            My actual 2×4 bookcase. Click any cubby to zoom right up close to the spines, or tap a book to pull its card.
           </p>
         </div>
 
@@ -194,7 +194,7 @@ export default function InteractiveBookshelf({
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Find volume on shelf..."
+              placeholder="Search books (e.g. Vonnegut, ADHD)..."
               className="w-48 sm:w-60 rounded-md border border-pink-300/80 bg-white pl-8 pr-7 py-1.5 text-xs font-serif text-pink-950 placeholder:text-pink-400 focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-400 transition-colors shadow-2xs"
             />
             {searchQuery && (
@@ -423,10 +423,10 @@ export default function InteractiveBookshelf({
                 type="button"
                 onClick={() => setSelectedBook(null)}
                 className="flex items-center gap-1 rounded-md px-3 py-1.5 text-xs font-serif font-bold text-pink-800 bg-pink-100 hover:bg-pink-200 border border-pink-300 transition-colors active:translate-y-[1px]"
-                title="Close volume preview"
+                title="Put book back on shelf"
               >
                 <IconX size={13} />
-                <span>Close</span>
+                <span>Put back</span>
               </button>
             </div>
           </div>
@@ -442,13 +442,13 @@ export default function InteractiveBookshelf({
               <span>
                 {currentCubby && currentCubby !== 'all'
                   ? SHELF_CUBBIES[currentCubby]?.title
-                  : 'Active Shelf Selection'}
+                  : 'Books on the Shelves'}
               </span>
             </h4>
-            <p className="text-xs text-pink-900/70 mt-0.5">
+            <p className="text-xs text-pink-900/80 mt-0.5">
               {currentCubby && currentCubby !== 'all'
-                ? `${SHELF_CUBBIES[currentCubby]?.description} • Books indexed in your 2×4 vertical bookcase`
-                : 'Click any book spine below to reveal its archival record'}
+                ? `${SHELF_CUBBIES[currentCubby]?.description}`
+                : 'Click any spine below to pull it out and see why it is on my shelf.'}
             </p>
           </div>
 
@@ -592,7 +592,7 @@ export default function InteractiveBookshelf({
                         </div>
 
                         <div className="flex items-center gap-2.5 shrink-0 ml-2">
-                          <span className="hidden sm:inline-block rounded px-1.5 py-0.5 text-[9px] font-mono bg-black/10 border border-black/10">
+                          <span className="hidden sm:inline-block rounded px-1.5 py-0.5 text-[9px] font-mono bg-pink-100/90 border border-pink-300/80 text-pink-900">
                             {book.pages} pp
                           </span>
                           <span className="text-[10px] font-mono opacity-80">

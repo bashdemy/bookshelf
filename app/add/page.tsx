@@ -191,11 +191,11 @@ export default function AddPage() {
   return (
     <main className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold tracking-tight" style={{ color: 'var(--color-foreground)' }}>
-          Catalog Reading Item
+        <h1 className="text-2xl font-bold font-serif tracking-tight text-pink-950">
+          Log a New Book or Article
         </h1>
-        <p className="mt-1 text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
-          Enter a URL, brief description, or catalog details manually
+        <p className="mt-1 text-xs font-serif text-pink-900/70">
+          Add a volume to the shelves, paste a link, or enter details manually
         </p>
       </div>
 
@@ -249,13 +249,13 @@ export default function AddPage() {
               type="button"
               onClick={handleAIProcess}
               disabled={isProcessing || !description.trim()}
-              className="flex-1 rounded-md px-4 py-2.5 text-xs font-bold text-white transition-all active:translate-y-[1px] disabled:opacity-50"
+              className="flex-1 rounded-md px-4 py-2.5 text-xs font-serif font-bold text-white transition-all active:translate-y-[1px] disabled:opacity-50"
               style={{ 
                 background: 'var(--color-primary)',
                 boxShadow: 'var(--shadow-button-primary)',
               }}
             >
-              {isProcessing ? 'Analyzing...' : 'Fetch AI Details'}
+              {isProcessing ? 'Looking up...' : 'Auto-Fill Details'}
             </button>
           </div>
         </div>

@@ -129,10 +129,10 @@ export default function ReadingSection({
     <section className="mb-14">
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl sm:text-3xl font-bold font-serif tracking-tight" style={{ color: 'var(--color-foreground)' }}>
+          <h2 className="text-2xl sm:text-3xl font-bold font-serif tracking-tight text-pink-950">
             {title}
           </h2>
-          <p className="text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
+          <p className="text-xs font-serif text-pink-900/70">
             {hasActiveFilters
               ? `Showing ${filteredAndSortedItems.length} of ${formatItemCount(items.length, singularLabel, pluralLabel)}`
               : formatItemCount(items.length, singularLabel, pluralLabel)}
@@ -338,13 +338,13 @@ export default function ReadingSection({
           <div className="mb-3 flex items-center justify-center h-14 w-14 rounded-2xl bg-pink-100 text-pink-600 border border-pink-200">
             {singularLabel === 'book' ? <IconBooks size={28} /> : <IconArticle size={28} />}
           </div>
-          <h3 className="mb-1 text-lg font-bold" style={{ color: 'var(--color-foreground)' }}>
+          <h3 className="mb-1 text-lg font-bold font-serif text-pink-950">
             No {pluralLabel} tracked yet
           </h3>
-          <p className="mb-5 max-w-sm text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
+          <p className="mb-5 max-w-sm text-xs font-serif text-pink-900/70">
             {canEdit
-              ? `Start building your library by cataloging the first ${singularLabel} you've read.`
-              : `This bookshelf doesn't have any ${pluralLabel} cataloged yet.`}
+              ? `Start building your shelf by logging the first ${singularLabel} you've read.`
+              : `No ${pluralLabel} logged on this shelf yet.`}
           </p>
           {canEdit && (
             <Link
@@ -365,11 +365,11 @@ export default function ReadingSection({
             background: 'var(--paper)',
           }}
         >
-          <p className="mb-1 text-sm font-bold" style={{ color: 'var(--color-foreground)' }}>
+          <p className="mb-1 text-sm font-bold font-serif text-pink-950">
             No matching {pluralLabel} found
           </p>
-          <p className="mb-4 text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
-            Try refining your keywords or clearing active filters.
+          <p className="mb-4 text-xs font-serif text-pink-900/70">
+            Try tweaking your search keywords or clearing active filters.
           </p>
           <button
             type="button"

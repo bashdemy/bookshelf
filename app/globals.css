@@ -4,8 +4,8 @@
   color-scheme: light;
   --background: #FFF7F9;
   --paper: #FFFFFF;
-  --foreground: #2A141E;
-  --foreground-secondary: #835269;
+  --foreground: #380B22;
+  --foreground-secondary: #8F3D5D;
   --color-border: #FBCFE8;
   --color-divider: #FCE7F3;
 
@@ -82,10 +82,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+}
+
 /* Subtle, realistic tactile interaction */
 button, a, input, select, textarea {
   transition-property: color, background-color, border-color, box-shadow, transform, opacity;
-  transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+  transition-timing-function: cubic-bezier(0.2, 0, 1);
   transition-duration: 150ms;
 }
 
@@ -98,7 +102,7 @@ button, a, input, select, textarea {
 }
 
 .tactile-card:hover {
-  border-color: #D6CEBF;
+  border-color: #F472B6;
   box-shadow: var(--shadow-card-hover);
 }
 
@@ -127,11 +131,11 @@ button, a, input, select, textarea {
 }
 
 .tactile-button-secondary:hover {
-  background: #F9F7F4;
-  border-color: #D6CEBF;
+  background: #FDF2F8;
+  border-color: #F472B6;
 }
 
 .tactile-button-secondary:active {
   transform: translateY(1px);
-  background: #F2EFEA;
+  background: #FCE7F3;
 }

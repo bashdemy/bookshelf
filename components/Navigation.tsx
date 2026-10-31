@@ -39,7 +39,7 @@ export default function Navigation() {
         const isDisabled = !!(item.requiresAuth && !isAuthenticated);
         const Icon = item.icon;
         const tooltipText = isDisabled
-          ? 'Showing public data. Sign in to add your own books.'
+          ? 'Sign in to log and catalog your own reads.'
           : undefined;
 
         if (isDisabled) {

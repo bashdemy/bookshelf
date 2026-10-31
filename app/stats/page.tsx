@@ -12,11 +12,11 @@ export default async function StatsPage() {
   return (
     <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-extrabold tracking-tight" style={{ color: 'var(--color-foreground)' }}>
-          Statistics & Insights
+        <h1 className="text-3xl font-bold font-serif tracking-tight text-pink-950">
+          Reading Habits & Stats
         </h1>
-        <p className="mt-1 text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
-          Detailed analytics of your cataloged volumes and articles
+        <p className="mt-1 text-xs font-serif text-pink-900/80">
+          Pace, page counts, favorite rabbit holes, and the breakdown of everything on the shelves.
         </p>
       </div>
       <StatsSection books={books} articles={articles} />
