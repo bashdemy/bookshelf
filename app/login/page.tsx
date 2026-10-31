@@ -10,22 +10,40 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/';
 
-  const [mode, setMode] = useState<'signin' | 'register'>('signin');
+  const [mode, setMode] = useState<'signin' | 'register' | 'reset'>('signin');
   const [username, setUsername] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setSuccessMsg(null);
     setIsSubmitting(true);
 
     const cleanUsername = username.trim().toLowerCase();
 
     try {
-      if (mode === 'register') {
+      if (mode === 'reset') {
+        const resetRes = await fetch('/api/auth/reset-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: cleanUsername,
+            newPassword: password,
+          }),
+        });
+
+        const resetData = await resetRes.json();
+        if (!resetRes.ok) {
+          throw new Error(resetData.error || 'Failed to reset password');
+        }
+
+        setSuccessMsg('Password updated! Signing you in...');
+      } else if (mode === 'register') {
         const regRes = await fetch('/api/auth/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -55,7 +73,7 @@ function LoginForm() {
       router.push(callbackUrl);
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred during sign in');
+      setError(err instanceof Error ? err.message : 'An error occurred during authentication');
       setIsSubmitting(false);
     }
   };
@@ -76,7 +94,11 @@ function LoginForm() {
           <span>Bookshelf</span>
         </h1>
         <p className="mt-1 text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
-          {mode === 'signin' ? 'Sign in to your personal archive' : 'Create your reading profile'}
+          {mode === 'signin'
+            ? 'Sign in to your personal archive'
+            : mode === 'register'
+            ? 'Create your reading profile'
+            : 'Set or update your password'}
         </p>
       </div>
 
@@ -89,6 +111,7 @@ function LoginForm() {
           onClick={() => {
             setMode('signin');
             setError(null);
+            setSuccessMsg(null);
           }}
           className="flex-1 rounded-full py-1.5 text-xs font-semibold transition-all"
           style={{
@@ -104,6 +127,7 @@ function LoginForm() {
           onClick={() => {
             setMode('register');
             setError(null);
+            setSuccessMsg(null);
           }}
           className="flex-1 rounded-full py-1.5 text-xs font-semibold transition-all"
           style={{
@@ -112,9 +136,37 @@ function LoginForm() {
             boxShadow: mode === 'register' ? '0 1px 2px rgba(26, 23, 20, 0.08)' : 'none',
           }}
         >
-          Create Account
+          New User
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setMode('reset');
+            setError(null);
+            setSuccessMsg(null);
+          }}
+          className="flex-1 rounded-full py-1.5 text-xs font-semibold transition-all"
+          style={{
+            background: mode === 'reset' ? '#FFFFFF' : 'transparent',
+            color: mode === 'reset' ? 'var(--color-foreground)' : 'var(--color-foreground-secondary)',
+            boxShadow: mode === 'reset' ? '0 1px 2px rgba(26, 23, 20, 0.08)' : 'none',
+          }}
+        >
+          Reset
         </button>
       </div>
+
+      {successMsg && (
+        <div
+          className="mb-4 rounded-md border p-2.5 text-xs text-emerald-800"
+          style={{
+            borderColor: '#A7F3D0',
+            background: '#ECFDF5',
+          }}
+        >
+          {successMsg}
+        </div>
+      )}
 
       {error && (
         <div
@@ -216,10 +268,14 @@ function LoginForm() {
           {isSubmitting
             ? mode === 'signin'
               ? 'Authenticating...'
-              : 'Creating account...'
+              : mode === 'register'
+              ? 'Creating account...'
+              : 'Updating password...'
             : mode === 'signin'
               ? 'Sign In'
-              : 'Create Account'}
+              : mode === 'register'
+              ? 'Create Account'
+              : 'Reset & Sign In'}
         </button>
       </form>
 

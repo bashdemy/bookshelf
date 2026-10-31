@@ -49,27 +49,26 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         try {
           const result = (await sql`
-            SELECT id, username, display_name, email, password_hash, avatar_url
+            SELECT id, username, display_name, password_hash
             FROM users
             WHERE LOWER(username) = ${usernameInput}
-               OR (email IS NOT NULL AND LOWER(email) = ${usernameInput})
             LIMIT 1
           `) as Array<{
             id: string;
             username: string | null;
             display_name: string;
-            email: string | null;
             password_hash: string | null;
-            avatar_url: string | null;
           }>;
 
           const user = result[0];
           if (!user || !user.password_hash) {
+            console.warn(`[auth] User "${usernameInput}" not found or missing password.`);
             return null;
           }
 
           const isValid = await verifyPassword(passwordInput, user.password_hash);
           if (!isValid) {
+            console.warn(`[auth] Invalid password attempt for "${usernameInput}".`);
             return null;
           }
 
@@ -78,8 +77,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             username: user.username,
             displayName: user.display_name,
             name: user.display_name,
-            email: user.email,
-            image: user.avatar_url,
+            email: null,
+            image: null,
           };
         } catch (error) {
           console.error('Error in authorize credentials:', error);
