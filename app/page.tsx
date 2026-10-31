@@ -24,31 +24,31 @@ export default async function Home() {
         <div>
           <div className="flex items-center gap-2 mb-2">
             <span className="text-xl">🌸</span>
-            <span className="rounded-full bg-[#EFEBE2] px-3 py-1 text-xs font-bold uppercase tracking-wider text-stone-700">
+            <span className="rounded-full bg-pink-100/90 border border-pink-300/70 px-3 py-1 text-xs font-bold uppercase tracking-wider text-pink-900 shadow-xs">
               Personal Archive & Physical Shelf
             </span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight font-serif" style={{ color: 'var(--color-foreground)' }}>
             bashdemy&apos;s Bookshelf
           </h1>
-          <p className="mt-2 text-sm sm:text-base text-stone-600 max-w-2xl leading-relaxed">
-            A tactile chronicle of <span className="font-bold text-stone-900">{stats.bookCount} physical volumes</span> and articles read from 2017 to the present. Explore the real bookcase camera below, zoom into any cubby, and inspect individual book spines.
+          <p className="mt-2 text-sm sm:text-base text-pink-950/70 max-w-2xl leading-relaxed">
+            A tactile chronicle of <span className="font-bold text-pink-700">{stats.bookCount} physical volumes</span> and articles read from 2017 to the present. Explore the real bookcase camera below, zoom into any cubby, and inspect individual book spines.
           </p>
         </div>
 
         {/* Quick Stat Badges */}
         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-          <div className="rounded-2xl border px-4 py-2.5 text-center bg-white" style={{ borderColor: 'var(--color-border)' }}>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-stone-500">Physical Books</p>
-            <p className="text-xl font-black text-stone-900 font-mono">{stats.bookCount}</p>
+          <div className="rounded-2xl border border-pink-200/80 px-4 py-2.5 text-center bg-white shadow-xs">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-pink-600">Physical Books</p>
+            <p className="text-xl font-black text-pink-950 font-mono">{stats.bookCount}</p>
           </div>
-          <div className="rounded-2xl border px-4 py-2.5 text-center bg-white" style={{ borderColor: 'var(--color-border)' }}>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-stone-500">Pages Indexed</p>
-            <p className="text-xl font-black text-[#9E384D] font-mono">{totalPages.toLocaleString()}</p>
+          <div className="rounded-2xl border border-pink-200/80 px-4 py-2.5 text-center bg-white shadow-xs">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-pink-600">Pages Indexed</p>
+            <p className="text-xl font-black text-pink-600 font-mono">{totalPages.toLocaleString()}</p>
           </div>
-          <div className="rounded-2xl border px-4 py-2.5 text-center bg-white" style={{ borderColor: 'var(--color-border)' }}>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-stone-500">Shelf Cubbies</p>
-            <p className="text-xl font-black text-[#394A60] font-mono">8 / 8</p>
+          <div className="rounded-2xl border border-pink-200/80 px-4 py-2.5 text-center bg-white shadow-xs">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-pink-600">Shelf Cubbies</p>
+            <p className="text-xl font-black text-rose-600 font-mono">8 / 8</p>
           </div>
         </div>
       </section>
@@ -62,53 +62,50 @@ export default async function Home() {
       <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Link
           href="/books"
-          className="group flex items-center justify-between rounded-2xl border p-5 transition-all hover:-translate-y-1 hover:shadow-lg bg-white"
-          style={{ borderColor: 'var(--color-border)' }}
+          className="group flex items-center justify-between rounded-2xl border border-pink-200/80 p-5 transition-all hover:-translate-y-1 hover:border-pink-400 hover:shadow-lg hover:shadow-pink-500/10 bg-white"
         >
           <div>
             <span className="text-2xl mb-1 block">📖</span>
-            <h3 className="font-bold text-base text-stone-900 group-hover:text-[#9E384D] transition-colors">
+            <h3 className="font-bold text-base text-stone-900 group-hover:text-pink-600 transition-colors">
               Full Book Catalog
             </h3>
             <p className="text-xs text-stone-500 mt-0.5">
               Browse, filter by genre, and sort all {stats.bookCount} books
             </p>
           </div>
-          <span className="text-stone-400 group-hover:translate-x-1 transition-transform">→</span>
+          <span className="text-pink-400 group-hover:translate-x-1 transition-transform">→</span>
         </Link>
 
         <Link
           href="/stats"
-          className="group flex items-center justify-between rounded-2xl border p-5 transition-all hover:-translate-y-1 hover:shadow-lg bg-white"
-          style={{ borderColor: 'var(--color-border)' }}
+          className="group flex items-center justify-between rounded-2xl border border-pink-200/80 p-5 transition-all hover:-translate-y-1 hover:border-pink-400 hover:shadow-lg hover:shadow-pink-500/10 bg-white"
         >
           <div>
             <span className="text-2xl mb-1 block">📊</span>
-            <h3 className="font-bold text-base text-stone-900 group-hover:text-[#9E384D] transition-colors">
+            <h3 className="font-bold text-base text-stone-900 group-hover:text-pink-600 transition-colors">
               Reading Analytics
             </h3>
             <p className="text-xs text-stone-500 mt-0.5">
               Annual velocity, genre distributions & page counts
             </p>
           </div>
-          <span className="text-stone-400 group-hover:translate-x-1 transition-transform">→</span>
+          <span className="text-pink-400 group-hover:translate-x-1 transition-transform">→</span>
         </Link>
 
         <Link
           href={user?.username ? `/u/${user.username}` : '/login'}
-          className="group flex items-center justify-between rounded-2xl border p-5 transition-all hover:-translate-y-1 hover:shadow-lg bg-white"
-          style={{ borderColor: 'var(--color-border)' }}
+          className="group flex items-center justify-between rounded-2xl border border-pink-200/80 p-5 transition-all hover:-translate-y-1 hover:border-pink-400 hover:shadow-lg hover:shadow-pink-500/10 bg-white"
         >
           <div>
             <span className="text-2xl mb-1 block">👤</span>
-            <h3 className="font-bold text-base text-stone-900 group-hover:text-[#9E384D] transition-colors">
+            <h3 className="font-bold text-base text-stone-900 group-hover:text-pink-600 transition-colors">
               {user ? 'My Profile' : 'Curator Login'}
             </h3>
             <p className="text-xs text-stone-500 mt-0.5">
               {user ? `Logged in as @${user.username}` : 'Sign in to add & manage shelf items'}
             </p>
           </div>
-          <span className="text-stone-400 group-hover:translate-x-1 transition-transform">→</span>
+          <span className="text-pink-400 group-hover:translate-x-1 transition-transform">→</span>
         </Link>
       </section>
 
@@ -126,7 +123,7 @@ export default async function Home() {
             </div>
             <Link
               href="/books"
-              className="text-xs font-bold text-[#9E384D] hover:underline"
+              className="text-xs font-bold text-pink-600 hover:underline"
             >
               View complete archive →
             </Link>

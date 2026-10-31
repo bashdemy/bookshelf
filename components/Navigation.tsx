@@ -24,7 +24,7 @@ export default function Navigation() {
   const isAuthenticated = !!session;
 
   return (
-    <nav className="flex items-center gap-1 rounded-full p-1" style={{ background: '#EFEBE2' }}>
+    <nav className="flex items-center gap-1 rounded-full p-1 border border-pink-200/80" style={{ background: '#FCE7F3' }}>
       {navigationItems.map((item) => {
         const isActive = pathname === item.href;
         const isDisabled = !!(item.requiresAuth && !isAuthenticated);
@@ -37,7 +37,7 @@ export default function Navigation() {
             <div key={item.href} className="group relative inline-block">
               <span
                 className="inline-block cursor-not-allowed rounded-full px-3.5 py-1.5 text-xs font-medium opacity-50"
-                style={{ color: 'var(--color-foreground-secondary)' }}
+                style={{ color: '#9D174D' }}
               >
                 {item.label}
               </span>
@@ -45,9 +45,9 @@ export default function Navigation() {
                 <div
                   className="absolute top-full left-1/2 z-50 mt-2 hidden -translate-x-1/2 whitespace-nowrap rounded-md px-2.5 py-1 text-xs group-hover:block"
                   style={{
-                    background: '#1D1B18',
+                    background: '#831843',
                     color: '#FFFFFF',
-                    boxShadow: 'var(--shadow-md)',
+                    boxShadow: '0 4px 12px rgba(131, 24, 67, 0.2)',
                   }}
                 >
                   {tooltipText}
@@ -61,12 +61,12 @@ export default function Navigation() {
           <Link
             key={item.href}
             href={item.href}
-            className="rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors"
+            className="rounded-full px-3.5 py-1.5 text-xs font-medium transition-all"
             style={{
               background: isActive ? '#FFFFFF' : 'transparent',
-              color: isActive ? 'var(--color-foreground)' : 'var(--color-foreground-secondary)',
-              fontWeight: isActive ? 600 : 500,
-              boxShadow: isActive ? '0 1px 2px rgba(26, 23, 20, 0.08)' : 'none',
+              color: isActive ? '#BE185D' : '#9D174D',
+              fontWeight: isActive ? 700 : 500,
+              boxShadow: isActive ? '0 1px 3px rgba(190, 24, 93, 0.18)' : 'none',
             }}
           >
             {item.label}

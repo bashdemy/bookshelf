@@ -1,36 +1,36 @@
 @import "tailwindcss";
 
 :root {
-  --background: #F8F6F1;
+  --background: #FFF7F9;
   --paper: #FFFFFF;
-  --foreground: #1D1B18;
-  --foreground-secondary: #6B645B;
-  --color-border: #E5E0D6;
-  --color-divider: #E5E0D6;
+  --foreground: #2A141E;
+  --foreground-secondary: #835269;
+  --color-border: #FBCFE8;
+  --color-divider: #FCE7F3;
 
-  --color-primary: #9E384D;
-  --color-primary-hover: #862B3E;
-  --color-primary-soft: #F6ECEB;
-  --color-primary-text: #6F2132;
+  --color-primary: #E11D48;
+  --color-primary-hover: #BE123C;
+  --color-primary-soft: #FDF2F8;
+  --color-primary-text: #9D174D;
 
-  --color-secondary: #394A60;
-  --color-secondary-hover: #2D3A4D;
-  --color-secondary-soft: #EEF1F5;
-  --color-secondary-text: #263345;
+  --color-secondary: #BE185D;
+  --color-secondary-hover: #9D174D;
+  --color-secondary-soft: #FCE7F3;
+  --color-secondary-text: #700B33;
 
-  --color-tag-bg: #ECE7DE;
-  --color-tag-text: #454038;
+  --color-tag-bg: #FCE7F3;
+  --color-tag-text: #831843;
 
-  --shadow-sm: 0 1px 2px rgba(26, 23, 20, 0.04), 0 1px 1px rgba(26, 23, 20, 0.02);
-  --shadow-md: 0 1px 3px rgba(26, 23, 20, 0.05), 0 4px 12px rgba(26, 23, 20, 0.03);
-  --shadow-lg: 0 4px 16px rgba(26, 23, 20, 0.07), 0 1px 3px rgba(26, 23, 20, 0.03);
-  --shadow-xl: 0 8px 24px rgba(26, 23, 20, 0.09), 0 2px 6px rgba(26, 23, 20, 0.04);
+  --shadow-sm: 0 1px 2px rgba(131, 24, 67, 0.04), 0 1px 1px rgba(131, 24, 67, 0.02);
+  --shadow-md: 0 1px 3px rgba(131, 24, 67, 0.06), 0 4px 12px rgba(131, 24, 67, 0.04);
+  --shadow-lg: 0 4px 16px rgba(131, 24, 67, 0.08), 0 1px 3px rgba(131, 24, 67, 0.03);
+  --shadow-xl: 0 8px 24px rgba(131, 24, 67, 0.12), 0 2px 6px rgba(131, 24, 67, 0.05);
 
-  --shadow-card: 0 1px 3px rgba(26, 23, 20, 0.05), 0 1px 1px rgba(26, 23, 20, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.85);
-  --shadow-card-hover: 0 6px 20px rgba(26, 23, 20, 0.08), 0 1px 3px rgba(26, 23, 20, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  --shadow-card: 0 1px 4px rgba(131, 24, 67, 0.05), 0 1px 1px rgba(131, 24, 67, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  --shadow-card-hover: 0 8px 25px rgba(225, 29, 72, 0.12), 0 2px 5px rgba(225, 29, 72, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.95);
 
-  --shadow-button-primary: 0 1px 2px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.18);
-  --shadow-button-secondary: 0 1px 2px rgba(26, 23, 20, 0.05), inset 0 1px 0 rgba(255, 255, 255, 1);
+  --shadow-button-primary: 0 2px 6px rgba(225, 29, 72, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  --shadow-button-secondary: 0 1px 2px rgba(131, 24, 67, 0.05), inset 0 1px 0 rgba(255, 255, 255, 1);
 
   --radius-sm: 6px;
   --radius-base: 10px;

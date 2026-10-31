@@ -20,9 +20,9 @@ export default function Header() {
       <header
         className="sticky top-0 z-20 border-b backdrop-blur-md"
         style={{
-          borderColor: 'var(--color-divider)',
-          background: 'rgba(255, 255, 255, 0.92)',
-          boxShadow: '0 1px 2px rgba(26, 23, 20, 0.03)',
+          borderColor: '#FBCFE8',
+          background: 'rgba(255, 247, 249, 0.94)',
+          boxShadow: '0 2px 8px rgba(190, 24, 93, 0.06)',
         }}
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

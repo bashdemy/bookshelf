@@ -9,22 +9,20 @@ export default function AuthPrompt() {
       className="fixed bottom-5 left-5 z-40 hidden sm:block"
     >
       <div 
-        className="flex items-center gap-3 rounded-full py-2 pl-4 pr-2"
+        className="flex items-center gap-3 rounded-full py-2 pl-4 pr-2 bg-white"
         style={{ 
-          background: 'var(--paper)',
-          border: '1px solid var(--color-border)',
-          boxShadow: '0 4px 16px rgba(26, 23, 20, 0.08), 0 1px 2px rgba(26, 23, 20, 0.04)',
+          border: '1px solid #FBCFE8',
+          boxShadow: '0 6px 20px rgba(190, 24, 93, 0.12), 0 1px 3px rgba(190, 24, 93, 0.05)',
         }}
       >
-        <span className="text-xs font-medium" style={{ color: 'var(--color-foreground-secondary)' }}>
-          Browsing <span className="font-bold text-[#1D1B18]">bashdemy</span>&apos;s library
+        <span className="text-xs font-medium text-pink-900/80">
+          🌸 Browsing <span className="font-bold text-pink-950">bashdemy</span>&apos;s library
         </span>
         <Link
           href="/login"
-          className="rounded-full px-3 py-1 text-xs font-bold text-white transition-all active:translate-y-[1px]"
+          className="rounded-full px-3.5 py-1 text-xs font-bold text-white transition-all shadow-md shadow-pink-600/30 active:translate-y-[1px]"
           style={{ 
             background: 'var(--color-primary)',
-            boxShadow: 'var(--shadow-button-primary)',
           }}
         >
           Sign In

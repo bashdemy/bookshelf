@@ -248,14 +248,14 @@ export default function ReadingSection({
           {/* Quick Category Filter Pills */}
           {genres.length > 0 && (
             <div className="mt-3 flex flex-wrap items-center gap-1.5 pt-2.5 border-t" style={{ borderColor: 'var(--color-divider)' }}>
-              <span className="text-[11px] font-bold text-stone-600 mr-1">Categories:</span>
+              <span className="text-[11px] font-bold text-pink-950 mr-1">Categories:</span>
               <button
                 type="button"
                 onClick={() => setSelectedGenre('')}
-                className={`rounded-full px-2.5 py-0.5 text-[11px] transition-colors ${
+                className={`rounded-full px-2.5 py-0.5 text-[11px] transition-all ${
                   !selectedGenre
-                    ? 'bg-stone-900 text-white font-bold'
-                    : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                    ? 'bg-pink-600 text-white font-bold shadow-sm shadow-pink-600/25'
+                    : 'bg-pink-50 text-pink-900 border border-pink-200/70 hover:bg-pink-100'
                 }`}
               >
                 All ({items.length})
@@ -268,10 +268,10 @@ export default function ReadingSection({
                     key={genre}
                     type="button"
                     onClick={() => setSelectedGenre(isSelected ? '' : genre)}
-                    className={`rounded-full px-2.5 py-0.5 text-[11px] transition-colors ${
+                    className={`rounded-full px-2.5 py-0.5 text-[11px] transition-all ${
                       isSelected
-                        ? 'bg-stone-900 text-white font-bold'
-                        : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                        ? 'bg-pink-600 text-white font-bold shadow-sm shadow-pink-600/25'
+                        : 'bg-pink-50 text-pink-900 border border-pink-200/70 hover:bg-pink-100'
                     }`}
                   >
                     {genre} <span className="opacity-70 text-[10px]">({count})</span>
