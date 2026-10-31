@@ -511,7 +511,7 @@ export default function ReadingItemCard({
               </p>
             )}
 
-            <h3 className="mb-2 text-lg font-bold leading-snug tracking-tight" style={{ color: 'var(--color-foreground)' }}>
+            <h3 className="mb-2 text-lg sm:text-xl font-bold font-serif leading-snug tracking-tight" style={{ color: 'var(--color-foreground)' }}>
               {item.url ? (
                 <a
                   href={item.url}

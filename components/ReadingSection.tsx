@@ -123,7 +123,7 @@ export default function ReadingSection({
     <section className="mb-14">
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight" style={{ color: 'var(--color-foreground)' }}>
+          <h2 className="text-2xl sm:text-3xl font-bold font-serif tracking-tight" style={{ color: 'var(--color-foreground)' }}>
             {title}
           </h2>
           <p className="text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
