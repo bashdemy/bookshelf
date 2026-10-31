@@ -67,10 +67,10 @@ export default async function PublicProfilePage({
         </div>
 
         <div
-          className="rounded-full px-3.5 py-1 text-xs font-bold uppercase tracking-wider"
+          className="rounded-md px-3.5 py-1 text-xs font-serif font-bold uppercase tracking-wider border border-pink-300/80 shadow-2xs"
           style={{
-            background: isOwner ? 'var(--color-primary-soft)' : '#EFEBE2',
-            color: isOwner ? 'var(--color-primary-text)' : 'var(--color-foreground-secondary)',
+            background: isOwner ? 'var(--color-primary-soft)' : '#FCE7F3',
+            color: isOwner ? 'var(--color-primary-text)' : '#9D174D',
           }}
         >
           {isOwner ? 'Your Archive' : 'Public Library'}

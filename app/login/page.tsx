@@ -106,8 +106,7 @@ function LoginForm() {
       </div>
 
       <div
-        className="mb-5 flex rounded-full p-1"
-        style={{ background: '#EFEBE2' }}
+        className="mb-5 flex rounded-lg p-1 border border-pink-300/80 bg-pink-100/70"
       >
         <button
           type="button"
@@ -116,11 +115,12 @@ function LoginForm() {
             setError(null);
             setSuccessMsg(null);
           }}
-          className="flex-1 rounded-full py-1.5 text-xs font-semibold transition-all"
+          className="flex-1 rounded-md py-1.5 text-xs font-serif font-bold transition-all"
           style={{
             background: mode === 'signin' ? '#FFFFFF' : 'transparent',
-            color: mode === 'signin' ? 'var(--color-foreground)' : 'var(--color-foreground-secondary)',
-            boxShadow: mode === 'signin' ? '0 1px 2px rgba(26, 23, 20, 0.08)' : 'none',
+            color: '#9D174D',
+            border: mode === 'signin' ? '1px solid #FBCFE8' : '1px solid transparent',
+            boxShadow: mode === 'signin' ? '0 1px 2px rgba(190, 24, 93, 0.12)' : 'none',
           }}
         >
           Sign In
@@ -132,11 +132,12 @@ function LoginForm() {
             setError(null);
             setSuccessMsg(null);
           }}
-          className="flex-1 rounded-full py-1.5 text-xs font-semibold transition-all"
+          className="flex-1 rounded-md py-1.5 text-xs font-serif font-bold transition-all"
           style={{
             background: mode === 'register' ? '#FFFFFF' : 'transparent',
-            color: mode === 'register' ? 'var(--color-foreground)' : 'var(--color-foreground-secondary)',
-            boxShadow: mode === 'register' ? '0 1px 2px rgba(26, 23, 20, 0.08)' : 'none',
+            color: '#9D174D',
+            border: mode === 'register' ? '1px solid #FBCFE8' : '1px solid transparent',
+            boxShadow: mode === 'register' ? '0 1px 2px rgba(190, 24, 93, 0.12)' : 'none',
           }}
         >
           New User
@@ -148,11 +149,12 @@ function LoginForm() {
             setError(null);
             setSuccessMsg(null);
           }}
-          className="flex-1 rounded-full py-1.5 text-xs font-semibold transition-all"
+          className="flex-1 rounded-md py-1.5 text-xs font-serif font-bold transition-all"
           style={{
             background: mode === 'reset' ? '#FFFFFF' : 'transparent',
-            color: mode === 'reset' ? 'var(--color-foreground)' : 'var(--color-foreground-secondary)',
-            boxShadow: mode === 'reset' ? '0 1px 2px rgba(26, 23, 20, 0.08)' : 'none',
+            color: '#9D174D',
+            border: mode === 'reset' ? '1px solid #FBCFE8' : '1px solid transparent',
+            boxShadow: mode === 'reset' ? '0 1px 2px rgba(190, 24, 93, 0.12)' : 'none',
           }}
         >
           Reset

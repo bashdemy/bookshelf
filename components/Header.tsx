@@ -52,33 +52,28 @@ export default function Header() {
                   <Link
                     href={profileHref}
                     title="View your public bookshelf"
-                    className="flex items-center gap-2 rounded-full px-3 py-1.5 transition-colors hover:bg-[#F2EDE4]"
-                    style={{
-                      border: '1px solid var(--color-divider)',
-                      background: 'var(--paper)',
-                    }}
+                    className="flex items-center gap-2 rounded-lg px-3 py-1.5 transition-colors hover:bg-pink-100/70 border border-pink-300/80 bg-white shadow-2xs"
                   >
                     {session.user?.image ? (
                       <img
                         src={session.user.image}
                         alt={session.user.name || 'User'}
-                        className="h-6 w-6 rounded-full object-cover"
+                        className="h-6 w-6 rounded-md object-cover"
                       />
                     ) : (
                       <span
-                        className="flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold text-white"
-                        style={{ background: 'var(--color-primary)' }}
+                        className="flex h-6 w-6 items-center justify-center rounded-md text-xs font-bold text-white bg-pink-600"
                       >
                         {(session.user?.displayName || session.user?.username || 'U').charAt(0).toUpperCase()}
                       </span>
                     )}
-                    <span className="text-xs font-semibold" style={{ color: 'var(--color-foreground)' }}>
+                    <span className="text-xs font-serif font-bold text-pink-950">
                       {session.user?.displayName || session.user?.username || 'User'}
                     </span>
                   </Link>
                 ) : (
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-medium" style={{ color: 'var(--color-foreground)' }}>
+                    <span className="text-xs font-serif font-bold text-pink-950">
                       {session.user?.displayName || session.user?.username || 'User'}
                     </span>
                   </div>
@@ -86,11 +81,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={handleSignOut}
-                  className="flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors hover:bg-pink-100/70"
-                  style={{
-                    border: '1px solid var(--color-divider)',
-                    color: 'var(--color-foreground-secondary)',
-                  }}
+                  className="flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-serif font-semibold transition-colors hover:bg-pink-100/70 border border-pink-300 bg-white text-pink-900 shadow-2xs active:translate-y-[1px]"
                 >
                   <IconLogout size={13} />
                   <span>Sign Out</span>
@@ -99,13 +90,7 @@ export default function Header() {
             ) : (
               <Link
                 href="/login"
-                className="flex items-center gap-1.5 rounded-full px-5 py-2 text-xs font-bold transition-all active:translate-y-[1px]"
-                style={{
-                  background: 'var(--color-primary)',
-                  color: '#FFFFFF',
-                  border: '1px solid rgba(0, 0, 0, 0.1)',
-                  boxShadow: 'var(--shadow-button-primary)',
-                }}
+                className="flex items-center gap-1.5 rounded-lg px-4.5 py-1.5 text-xs font-serif font-bold text-white transition-all bg-pink-600 hover:bg-pink-700 border border-pink-700 shadow-xs active:translate-y-[1px]"
               >
                 <IconLogin size={14} />
                 <span>Sign In</span>

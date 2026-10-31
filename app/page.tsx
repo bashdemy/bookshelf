@@ -35,7 +35,7 @@ export default async function Home() {
             <span className="flex items-center justify-center h-7 w-7 rounded-full bg-pink-100 text-pink-600 border border-pink-200">
               <IconFlower size={16} />
             </span>
-            <span className="rounded-full bg-pink-100/90 border border-pink-300/70 px-3 py-1 text-xs font-bold uppercase tracking-wider text-pink-900 shadow-xs">
+            <span className="rounded-md bg-pink-100/90 border border-pink-300/80 px-3 py-1 text-xs font-serif font-bold uppercase tracking-wider text-pink-900 shadow-2xs">
               Personal Archive & Physical Shelf
             </span>
           </div>

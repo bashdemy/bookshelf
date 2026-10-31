@@ -142,14 +142,10 @@ export default function ReadingSection({
         {canEdit && (
           <Link
             href="/add"
-            className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold text-white transition-all active:translate-y-[1px]"
-            style={{
-              background: 'var(--color-primary)',
-              border: '1px solid rgba(0, 0, 0, 0.1)',
-              boxShadow: 'var(--shadow-button-primary)',
-            }}
+            className="inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-serif font-bold text-white transition-all bg-pink-600 hover:bg-pink-700 border border-pink-700 shadow-xs active:translate-y-[1px]"
           >
-            + Add {singularLabel.charAt(0).toUpperCase() + singularLabel.slice(1)}
+            <IconPlus size={14} />
+            <span>Add {singularLabel.charAt(0).toUpperCase() + singularLabel.slice(1)}</span>
           </Link>
         )}
       </div>
@@ -255,14 +251,14 @@ export default function ReadingSection({
           {/* Quick Category Filter Pills */}
           {genres.length > 0 && (
             <div className="mt-3 flex flex-wrap items-center gap-1.5 pt-2.5 border-t" style={{ borderColor: 'var(--color-divider)' }}>
-              <span className="text-[11px] font-bold text-pink-950 mr-1">Categories:</span>
+              <span className="text-[11px] font-serif font-bold text-pink-950 mr-1">Categories:</span>
               <button
                 type="button"
                 onClick={() => setSelectedGenre('')}
-                className={`rounded-full px-2.5 py-0.5 text-[11px] transition-all ${
+                className={`rounded-md px-2.5 py-1 text-[11px] font-serif transition-all border ${
                   !selectedGenre
-                    ? 'bg-pink-600 text-white font-bold shadow-sm shadow-pink-600/25'
-                    : 'bg-pink-50 text-pink-900 border border-pink-200/70 hover:bg-pink-100'
+                    ? 'bg-pink-600 text-white font-bold border-pink-700 shadow-xs'
+                    : 'bg-white text-pink-900 border-pink-300/80 hover:bg-pink-50'
                 }`}
               >
                 All ({items.length})
@@ -275,10 +271,10 @@ export default function ReadingSection({
                     key={genre}
                     type="button"
                     onClick={() => setSelectedGenre(isSelected ? '' : genre)}
-                    className={`rounded-full px-2.5 py-0.5 text-[11px] transition-all ${
+                    className={`rounded-md px-2.5 py-1 text-[11px] font-serif transition-all border ${
                       isSelected
-                        ? 'bg-pink-600 text-white font-bold shadow-sm shadow-pink-600/25'
-                        : 'bg-pink-50 text-pink-900 border border-pink-200/70 hover:bg-pink-100'
+                        ? 'bg-pink-600 text-white font-bold border-pink-700 shadow-xs'
+                        : 'bg-white text-pink-900 border-pink-300/80 hover:bg-pink-50'
                     }`}
                   >
                     {genre} <span className="opacity-70 text-[10px]">({count})</span>
@@ -353,11 +349,7 @@ export default function ReadingSection({
           {canEdit && (
             <Link
               href="/add"
-              className="inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-xs font-bold text-white transition-all active:translate-y-[1px]"
-              style={{
-                background: 'var(--color-primary)',
-                boxShadow: 'var(--shadow-button-primary)',
-              }}
+              className="inline-flex items-center gap-1.5 rounded-lg px-5 py-2.5 text-xs font-serif font-bold text-white transition-all bg-pink-600 hover:bg-pink-700 border border-pink-700 shadow-xs active:translate-y-[1px]"
             >
               <IconPlus size={14} />
               <span>Add Your First {singularLabel.charAt(0).toUpperCase() + singularLabel.slice(1)}</span>
@@ -382,8 +374,7 @@ export default function ReadingSection({
           <button
             type="button"
             onClick={clearFilters}
-            className="rounded-full px-4 py-1.5 text-xs font-bold text-white"
-            style={{ background: 'var(--color-primary)' }}
+            className="rounded-md px-4 py-1.5 text-xs font-serif font-bold text-white transition-all bg-pink-600 hover:bg-pink-700 border border-pink-700 shadow-xs active:translate-y-[1px]"
           >
             Clear Filters
           </button>

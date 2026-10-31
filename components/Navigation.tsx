@@ -33,7 +33,7 @@ export default function Navigation() {
   const isAuthenticated = !!session;
 
   return (
-    <nav className="flex items-center gap-1 rounded-full p-1 border border-pink-200/80" style={{ background: '#FCE7F3' }}>
+    <nav className="flex items-center gap-1 rounded-lg p-1 border border-pink-300/80" style={{ background: '#FCE7F3' }}>
       {navigationItems.map((item) => {
         const isActive = pathname === item.href;
         const isDisabled = !!(item.requiresAuth && !isAuthenticated);
@@ -46,7 +46,7 @@ export default function Navigation() {
           return (
             <div key={item.href} className="group relative inline-block">
               <span
-                className="inline-flex items-center gap-1.5 cursor-not-allowed rounded-full px-3 py-1.5 text-xs font-medium opacity-50"
+                className="inline-flex items-center gap-1.5 cursor-not-allowed rounded-md px-3 py-1.5 text-xs font-serif font-medium opacity-50"
                 style={{ color: '#9D174D' }}
               >
                 <Icon size={14} />
@@ -72,12 +72,13 @@ export default function Navigation() {
           <Link
             key={item.href}
             href={item.href}
-            className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-medium transition-all"
+            className="inline-flex items-center gap-1.5 rounded-md px-3.5 py-1.5 text-xs font-serif transition-all"
             style={{
               background: isActive ? '#FFFFFF' : 'transparent',
-              color: isActive ? '#BE185D' : '#9D174D',
+              color: isActive ? '#9D174D' : '#9D174D',
               fontWeight: isActive ? 700 : 500,
-              boxShadow: isActive ? '0 1px 3px rgba(190, 24, 93, 0.18)' : 'none',
+              border: isActive ? '1px solid #FBCFE8' : '1px solid transparent',
+              boxShadow: isActive ? '0 1px 3px rgba(190, 24, 93, 0.12)' : 'none',
             }}
           >
             <Icon size={14} className={isActive ? 'text-pink-600' : 'text-pink-700/80'} />

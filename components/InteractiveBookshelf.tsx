@@ -167,7 +167,7 @@ export default function InteractiveBookshelf({
             <h2 className="text-xl sm:text-2xl font-black tracking-tight text-pink-950 font-serif">
               Physical Bookshelf Camera
             </h2>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-pink-100 border border-pink-300 px-2.5 py-0.5 text-[10px] font-mono font-bold text-pink-700 uppercase tracking-widest shadow-xs">
+            <span className="inline-flex items-center gap-1.5 rounded-md bg-pink-100/90 border border-pink-300/80 px-2.5 py-0.5 text-[10px] font-serif font-bold text-pink-800 uppercase tracking-widest shadow-2xs">
               <IconCamera size={13} className="text-pink-600" />
               <span>Live Lens 2.9×</span>
             </span>
@@ -186,7 +186,7 @@ export default function InteractiveBookshelf({
                 setZoomedCubby(null);
                 setActiveCubby('all');
               }}
-              className="flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold text-white bg-pink-600 hover:bg-pink-500 transition-all shadow-md shadow-pink-600/30 active:translate-y-[1px]"
+              className="flex items-center gap-1.5 rounded-md px-3.5 py-1.5 text-xs font-serif font-bold text-white bg-pink-600 hover:bg-pink-700 border border-pink-700 shadow-xs transition-all active:translate-y-[1px]"
             >
               <IconZoomOut size={14} />
               <span>Overview</span>
@@ -200,7 +200,7 @@ export default function InteractiveBookshelf({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Find volume on shelf..."
-              className="w-48 sm:w-60 rounded-full border border-pink-200 bg-white pl-8 pr-7 py-1.5 text-xs text-pink-950 placeholder:text-pink-400 focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-400 transition-colors shadow-2xs"
+              className="w-48 sm:w-60 rounded-md border border-pink-300/80 bg-white pl-8 pr-7 py-1.5 text-xs font-serif text-pink-950 placeholder:text-pink-400 focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-400 transition-colors shadow-2xs"
             />
             {searchQuery && (
               <button
@@ -224,10 +224,10 @@ export default function InteractiveBookshelf({
             setActiveCubby('all');
             setZoomedCubby(null);
           }}
-          className={`flex items-center gap-1.5 rounded-full px-3 py-1 font-bold whitespace-nowrap transition-all border ${
+          className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 font-serif font-bold whitespace-nowrap transition-all border ${
             activeCubby === 'all' && !zoomedCubby
-              ? 'bg-pink-600 text-white border-pink-600 shadow-sm shadow-pink-600/30'
-              : 'bg-white text-pink-900 border-pink-200 hover:bg-pink-100'
+              ? 'bg-pink-600 text-white border-pink-700 shadow-xs'
+              : 'bg-white text-pink-900 border-pink-300/80 hover:bg-pink-50 hover:border-pink-400'
           }`}
         >
           <IconBooks size={13} />
@@ -242,15 +242,15 @@ export default function InteractiveBookshelf({
               key={c.id}
               type="button"
               onClick={() => handleCubbyClick(c.id)}
-              className={`flex items-center gap-1.5 rounded-full px-3 py-1 font-semibold whitespace-nowrap transition-all border ${
+              className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 font-serif font-semibold whitespace-nowrap transition-all border ${
                 isSelected
-                  ? 'bg-pink-600 text-white border-pink-600 shadow-sm shadow-pink-600/30'
-                  : 'bg-white text-pink-900 border-pink-200 hover:bg-pink-100 hover:border-pink-300'
+                  ? 'bg-pink-600 text-white border-pink-700 shadow-xs'
+                  : 'bg-white text-pink-900 border-pink-300/80 hover:bg-pink-50 hover:border-pink-400'
               }`}
             >
               <span className={`font-serif text-[11px] font-bold ${isSelected ? 'text-white' : 'text-pink-600'}`}>{roman}</span>
               <span>{c.title.split(' ')[0]}</span>
-              <span className={`rounded-full px-1.5 py-0.2 text-[10px] font-mono ${isSelected ? 'bg-pink-700 text-white' : 'bg-pink-100 text-pink-800'}`}>
+              <span className={`rounded-sm px-1.5 py-0.2 text-[10px] font-mono ${isSelected ? 'bg-pink-700 text-white' : 'bg-pink-100 text-pink-800'}`}>
                 {count}
               </span>
             </button>
@@ -370,7 +370,7 @@ export default function InteractiveBookshelf({
                 >
                   {activeBook.cubbyLabel}
                 </span>
-                <span className="rounded-full bg-pink-100 border border-pink-300 px-2 py-0.5 text-[10px] font-bold text-pink-800">
+                <span className="rounded-md bg-pink-100 border border-pink-300 px-2.5 py-0.5 text-[10px] font-serif font-bold text-pink-800">
                   {activeBook.genre}
                 </span>
                 <span className="text-xs text-pink-900/70 font-mono">
@@ -409,7 +409,7 @@ export default function InteractiveBookshelf({
               <button
                 type="button"
                 onClick={() => handleCopyTitle(activeBook.title)}
-                className="flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-semibold text-pink-900 bg-white hover:bg-pink-100 border border-pink-300 transition-colors shadow-2xs"
+                className="flex items-center gap-1 rounded-md px-3 py-1.5 text-xs font-serif font-semibold text-pink-900 bg-white hover:bg-pink-50 border border-pink-300 transition-colors shadow-2xs active:translate-y-[1px]"
               >
                 {copiedTitle ? (
                   <>
@@ -427,7 +427,7 @@ export default function InteractiveBookshelf({
               <button
                 type="button"
                 onClick={() => setSelectedBook(null)}
-                className="flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-bold text-pink-700 bg-pink-100 hover:bg-pink-200 border border-pink-300 transition-colors"
+                className="flex items-center gap-1 rounded-md px-3 py-1.5 text-xs font-serif font-bold text-pink-800 bg-pink-100 hover:bg-pink-200 border border-pink-300 transition-colors active:translate-y-[1px]"
                 title="Close volume preview"
               >
                 <IconX size={13} />
@@ -459,13 +459,13 @@ export default function InteractiveBookshelf({
 
           <div className="flex flex-wrap items-center gap-2">
             {/* View Mode Toggle: Stack vs Grid */}
-            <div className="flex items-center gap-1 rounded-full bg-white p-0.5 border border-pink-200 text-xs shadow-2xs">
+            <div className="flex items-center gap-1 rounded-md bg-white p-0.5 border border-pink-300 text-xs shadow-2xs">
               <button
                 type="button"
                 onClick={() => setDrawerMode('stack')}
-                className={`flex items-center gap-1.5 rounded-full px-3 py-1 font-bold transition-all ${
+                className={`flex items-center gap-1.5 rounded-sm px-3 py-1 font-serif font-bold transition-all ${
                   drawerMode === 'stack'
-                    ? 'bg-pink-600 text-white shadow-sm shadow-pink-600/30'
+                    ? 'bg-pink-600 text-white shadow-xs'
                     : 'text-pink-900/70 hover:text-pink-950'
                 }`}
               >
@@ -475,9 +475,9 @@ export default function InteractiveBookshelf({
               <button
                 type="button"
                 onClick={() => setDrawerMode('grid')}
-                className={`flex items-center gap-1.5 rounded-full px-3 py-1 font-bold transition-all ${
+                className={`flex items-center gap-1.5 rounded-sm px-3 py-1 font-serif font-bold transition-all ${
                   drawerMode === 'grid'
-                    ? 'bg-pink-600 text-white shadow-sm shadow-pink-600/30'
+                    ? 'bg-pink-600 text-white shadow-xs'
                     : 'text-pink-900/70 hover:text-pink-950'
                 }`}
               >
@@ -491,10 +491,10 @@ export default function InteractiveBookshelf({
               <button
                 type="button"
                 onClick={() => setSelectedGenre('all')}
-                className={`rounded-full px-2.5 py-1 font-semibold transition-colors border ${
+                className={`rounded-md px-2.5 py-1 font-serif font-semibold transition-colors border ${
                   selectedGenre === 'all'
-                    ? 'bg-pink-600 text-white border-pink-600 shadow-sm shadow-pink-600/30'
-                    : 'bg-white text-pink-900 border-pink-200 hover:bg-pink-100'
+                    ? 'bg-pink-600 text-white border-pink-700 shadow-xs'
+                    : 'bg-white text-pink-900 border-pink-300/80 hover:bg-pink-50'
                 }`}
               >
                 All ({activeBooks.length})
@@ -504,10 +504,10 @@ export default function InteractiveBookshelf({
                   key={g}
                   type="button"
                   onClick={() => setSelectedGenre(selectedGenre === g ? 'all' : g)}
-                  className={`rounded-full px-2.5 py-1 font-semibold transition-colors border ${
+                  className={`rounded-md px-2.5 py-1 font-serif font-semibold transition-colors border ${
                     selectedGenre === g
-                      ? 'bg-pink-600 text-white border-pink-600 shadow-sm shadow-pink-600/30'
-                      : 'bg-white text-pink-900 border-pink-200 hover:bg-pink-100'
+                      ? 'bg-pink-600 text-white border-pink-700 shadow-xs'
+                      : 'bg-white text-pink-900 border-pink-300/80 hover:bg-pink-50'
                   }`}
                 >
                   {g.split(' ')[0]}
