@@ -12,7 +12,7 @@ export default async function StatsPage() {
   return (
     <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold font-serif tracking-tight text-pink-950">
+        <h1 className="text-3xl font-semibold font-serif tracking-tight text-pink-900">
           Reading Habits & Stats
         </h1>
         <p className="mt-1 text-xs font-serif text-pink-900/80">

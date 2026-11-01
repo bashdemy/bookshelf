@@ -191,7 +191,7 @@ export default function AddPage() {
   return (
     <main className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold font-serif tracking-tight text-pink-950">
+        <h1 className="text-2xl font-semibold font-serif tracking-tight text-pink-900">
           Log a New Book or Article
         </h1>
         <p className="mt-1 text-xs font-serif text-pink-900/70">

@@ -39,11 +39,11 @@ export default async function Home() {
               Look at my books, aren&apos;t they cool?
             </span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight font-serif text-pink-950">
+          <h1 className="text-3xl sm:text-5xl font-medium tracking-tight font-serif text-pink-900">
             bashdemy&apos;s Bookshelf
           </h1>
-          <p className="mt-2 text-sm sm:text-base text-pink-950/80 max-w-2xl leading-relaxed">
-            A personal collection of <span className="font-bold text-pink-700">{stats.bookCount} physical volumes</span> living right here on my actual white 2×4 bookcase. From algorithmic puzzles, neurodivergent deep dives, and Russian classics to Penguin Orange paperbacks, existential dread, and weird late-night rabbit holes. Click into any cubby to pull books off the shelf.
+          <p className="mt-2 text-sm sm:text-base text-pink-900/80 max-w-2xl leading-relaxed">
+            A personal collection of <span className="font-semibold text-pink-700">{stats.bookCount} physical volumes</span> living right here on my actual white 2×4 bookcase. From algorithmic puzzles, neurodivergent deep dives, and Russian classics to Penguin Orange paperbacks, existential dread, and weird late-night rabbit holes. Click into any cubby to pull books off the shelf.
           </p>
         </div>
 
@@ -54,21 +54,21 @@ export default async function Home() {
               <IconBooks size={13} />
               <span>Books on Shelf</span>
             </p>
-            <p className="text-xl font-black text-pink-950 font-mono">{stats.bookCount}</p>
+            <p className="text-xl font-bold text-pink-800 font-mono">{stats.bookCount}</p>
           </div>
           <div className="rounded-2xl border border-pink-200/80 px-4 py-2.5 text-center bg-white shadow-xs">
             <p className="flex items-center justify-center gap-1.5 text-[10px] font-serif font-bold uppercase tracking-wider text-pink-600">
               <IconFileText size={13} />
               <span>Pages Devoured</span>
             </p>
-            <p className="text-xl font-black text-pink-600 font-mono">{totalPages.toLocaleString()}</p>
+            <p className="text-xl font-bold text-pink-600 font-mono">{totalPages.toLocaleString()}</p>
           </div>
           <div className="rounded-2xl border border-pink-200/80 px-4 py-2.5 text-center bg-white shadow-xs">
             <p className="flex items-center justify-center gap-1.5 text-[10px] font-serif font-bold uppercase tracking-wider text-pink-600">
               <IconLayoutGrid size={13} />
               <span>Cubbies Loaded</span>
             </p>
-            <p className="text-xl font-black text-rose-600 font-mono">8 / 8</p>
+            <p className="text-xl font-bold text-rose-600 font-mono">8 / 8</p>
           </div>
         </div>
       </section>
@@ -88,7 +88,7 @@ export default async function Home() {
             <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-pink-100 text-pink-700 border border-pink-200/60 mb-3 group-hover:scale-105 transition-transform">
               <IconBooks size={22} />
             </div>
-            <h3 className="font-serif font-bold text-base text-pink-950 group-hover:text-pink-600 transition-colors">
+            <h3 className="font-serif font-semibold text-base text-pink-900 group-hover:text-pink-600 transition-colors">
               The Entire Stacks
             </h3>
             <p className="text-xs text-pink-900/70 mt-0.5">
@@ -106,7 +106,7 @@ export default async function Home() {
             <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-pink-100 text-pink-700 border border-pink-200/60 mb-3 group-hover:scale-105 transition-transform">
               <IconChartBar size={22} />
             </div>
-            <h3 className="font-serif font-bold text-base text-pink-950 group-hover:text-pink-600 transition-colors">
+            <h3 className="font-serif font-semibold text-base text-pink-900 group-hover:text-pink-600 transition-colors">
               Reading Habits & Stats
             </h3>
             <p className="text-xs text-pink-900/70 mt-0.5">
@@ -124,7 +124,7 @@ export default async function Home() {
             <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-pink-100 text-pink-700 border border-pink-200/60 mb-3 group-hover:scale-105 transition-transform">
               <IconUser size={22} />
             </div>
-            <h3 className="font-serif font-bold text-base text-pink-950 group-hover:text-pink-600 transition-colors">
+            <h3 className="font-serif font-semibold text-base text-pink-900 group-hover:text-pink-600 transition-colors">
               {user ? 'My Profile' : 'Curator Login'}
             </h3>
             <p className="text-xs text-pink-900/70 mt-0.5">
@@ -140,7 +140,7 @@ export default async function Home() {
         <section className="space-y-4 pt-4">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-bold font-serif text-pink-950">
+              <h2 className="text-2xl font-semibold font-serif text-pink-900">
                 Fresh Off the Shelf
               </h2>
               <p className="text-xs text-pink-900/70">

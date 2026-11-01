@@ -55,7 +55,7 @@ export default async function PublicProfilePage({
             </div>
           )}
           <div>
-            <h1 className="text-2xl font-bold font-serif tracking-tight text-pink-950">
+            <h1 className="text-2xl font-semibold font-serif tracking-tight text-pink-900">
               {profileUser.display_name}&apos;s Bookshelf
             </h1>
             {profileUser.username && (

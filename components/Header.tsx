@@ -67,13 +67,13 @@ export default function Header() {
                         {(session.user?.displayName || session.user?.username || 'U').charAt(0).toUpperCase()}
                       </span>
                     )}
-                    <span className="text-xs font-serif font-bold text-pink-950">
+                    <span className="text-xs font-serif font-semibold text-pink-900">
                       {session.user?.displayName || session.user?.username || 'User'}
                     </span>
                   </Link>
                 ) : (
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-serif font-bold text-pink-950">
+                    <span className="text-xs font-serif font-semibold text-pink-900">
                       {session.user?.displayName || session.user?.username || 'User'}
                     </span>
                   </div>

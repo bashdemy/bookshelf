@@ -82,7 +82,7 @@ export default function StatsSection({ books, articles }: StatsSectionProps) {
                 <p className="mb-1 text-[11px] font-serif font-bold uppercase tracking-wider text-pink-700">
                   The Thickest Tome
                 </p>
-                <h3 className="text-base font-bold font-serif text-pink-950 tracking-tight">
+                <h3 className="text-base font-semibold font-serif text-pink-900 tracking-tight">
                   {highlights.longestBook.title}
                 </h3>
                 <p className="mt-1 text-xs text-pink-900/70">
@@ -107,12 +107,12 @@ export default function StatsSection({ books, articles }: StatsSectionProps) {
                 <p className="mb-1 text-[11px] font-serif font-bold uppercase tracking-wider text-pink-700">
                   Just Finished
                 </p>
-                <h3 className="text-base font-bold font-serif text-pink-950 tracking-tight">
+                <h3 className="text-base font-semibold font-serif text-pink-900 tracking-tight">
                   {highlights.mostRecentItem.title}
                 </h3>
                 <p className="mt-1 text-xs text-pink-900/70">
                   {highlights.mostRecentItem.type === 'book' ? '📖 Book' : '✨ Article'} • Finished on{' '}
-                  <span className="font-semibold text-pink-950">
+                  <span className="font-semibold text-pink-900">
                     {formatReadDate(highlights.mostRecentItem.readDate)}
                   </span>
                 </p>
@@ -133,7 +133,7 @@ export default function StatsSection({ books, articles }: StatsSectionProps) {
             >
               <div className="mb-5 flex flex-wrap items-center justify-between gap-2">
                 <div>
-                  <h3 className="text-sm font-bold font-serif uppercase tracking-wider text-pink-950">
+                  <h3 className="text-sm font-semibold font-serif uppercase tracking-wider text-pink-900">
                     Reading Velocity
                   </h3>
                   <p className="text-xs text-pink-900/70">
@@ -141,13 +141,13 @@ export default function StatsSection({ books, articles }: StatsSectionProps) {
                   </p>
                 </div>
                 <div className="flex items-center gap-3 text-xs font-semibold">
-                  <span className="flex items-center gap-1.5 text-pink-950">
+                  <span className="flex items-center gap-1.5 text-pink-900">
                     <span
                       className="inline-block h-2.5 w-2.5 rounded-sm bg-pink-600"
                     />
                     Books
                   </span>
-                  <span className="flex items-center gap-1.5 text-pink-950">
+                  <span className="flex items-center gap-1.5 text-pink-900">
                     <span
                       className="inline-block h-2.5 w-2.5 rounded-sm bg-pink-400"
                     />
@@ -189,7 +189,7 @@ export default function StatsSection({ books, articles }: StatsSectionProps) {
                           />
                         )}
                       </div>
-                      <span className="w-14 shrink-0 text-right font-bold text-pink-950 font-mono">
+                      <span className="w-14 shrink-0 text-right font-bold text-pink-900 font-mono">
                         {month.total}
                       </span>
                     </div>
@@ -211,7 +211,7 @@ export default function StatsSection({ books, articles }: StatsSectionProps) {
                 boxShadow: 'var(--shadow-card)',
               }}
             >
-              <h3 className="text-sm font-bold font-serif uppercase tracking-wider text-pink-950">
+              <h3 className="text-sm font-semibold font-serif uppercase tracking-wider text-pink-900">
                 Favorite Genres & Rabbit Holes
               </h3>
               <p className="mb-4 text-xs text-pink-900/70">
@@ -227,7 +227,7 @@ export default function StatsSection({ books, articles }: StatsSectionProps) {
                   {genreBreakdown.map((g) => (
                     <div key={g.genre}>
                       <div className="mb-1 flex items-center justify-between text-xs">
-                        <span className="font-semibold capitalize text-pink-950">
+                        <span className="font-semibold capitalize text-pink-900">
                           {g.genre}
                         </span>
                         <span className="font-medium text-pink-900/70">
@@ -260,7 +260,7 @@ export default function StatsSection({ books, articles }: StatsSectionProps) {
                 boxShadow: 'var(--shadow-card)',
               }}
             >
-              <h3 className="text-sm font-bold font-serif uppercase tracking-wider text-pink-950">
+              <h3 className="text-sm font-semibold font-serif uppercase tracking-wider text-pink-900">
                 Scores & Ratings
               </h3>
               <p className="mb-4 text-xs text-pink-900/70">
@@ -305,7 +305,7 @@ export default function StatsSection({ books, articles }: StatsSectionProps) {
                 boxShadow: 'var(--shadow-card)',
               }}
             >
-              <h3 className="text-sm font-bold font-serif uppercase tracking-wider text-pink-950">
+              <h3 className="text-sm font-semibold font-serif uppercase tracking-wider text-pink-900">
                 Shelf Tags & Topics
               </h3>
               <p className="mb-3.5 text-xs text-pink-900/70">

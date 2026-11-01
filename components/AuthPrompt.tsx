@@ -18,7 +18,7 @@ export default function AuthPrompt() {
       >
         <span className="flex items-center gap-1.5 text-xs font-serif font-medium text-pink-900/80">
           <IconFlower size={15} className="text-pink-600" />
-          <span>Browsing <span className="font-bold text-pink-950">bashdemy</span>&apos;s library</span>
+          <span>Browsing <span className="font-semibold text-pink-900">bashdemy</span>&apos;s library</span>
         </span>
         <Link
           href="/login"

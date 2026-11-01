@@ -518,13 +518,13 @@ export default function ReadingItemCard({
               </p>
             )}
 
-            <h3 className="mb-2 text-lg sm:text-xl font-bold font-serif leading-snug tracking-tight" style={{ color: 'var(--color-foreground)' }}>
+            <h3 className="mb-2 text-lg sm:text-xl font-semibold font-serif leading-snug tracking-tight text-pink-900">
               {item.url ? (
                 <a
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 hover:underline text-pink-950"
+                  className="inline-flex items-center gap-1 hover:underline text-pink-900 hover:text-pink-700"
                 >
                   <span>{item.title}</span>
                   <IconExternalLink size={14} className="text-pink-500 opacity-70 shrink-0" />

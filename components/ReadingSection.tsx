@@ -129,7 +129,7 @@ export default function ReadingSection({
     <section className="mb-14">
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl sm:text-3xl font-bold font-serif tracking-tight text-pink-950">
+          <h2 className="text-2xl sm:text-3xl font-semibold font-serif tracking-tight text-pink-900">
             {title}
           </h2>
           <p className="text-xs font-serif text-pink-900/70">
@@ -251,7 +251,7 @@ export default function ReadingSection({
           {/* Quick Category Filter Pills */}
           {genres.length > 0 && (
             <div className="mt-3 flex flex-wrap items-center gap-1.5 pt-2.5 border-t" style={{ borderColor: 'var(--color-divider)' }}>
-              <span className="text-[11px] font-serif font-bold text-pink-950 mr-1">Categories:</span>
+              <span className="text-[11px] font-serif font-semibold text-pink-900 mr-1">Categories:</span>
               <button
                 type="button"
                 onClick={() => setSelectedGenre('')}
@@ -338,7 +338,7 @@ export default function ReadingSection({
           <div className="mb-3 flex items-center justify-center h-14 w-14 rounded-2xl bg-pink-100 text-pink-600 border border-pink-200">
             {singularLabel === 'book' ? <IconBooks size={28} /> : <IconArticle size={28} />}
           </div>
-          <h3 className="mb-1 text-lg font-bold font-serif text-pink-950">
+          <h3 className="mb-1 text-lg font-semibold font-serif text-pink-900">
             No {pluralLabel} tracked yet
           </h3>
           <p className="mb-5 max-w-sm text-xs font-serif text-pink-900/70">
@@ -365,7 +365,7 @@ export default function ReadingSection({
             background: 'var(--paper)',
           }}
         >
-          <p className="mb-1 text-sm font-bold font-serif text-pink-950">
+          <p className="mb-1 text-sm font-semibold font-serif text-pink-900">
             No matching {pluralLabel} found
           </p>
           <p className="mb-4 text-xs font-serif text-pink-900/70">

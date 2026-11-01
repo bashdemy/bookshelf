@@ -28,7 +28,7 @@ export default function StatsCard({ title, value, subtitle, icon }: StatsCardPro
           <span className="text-xl opacity-80">{icon}</span>
         )}
       </div>
-      <p className="mb-1 text-3xl font-extrabold tracking-tight font-serif text-pink-950">
+      <p className="mb-1 text-3xl font-bold tracking-tight font-serif text-pink-900">
         {value}
       </p>
       {subtitle && (

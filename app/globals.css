@@ -4,8 +4,8 @@
   color-scheme: light;
   --background: #FFF7F9;
   --paper: #FFFFFF;
-  --foreground: #380B22;
-  --foreground-secondary: #8F3D5D;
+  --foreground: #7E1A47;
+  --foreground-secondary: #9D174D;
   --color-border: #FBCFE8;
   --color-divider: #FCE7F3;
 
@@ -84,6 +84,9 @@ body {
 
 h1, h2, h3, h4 {
   font-family: var(--font-serif);
+  color: var(--foreground);
+  font-weight: 600;
+  letter-spacing: -0.015em;
 }
 
 /* Subtle, realistic tactile interaction */

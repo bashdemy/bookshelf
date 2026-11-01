@@ -163,7 +163,7 @@ export default function InteractiveBookshelf({
         <div>
           <div className="flex flex-wrap items-center gap-2.5">
             <span className="inline-flex h-2.5 w-2.5 rounded-full bg-pink-500 shadow-[0_0_10px_rgba(236,72,153,0.9)] animate-pulse" />
-            <h2 className="text-xl sm:text-2xl font-black tracking-tight text-pink-950 font-serif">
+            <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-pink-900 font-serif">
               The Real Bookshelf
             </h2>
           </div>
@@ -195,7 +195,7 @@ export default function InteractiveBookshelf({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search books (e.g. Vonnegut, ADHD)..."
-              className="w-48 sm:w-60 rounded-md border border-pink-300/80 bg-white pl-8 pr-7 py-1.5 text-xs font-serif text-pink-950 placeholder:text-pink-400 focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-400 transition-colors shadow-2xs"
+              className="w-48 sm:w-60 rounded-md border border-pink-300/80 bg-white pl-8 pr-7 py-1.5 text-xs font-serif text-pink-900 placeholder:text-pink-400 focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-400 transition-colors shadow-2xs"
             />
             {searchQuery && (
               <button
@@ -303,8 +303,8 @@ export default function InteractiveBookshelf({
                 >
                   {/* Brass & Rose Engraved Tag */}
                   <div className="absolute top-2 left-2 flex items-center gap-1.5 pointer-events-none">
-                    <span className="flex items-center gap-1.5 rounded-md bg-white/95 backdrop-blur-md px-2 py-0.5 text-[10px] font-bold text-pink-900 border border-pink-300 shadow-xs">
-                      <span className="font-serif font-black">{spot.roman}</span>
+                    <span className="flex items-center gap-1.5 rounded-md bg-white/95 backdrop-blur-md px-2 py-0.5 text-[10px] font-semibold text-pink-900 border border-pink-300 shadow-xs">
+                      <span className="font-serif font-bold text-pink-800">{spot.roman}</span>
                       <span className="text-pink-600 font-normal font-mono">• {books.length}</span>
                     </span>
                   </div>
@@ -344,7 +344,7 @@ export default function InteractiveBookshelf({
                 />
               ))}
             </div>
-            <div className="text-[10px] text-pink-950 font-semibold pr-1">
+            <div className="text-[10px] text-pink-900 font-semibold pr-1">
               {zoomedCubby
                 ? `Cubby ${CUBBY_HOTSPOTS[zoomedCubby]?.roman}`
                 : 'Overview'}
@@ -360,12 +360,12 @@ export default function InteractiveBookshelf({
             <div className="flex-1">
               <div className="flex flex-wrap items-center gap-2">
                 <span
-                  className="rounded-md px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-white shadow-xs"
+                  className="rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-xs"
                   style={{ background: activeBook.spineColor === '#F5F5F3' ? '#444' : activeBook.spineColor }}
                 >
                   {activeBook.cubbyLabel}
                 </span>
-                <span className="rounded-md bg-pink-100 border border-pink-300 px-2.5 py-0.5 text-[10px] font-serif font-bold text-pink-800">
+                <span className="rounded-md bg-pink-100 border border-pink-300 px-2.5 py-0.5 text-[10px] font-serif font-semibold text-pink-800">
                   {activeBook.genre}
                 </span>
                 <span className="text-xs text-pink-900/70 font-mono">
@@ -373,13 +373,13 @@ export default function InteractiveBookshelf({
                 </span>
               </div>
 
-              <h3 className="mt-2 text-lg sm:text-xl font-bold text-pink-950 font-serif leading-tight">
+              <h3 className="mt-2 text-lg sm:text-xl font-semibold text-pink-900 font-serif leading-tight">
                 {activeBook.title}
               </h3>
               <p className="mt-0.5 text-xs font-semibold text-pink-800">
                 by <span className="font-bold">{activeBook.author}</span>
               </p>
-              <p className="mt-2 text-xs sm:text-sm text-pink-950/80 leading-relaxed max-w-3xl">
+              <p className="mt-2 text-xs sm:text-sm text-pink-900/80 leading-relaxed max-w-3xl">
                 {activeBook.description}
               </p>
             </div>
@@ -437,7 +437,7 @@ export default function InteractiveBookshelf({
       <div className="border-t border-pink-200/80 bg-pink-50/40 p-5 sm:p-7">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
           <div>
-            <h4 className="text-sm font-bold text-pink-950 font-serif flex items-center gap-2">
+            <h4 className="text-sm font-semibold text-pink-900 font-serif flex items-center gap-2">
               <IconBook2 size={16} className="text-pink-600" />
               <span>
                 {currentCubby && currentCubby !== 'all'
@@ -458,10 +458,10 @@ export default function InteractiveBookshelf({
               <button
                 type="button"
                 onClick={() => setDrawerMode('stack')}
-                className={`flex items-center gap-1.5 rounded-sm px-3 py-1 font-serif font-bold transition-all ${
+                className={`flex items-center gap-1.5 rounded-sm px-3 py-1 font-serif font-semibold transition-all ${
                   drawerMode === 'stack'
                     ? 'bg-pink-600 text-white shadow-xs'
-                    : 'text-pink-900/70 hover:text-pink-950'
+                    : 'text-pink-900/70 hover:text-pink-900'
                 }`}
               >
                 <IconStack2 size={13} />
@@ -470,10 +470,10 @@ export default function InteractiveBookshelf({
               <button
                 type="button"
                 onClick={() => setDrawerMode('grid')}
-                className={`flex items-center gap-1.5 rounded-sm px-3 py-1 font-serif font-bold transition-all ${
+                className={`flex items-center gap-1.5 rounded-sm px-3 py-1 font-serif font-semibold transition-all ${
                   drawerMode === 'grid'
                     ? 'bg-pink-600 text-white shadow-xs'
-                    : 'text-pink-900/70 hover:text-pink-950'
+                    : 'text-pink-900/70 hover:text-pink-900'
                 }`}
               >
                 <IconLayoutGrid size={13} />
@@ -632,7 +632,7 @@ export default function InteractiveBookshelf({
                 >
                   <div className="flex items-center gap-2.5 truncate">
                     <div className="truncate">
-                      <p className="truncate text-xs font-bold text-pink-950 font-serif group-hover:text-pink-700 transition-colors">
+                      <p className="truncate text-xs font-semibold text-pink-900 font-serif group-hover:text-pink-700 transition-colors">
                         {book.title}
                       </p>
                       <p className="truncate text-[11px] text-pink-900/70">
