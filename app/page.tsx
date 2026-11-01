@@ -1,9 +1,6 @@
 import Link from 'next/link';
 import {
-  IconFlower,
   IconBooks,
-  IconFileText,
-  IconLayoutGrid,
   IconChartBar,
   IconUser,
   IconArrowRight,
@@ -23,143 +20,115 @@ export default async function Home() {
     getReadingItemsByUser(userId),
   ]);
   const totalPages = stats.totalPages;
-  const totalItems = stats.bookCount + stats.articleCount;
   const recentItems = allItems.slice(0, 6);
 
-  return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-10">
-      {/* Editorial Header Banner */}
-      <section className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 border-b pb-6" style={{ borderColor: 'var(--color-border)' }}>
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <span className="flex items-center justify-center h-7 w-7 rounded-full bg-pink-100 text-pink-600 border border-pink-200">
-              <IconFlower size={16} />
-            </span>
-            <span className="rounded-md bg-pink-100/90 border border-pink-300/80 px-3 py-1 text-xs font-serif font-bold tracking-wider text-pink-900 shadow-2xs">
-              Look at my books, aren&apos;t they cool?
-            </span>
-          </div>
-          <h1 className="text-3xl sm:text-5xl font-medium tracking-tight font-serif text-pink-900">
-            bashdemy&apos;s Bookshelf
-          </h1>
-          <p className="mt-2 text-sm sm:text-base text-pink-900/80 max-w-2xl leading-relaxed">
-            A personal collection of <span className="font-semibold text-pink-700">{stats.bookCount} physical volumes</span> living right here on my actual white 2×4 bookcase. From algorithmic puzzles, neurodivergent deep dives, and Russian classics to Penguin Orange paperbacks, existential dread, and weird late-night rabbit holes. Click into any cubby to pull books off the shelf.
-          </p>
-        </div>
+  const navCards = [
+    {
+      href: '/books',
+      Icon: IconBooks,
+      eyebrow: 'Chapter I',
+      title: 'The Entire Stacks',
+      body: `Browse, filter and search all ${stats.bookCount} books`,
+    },
+    {
+      href: '/stats',
+      Icon: IconChartBar,
+      eyebrow: 'Chapter II',
+      title: 'Reading Habits',
+      body: 'Pace, page counts and favourite rabbit holes',
+    },
+    {
+      href: user?.username ? `/u/${user.username}` : '/login',
+      Icon: IconUser,
+      eyebrow: 'Chapter III',
+      title: user ? 'My Profile' : 'Curator Login',
+      body: user ? `Signed in as @${user.username}` : 'Sign in to add books and log reads',
+    },
+  ];
 
-        {/* Quick Stat Badges */}
-        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-          <div className="rounded-2xl border border-pink-200/80 px-4 py-2.5 text-center bg-white shadow-xs">
-            <p className="flex items-center justify-center gap-1.5 text-[10px] font-serif font-bold uppercase tracking-wider text-pink-600">
-              <IconBooks size={13} />
-              <span>Books on Shelf</span>
-            </p>
-            <p className="text-xl font-bold text-pink-800 font-mono">{stats.bookCount}</p>
-          </div>
-          <div className="rounded-2xl border border-pink-200/80 px-4 py-2.5 text-center bg-white shadow-xs">
-            <p className="flex items-center justify-center gap-1.5 text-[10px] font-serif font-bold uppercase tracking-wider text-pink-600">
-              <IconFileText size={13} />
-              <span>Pages Devoured</span>
-            </p>
-            <p className="text-xl font-bold text-pink-600 font-mono">{totalPages.toLocaleString()}</p>
-          </div>
-          <div className="rounded-2xl border border-pink-200/80 px-4 py-2.5 text-center bg-white shadow-xs">
-            <p className="flex items-center justify-center gap-1.5 text-[10px] font-serif font-bold uppercase tracking-wider text-pink-600">
-              <IconLayoutGrid size={13} />
-              <span>Cubbies Loaded</span>
-            </p>
-            <p className="text-xl font-bold text-rose-600 font-mono">8 / 8</p>
-          </div>
-        </div>
+  return (
+    <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 space-y-14">
+      {/* Title page */}
+      <section className="mx-auto max-w-3xl pt-6 text-center">
+        <p className="text-[10px] uppercase tracking-[0.45em] font-serif text-gold-dark">
+          A Personal Library
+        </p>
+        <h1 className="mt-4 font-serif italic font-normal text-5xl sm:text-7xl leading-[1.05] tracking-tight text-pink-900">
+          bashdemy&apos;s Bookshelf
+        </h1>
+        <div className="ornament mx-auto mt-6 max-w-xs text-sm">❦</div>
+
+        <dl className="mx-auto mt-9 flex max-w-xl items-center justify-center gap-6 sm:gap-10 font-serif">
+          {[
+            { value: stats.bookCount, label: 'volumes' },
+            { value: totalPages.toLocaleString(), label: 'pages read' },
+            { value: 8, label: 'cubbies' },
+          ].map((s, i) => (
+            <div key={s.label} className="flex items-center gap-6 sm:gap-10">
+              {i > 0 && <span className="text-gold text-xs">◆</span>}
+              <div>
+                <dt className="sr-only">{s.label}</dt>
+                <dd className="gold-text text-3xl sm:text-4xl font-semibold leading-none">{s.value}</dd>
+                <p className="mt-1.5 text-[11px] italic text-pink-800/70">{s.label}</p>
+              </div>
+            </div>
+          ))}
+        </dl>
       </section>
 
-      {/* The Hero Centerpiece: Interactive Physical Bookshelf */}
+      {/* The real bookshelf */}
       <section className="w-full">
         <InteractiveBookshelf />
       </section>
 
-      {/* Quick Navigation Strip */}
-      <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Link
-          href="/books"
-          className="group flex items-center justify-between rounded-2xl border border-pink-200/80 p-5 transition-all hover:-translate-y-1 hover:border-pink-400 hover:shadow-lg hover:shadow-pink-500/10 bg-white"
-        >
-          <div>
-            <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-pink-100 text-pink-700 border border-pink-200/60 mb-3 group-hover:scale-105 transition-transform">
-              <IconBooks size={22} />
+      {/* Chapters */}
+      <section className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+        {navCards.map(({ href, Icon, eyebrow, title, body }) => (
+          <Link
+            key={title}
+            href={href}
+            className="bookplate group flex items-center justify-between rounded-sm p-6 transition-transform duration-200 hover:-translate-y-1"
+          >
+            <div>
+              <p className="flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] font-serif text-gold-dark">
+                <Icon size={14} className="text-gold" />
+                {eyebrow}
+              </p>
+              <h3 className="mt-2 font-serif text-xl font-medium text-pink-900 group-hover:text-pink-700">
+                {title}
+              </h3>
+              <p className="mt-1 font-serif italic text-xs text-pink-800/70">{body}</p>
             </div>
-            <h3 className="font-serif font-semibold text-base text-pink-900 group-hover:text-pink-600 transition-colors">
-              The Entire Stacks
-            </h3>
-            <p className="text-xs text-pink-900/70 mt-0.5">
-              Browse, filter by genre, and search all {stats.bookCount} books
-            </p>
-          </div>
-          <IconArrowRight size={18} className="text-pink-400 group-hover:translate-x-1 transition-transform" />
-        </Link>
-
-        <Link
-          href="/stats"
-          className="group flex items-center justify-between rounded-2xl border border-pink-200/80 p-5 transition-all hover:-translate-y-1 hover:border-pink-400 hover:shadow-lg hover:shadow-pink-500/10 bg-white"
-        >
-          <div>
-            <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-pink-100 text-pink-700 border border-pink-200/60 mb-3 group-hover:scale-105 transition-transform">
-              <IconChartBar size={22} />
-            </div>
-            <h3 className="font-serif font-semibold text-base text-pink-900 group-hover:text-pink-600 transition-colors">
-              Reading Habits & Stats
-            </h3>
-            <p className="text-xs text-pink-900/70 mt-0.5">
-              Pace, yearly streaks, page counts, and favorite genres
-            </p>
-          </div>
-          <IconArrowRight size={18} className="text-pink-400 group-hover:translate-x-1 transition-transform" />
-        </Link>
-
-        <Link
-          href={user?.username ? `/u/${user.username}` : '/login'}
-          className="group flex items-center justify-between rounded-2xl border border-pink-200/80 p-5 transition-all hover:-translate-y-1 hover:border-pink-400 hover:shadow-lg hover:shadow-pink-500/10 bg-white"
-        >
-          <div>
-            <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-pink-100 text-pink-700 border border-pink-200/60 mb-3 group-hover:scale-105 transition-transform">
-              <IconUser size={22} />
-            </div>
-            <h3 className="font-serif font-semibold text-base text-pink-900 group-hover:text-pink-600 transition-colors">
-              {user ? 'My Profile' : 'Curator Login'}
-            </h3>
-            <p className="text-xs text-pink-900/70 mt-0.5">
-              {user ? `Logged in as @${user.username}` : 'Sign in to add books and log reads'}
-            </p>
-          </div>
-          <IconArrowRight size={18} className="text-pink-400 group-hover:translate-x-1 transition-transform" />
-        </Link>
+            <IconArrowRight size={18} className="shrink-0 text-gold transition-transform group-hover:translate-x-1" />
+          </Link>
+        ))}
       </section>
 
-      {/* Recent Acquisitions & Timeline */}
+      {/* Recent reads */}
       {recentItems.length > 0 && (
-        <section className="space-y-4 pt-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-semibold font-serif text-pink-900">
-                Fresh Off the Shelf
-              </h2>
-              <p className="text-xs text-pink-900/70">
-                Recent additions, favorite reads, and notable rabbit holes
-              </p>
-            </div>
-            <Link
-              href="/books"
-              className="inline-flex items-center gap-1 text-xs font-serif font-bold text-pink-600 hover:text-pink-800 group"
-            >
-              <span>Explore the full catalog</span>
-              <IconArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
-            </Link>
+        <section className="space-y-6">
+          <div className="text-center">
+            <p className="text-[10px] uppercase tracking-[0.4em] font-serif text-gold-dark">Recently</p>
+            <h2 className="mt-2 font-serif italic font-normal text-3xl sm:text-4xl text-pink-900">
+              Fresh off the shelf
+            </h2>
+            <div className="ornament mx-auto mt-4 max-w-[10rem] text-xs">❦</div>
           </div>
 
           <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
             {recentItems.map((item) => (
               <ReadingItemCard key={item.id} item={item} canEdit={!!user} />
             ))}
+          </div>
+
+          <div className="text-center">
+            <Link
+              href="/books"
+              className="group inline-flex items-center gap-1.5 font-serif italic text-sm text-pink-800 hover:text-pink-950"
+            >
+              <span className="border-b border-gold/50 group-hover:border-gold">Explore the full catalogue</span>
+              <IconArrowRight size={14} className="text-gold transition-transform group-hover:translate-x-0.5" />
+            </Link>
           </div>
         </section>
       )}

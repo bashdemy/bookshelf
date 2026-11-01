@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import {
   IconSearch,
@@ -12,10 +12,8 @@ import {
   IconStarFilled,
   IconStar,
   IconBooks,
-  IconLayoutGrid,
-  IconStack2,
   IconBook2,
-  IconFilter,
+  IconCards,
 } from '@tabler/icons-react';
 import {
   PHYSICAL_SHELF_BOOKS,
@@ -23,6 +21,7 @@ import {
   PhysicalBook,
   ShelfCubbyInfo,
 } from '@/lib/shelf-data';
+import BookSpine, { BookCover, vintageTone } from '@/components/BookSpine';
 
 interface InteractiveBookshelfProps {
   onSelectBook?: (book: PhysicalBook) => void;
@@ -66,8 +65,7 @@ export default function InteractiveBookshelf({
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedBook, setSelectedBook] = useState<PhysicalBook | null>(null);
   const [copiedTitle, setCopiedTitle] = useState(false);
-  const [drawerMode, setDrawerMode] = useState<'stack' | 'grid'>('stack');
-  const photoContainerRef = useRef<HTMLDivElement>(null);
+  const [drawerMode, setDrawerMode] = useState<'shelf' | 'cards'>('shelf');
 
   const cubbiesList: ShelfCubbyInfo[] = useMemo(() => [
     SHELF_CUBBIES.r2c1, // I: Tier 1 Left
@@ -123,6 +121,16 @@ export default function InteractiveBookshelf({
     return list;
   }, [currentCubby, booksByCubby, selectedGenre]);
 
+  // Rows of the physical shelf to render (one per cubby, in bookcase order)
+  const shelfRows = useMemo(
+    () =>
+      cubbiesList
+        .filter((c) => !currentCubby || c.id === currentCubby)
+        .map((c) => ({ cubby: c, books: activeBooks.filter((b) => b.cubby === c.id) }))
+        .filter((r) => r.books.length > 0),
+    [cubbiesList, currentCubby, activeBooks]
+  );
+
   const activeBook = selectedBook;
 
   const handleBookClick = (book: PhysicalBook) => {
@@ -140,6 +148,11 @@ export default function InteractiveBookshelf({
     }
   };
 
+  const showAll = () => {
+    setZoomedCubby(null);
+    setActiveCubby('all');
+  };
+
   const handleCopyTitle = (text: string) => {
     navigator.clipboard.writeText(text);
     setCopiedTitle(true);
@@ -147,61 +160,43 @@ export default function InteractiveBookshelf({
   };
 
   return (
-    <div
-      className={`relative overflow-hidden rounded-3xl border ${className}`}
-      style={{
-        background: '#FFFFFF',
-        borderColor: '#FBCFE8',
-        boxShadow: '0 20px 50px -10px rgba(225, 29, 72, 0.12), 0 0 0 1px rgba(244, 114, 182, 0.25)',
-      }}
-    >
-      {/* Ambient Cherry Blossom Light Overhead Wash */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-4/5 h-44 bg-pink-100/70 blur-[90px] pointer-events-none" />
-
-      {/* Top Gallery Header Bar */}
-      <div className="relative z-10 flex flex-col gap-4 p-5 sm:p-7 md:flex-row md:items-center md:justify-between border-b border-pink-200/80 bg-pink-50/50">
-        <div>
-          <div className="flex flex-wrap items-center gap-2.5">
-            <span className="inline-flex h-2.5 w-2.5 rounded-full bg-pink-500 shadow-[0_0_10px_rgba(236,72,153,0.9)] animate-pulse" />
-            <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-pink-900 font-serif">
-              The Real Bookshelf
-            </h2>
-          </div>
-          <p className="mt-1.5 text-xs sm:text-sm text-pink-900/80 max-w-xl">
-            My actual 2×4 bookcase. Click any cubby to zoom right up close to the spines, or tap a book to pull its card.
+    <div className={`bookplate relative rounded-sm ${className}`}>
+      {/* ---------- Title block ---------- */}
+      <div className="relative flex flex-col gap-5 px-6 pt-8 pb-6 sm:px-10 md:flex-row md:items-end md:justify-between">
+        <div className="max-w-xl">
+          <p className="mb-2 text-[10px] uppercase tracking-[0.35em] font-serif text-gold">
+            Ex Libris · bashdemy
           </p>
+          <h2 className="font-serif italic text-3xl sm:text-4xl font-normal tracking-tight text-pink-900">
+            The Real Bookshelf
+          </h2>
         </div>
 
-        {/* Action Controls */}
         <div className="flex flex-wrap items-center gap-2">
           {zoomedCubby && (
             <button
               type="button"
-              onClick={() => {
-                setZoomedCubby(null);
-                setActiveCubby('all');
-              }}
-              className="flex items-center gap-1.5 rounded-md px-3.5 py-1.5 text-xs font-serif font-bold text-white bg-pink-600 hover:bg-pink-700 border border-pink-700 shadow-xs transition-all active:translate-y-[1px]"
+              onClick={showAll}
+              className="flex items-center gap-1.5 rounded-sm px-3.5 py-2 text-xs font-serif font-semibold text-white bg-pink-700 hover:bg-pink-800 border border-pink-900/40 shadow-xs active:translate-y-[1px]"
             >
               <IconZoomOut size={14} />
-              <span>Overview</span>
+              <span>Whole bookcase</span>
             </button>
           )}
-
           <div className="relative flex items-center">
-            <IconSearch size={14} className="absolute left-3 text-pink-400 pointer-events-none" />
+            <IconSearch size={14} className="absolute left-3 text-gold pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search books (e.g. Vonnegut, ADHD)..."
-              className="w-48 sm:w-60 rounded-md border border-pink-300/80 bg-white pl-8 pr-7 py-1.5 text-xs font-serif text-pink-900 placeholder:text-pink-400 focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-400 transition-colors shadow-2xs"
+              placeholder="Find a book (Vonnegut, ADHD…)"
+              className="w-56 sm:w-64 rounded-sm border border-gold/40 bg-white/80 pl-8 pr-7 py-2 text-xs font-serif italic text-pink-900 placeholder:text-pink-800/45 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold/50 shadow-2xs"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="absolute right-2.5 text-pink-500 hover:text-pink-700"
+                className="absolute right-2.5 text-pink-700 hover:text-pink-900"
                 aria-label="Clear search"
               >
                 <IconX size={13} />
@@ -211,451 +206,306 @@ export default function InteractiveBookshelf({
         </div>
       </div>
 
-      {/* Cubby Selector Bar */}
-      <div className="relative z-10 flex items-center gap-1.5 overflow-x-auto px-5 py-2.5 bg-pink-50/70 border-b border-pink-200/80 text-xs">
+      <div className="mx-6 sm:mx-10 ornament text-xs">❦</div>
+
+      {/* ---------- Cubby index ---------- */}
+      <div className="flex items-center gap-1.5 overflow-x-auto px-6 sm:px-10 py-4 text-xs">
         <button
           type="button"
-          onClick={() => {
-            setActiveCubby('all');
-            setZoomedCubby(null);
-          }}
-          className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 font-serif font-bold whitespace-nowrap transition-all border ${
+          onClick={showAll}
+          className={`flex items-center gap-1.5 rounded-sm px-3 py-1.5 font-serif whitespace-nowrap border ${
             activeCubby === 'all' && !zoomedCubby
-              ? 'bg-pink-600 text-white border-pink-700 shadow-xs'
-              : 'bg-white text-pink-900 border-pink-300/80 hover:bg-pink-50 hover:border-pink-400'
+              ? 'brass-plate font-semibold'
+              : 'bg-white/70 text-pink-900 border-gold/30 hover:border-gold/70'
           }`}
         >
           <IconBooks size={13} />
-          <span>Entire Shelf (84)</span>
+          <span>Every shelf ({PHYSICAL_SHELF_BOOKS.length})</span>
         </button>
         {cubbiesList.map((c) => {
           const isSelected = activeCubby === c.id || zoomedCubby === c.id;
-          const count = booksByCubby[c.id]?.length || 0;
           const roman = CUBBY_HOTSPOTS[c.id]?.roman || 'I';
           return (
             <button
               key={c.id}
               type="button"
               onClick={() => handleCubbyClick(c.id)}
-              className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 font-serif font-semibold whitespace-nowrap transition-all border ${
+              className={`flex items-center gap-1.5 rounded-sm px-3 py-1.5 font-serif whitespace-nowrap border ${
                 isSelected
-                  ? 'bg-pink-600 text-white border-pink-700 shadow-xs'
-                  : 'bg-white text-pink-900 border-pink-300/80 hover:bg-pink-50 hover:border-pink-400'
+                  ? 'brass-plate font-semibold'
+                  : 'bg-white/70 text-pink-900 border-gold/30 hover:border-gold/70'
               }`}
             >
-              <span className={`font-serif text-[11px] font-bold ${isSelected ? 'text-white' : 'text-pink-600'}`}>{roman}</span>
-              <span>{c.title.split(' ')[0]}</span>
-              <span className={`rounded-sm px-1.5 py-0.2 text-[10px] font-mono ${isSelected ? 'bg-pink-700 text-white' : 'bg-pink-100 text-pink-800'}`}>
-                {count}
-              </span>
+              <span className={`text-[11px] font-semibold ${isSelected ? '' : 'text-gold-dark'}`}>{roman}</span>
+              <span>{c.title.split(' ')[0].replace(',', '')}</span>
+              <span className="text-[10px] opacity-60 font-mono">{booksByCubby[c.id]?.length || 0}</span>
             </button>
           );
         })}
       </div>
 
-      {/* Main Photographic Canvas (Full 2x4 Vertical Bookcase, 3:4 Aspect Ratio) */}
-      <div className="relative p-4 sm:p-7">
-        <div
-          ref={photoContainerRef}
-          className="relative mx-auto w-full max-w-xl aspect-[3/4] overflow-hidden rounded-2xl border border-pink-200 bg-pink-50/50 select-none shadow-md shadow-pink-500/5 transition-all duration-500"
-          style={{
-            boxShadow: 'inset 0 0 30px rgba(225, 29, 72, 0.08), 0 8px 25px rgba(225, 29, 72, 0.1)',
-          }}
-        >
-          {/* Zoomable Photographic Plane */}
-          <div
-            className="absolute inset-0 transition-transform duration-700 ease-out will-change-transform"
-            style={{
-              transformOrigin: zoomedCubby ? CUBBY_HOTSPOTS[zoomedCubby]?.zoomOrigin : '50% 50%',
-              transform: zoomedCubby ? 'scale(2.35)' : 'scale(1)',
-            }}
-          >
-            <Image
-              src="/bookshelf_web.jpg"
-              alt="Maria's 2x4 physical bookshelf"
-              fill
-              priority
-              className="object-cover"
-              sizes="(max-width: 1400px) 100vw, 1400px"
-            />
-
-            {/* Interactive Hotspot Frames (Glowing Pink Neon/Rose) */}
-            {Object.entries(CUBBY_HOTSPOTS).map(([key, spot]) => {
-              const isZoomed = zoomedCubby === key;
-              const isFiltered = activeCubby === key;
-              const books = booksByCubby[key] || [];
-
-              return (
+      {/* ---------- Photograph + shelf ---------- */}
+      <div className="grid gap-8 px-6 pb-10 sm:px-10 lg:grid-cols-[minmax(0,420px)_minmax(0,1fr)]">
+        {/* Gilt-framed photograph */}
+        <div className="lg:sticky lg:top-24 self-start">
+          <div className="gilt-frame">
+            <div className="frame-mat">
+              <div className="relative w-full aspect-[3/4] overflow-hidden select-none bg-pink-100">
                 <div
-                  key={key}
-                  onClick={() => handleCubbyClick(key)}
-                  className={`group absolute rounded-xl transition-all duration-200 cursor-pointer ${
-                    isZoomed || isFiltered
-                      ? 'border-2 border-pink-500 bg-pink-500/20 shadow-[0_0_25px_rgba(236,72,153,0.35)]'
-                      : 'border border-pink-300/60 bg-white/10 hover:border-2 hover:border-pink-500 hover:bg-pink-500/15'
-                  }`}
+                  className="absolute inset-0 transition-transform duration-700 ease-out will-change-transform"
                   style={{
-                    left: `${spot.x}%`,
-                    top: `${spot.y}%`,
-                    width: `${spot.width}%`,
-                    height: `${spot.height}%`,
+                    transformOrigin: zoomedCubby ? CUBBY_HOTSPOTS[zoomedCubby]?.zoomOrigin : '50% 50%',
+                    transform: zoomedCubby ? 'scale(2.35)' : 'scale(1)',
                   }}
                 >
-                  {/* Brass & Rose Engraved Tag */}
-                  <div className="absolute top-2 left-2 flex items-center gap-1.5 pointer-events-none">
-                    <span className="flex items-center gap-1.5 rounded-md bg-white/95 backdrop-blur-md px-2 py-0.5 text-[10px] font-semibold text-pink-900 border border-pink-300 shadow-xs">
-                      <span className="font-serif font-bold text-pink-800">{spot.roman}</span>
-                      <span className="text-pink-600 font-normal font-mono">• {books.length}</span>
-                    </span>
-                  </div>
+                  <Image
+                    src="/bookshelf_web.jpg"
+                    alt="Maria's 2x4 physical bookshelf"
+                    fill
+                    priority
+                    className="object-cover"
+                    style={{ filter: 'sepia(0.18) saturate(0.92) contrast(1.02)' }}
+                    sizes="(max-width: 1024px) 100vw, 420px"
+                  />
+                  {/* warm print tone */}
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#f6d9cf]/10 via-transparent to-[#5a2232]/15 mix-blend-multiply" />
 
-                  {/* Zoom prompt badge */}
-                  <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                    <span className="flex items-center gap-1 rounded bg-white/95 px-2 py-0.5 text-[9px] font-bold text-pink-900 border border-pink-300 shadow-sm">
-                      {isZoomed ? (
-                        <>
-                          <IconZoomOut size={11} className="text-pink-600" />
-                          <span>Zoom out</span>
-                        </>
-                      ) : (
-                        <>
-                          <IconZoomIn size={11} className="text-pink-600" />
-                          <span>Inspect</span>
-                        </>
+                  {Object.entries(CUBBY_HOTSPOTS).map(([key, spot]) => {
+                    const isActive = zoomedCubby === key || activeCubby === key;
+                    return (
+                      <div
+                        key={key}
+                        onClick={() => handleCubbyClick(key)}
+                        className={`group absolute cursor-pointer transition-colors duration-200 ${
+                          isActive
+                            ? 'bg-[#E9CD86]/15 outline outline-2 outline-[#E9CD86]'
+                            : 'outline outline-1 outline-white/0 hover:outline-[#E9CD86]/90 hover:bg-[#E9CD86]/10'
+                        }`}
+                        style={{
+                          left: `${spot.x}%`,
+                          top: `${spot.y}%`,
+                          width: `${spot.width}%`,
+                          height: `${spot.height}%`,
+                        }}
+                      >
+                        <span className="brass-plate pointer-events-none absolute top-1.5 left-1.5 rounded-[2px] px-1.5 py-px text-[9px] font-serif font-semibold">
+                          {spot.roman}
+                        </span>
+                        <span className="pointer-events-none absolute bottom-1.5 right-1.5 flex items-center gap-1 rounded-[2px] bg-[#FFFAF5]/95 px-1.5 py-0.5 text-[9px] font-serif text-pink-900 opacity-0 group-hover:opacity-100 transition-opacity">
+                          {zoomedCubby === key ? <IconZoomOut size={10} /> : <IconZoomIn size={10} />}
+                          {zoomedCubby === key ? 'Step back' : 'Lean in'}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+          <p className="mt-3 text-center font-serif italic text-[11px] text-pink-800/70">
+            The real photograph · {zoomedCubby ? `Cubby ${CUBBY_HOTSPOTS[zoomedCubby]?.roman}` : 'the whole case'}
+          </p>
+        </div>
+
+        {/* Right column: pulled book + shelves */}
+        <div className="min-w-0 space-y-6">
+          {activeBook && (
+            <div className="bookplate rounded-sm p-5 sm:p-6 animate-fadeIn">
+              <div className="flex flex-col sm:flex-row gap-6">
+                <BookCover book={activeBook} className="self-center sm:self-start" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-[10px] uppercase tracking-[0.3em] font-serif text-gold">
+                    Pulled from cubby {CUBBY_HOTSPOTS[activeBook.cubby]?.roman}
+                  </p>
+                  <h3 className="mt-1.5 font-serif text-2xl font-medium leading-tight text-pink-900">
+                    {activeBook.title}
+                  </h3>
+                  <p className="mt-1 font-serif italic text-sm text-pink-800">by {activeBook.author}</p>
+
+                  <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-serif text-pink-800/80">
+                    <span>{activeBook.year > 0 ? activeBook.year : `${Math.abs(activeBook.year)} BC`}</span>
+                    <span className="text-gold">·</span>
+                    <span>{activeBook.pages} pages</span>
+                    <span className="text-gold">·</span>
+                    <span className="italic">{activeBook.genre}</span>
+                    <span className="text-gold">·</span>
+                    <span className="flex items-center gap-0.5 text-gold">
+                      {Array.from({ length: 5 }).map((_, i) =>
+                        i < activeBook.rating ? (
+                          <IconStarFilled key={i} size={11} />
+                        ) : (
+                          <IconStar key={i} size={11} className="opacity-40" />
+                        )
                       )}
                     </span>
                   </div>
+
+                  <div className="gilt-rule my-4" />
+
+                  <p className="text-sm leading-relaxed text-pink-900/85">{activeBook.description}</p>
+
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleCopyTitle(activeBook.title)}
+                      className="flex items-center gap-1.5 rounded-sm px-3 py-1.5 text-xs font-serif text-pink-900 bg-white/80 border border-gold/40 hover:border-gold active:translate-y-[1px]"
+                    >
+                      {copiedTitle ? <IconCheck size={13} className="text-gold-dark" /> : <IconCopy size={13} className="text-gold-dark" />}
+                      <span>{copiedTitle ? 'Copied' : 'Copy title'}</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedBook(null)}
+                      className="flex items-center gap-1.5 rounded-sm px-3 py-1.5 text-xs font-serif font-semibold text-white bg-pink-700 hover:bg-pink-800 border border-pink-900/40 active:translate-y-[1px]"
+                    >
+                      <IconX size={13} />
+                      <span>Put it back</span>
+                    </button>
+                  </div>
                 </div>
-              );
-            })}
-          </div>
-
-          {/* Minimap HUD Radar (2 Columns x 4 Rows) */}
-          <div className="absolute bottom-3 left-3 z-20 hidden sm:flex items-center gap-2.5 rounded-xl bg-white/95 backdrop-blur-md p-2.5 border border-pink-200 shadow-lg">
-            <div className="grid grid-cols-2 grid-rows-4 gap-1 w-9 h-18">
-              {cubbiesList.map((c) => (
-                <div
-                  key={c.id}
-                  className={`rounded-xs transition-all ${
-                    zoomedCubby === c.id || activeCubby === c.id
-                      ? 'bg-pink-600 shadow-[0_0_8px_rgba(236,72,153,0.8)]'
-                      : 'bg-pink-100'
-                  }`}
-                />
-              ))}
-            </div>
-            <div className="text-[10px] text-pink-900 font-semibold pr-1">
-              {zoomedCubby
-                ? `Cubby ${CUBBY_HOTSPOTS[zoomedCubby]?.roman}`
-                : 'Overview'}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Archival Specimen / Inspection Card */}
-      {activeBook && (
-        <div className="mx-4 mb-5 sm:mx-7 rounded-2xl border border-pink-300 bg-gradient-to-br from-pink-50 via-white to-pink-100/60 p-5 sm:p-6 shadow-xl shadow-pink-500/10 animate-fadeIn">
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-            <div className="flex-1">
-              <div className="flex flex-wrap items-center gap-2">
-                <span
-                  className="rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-xs"
-                  style={{ background: activeBook.spineColor === '#F5F5F3' ? '#444' : activeBook.spineColor }}
-                >
-                  {activeBook.cubbyLabel}
-                </span>
-                <span className="rounded-md bg-pink-100 border border-pink-300 px-2.5 py-0.5 text-[10px] font-serif font-semibold text-pink-800">
-                  {activeBook.genre}
-                </span>
-                <span className="text-xs text-pink-900/70 font-mono">
-                  {activeBook.year > 0 ? activeBook.year : `${Math.abs(activeBook.year)} BC`} • {activeBook.pages} pages
-                </span>
               </div>
+            </div>
+          )}
 
-              <h3 className="mt-2 text-lg sm:text-xl font-semibold text-pink-900 font-serif leading-tight">
-                {activeBook.title}
-              </h3>
-              <p className="mt-0.5 text-xs font-semibold text-pink-800">
-                by <span className="font-bold">{activeBook.author}</span>
-              </p>
-              <p className="mt-2 text-xs sm:text-sm text-pink-900/80 leading-relaxed max-w-3xl">
-                {activeBook.description}
+          {/* Controls */}
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h4 className="flex items-center gap-2 font-serif text-lg font-medium text-pink-900">
+                <IconBook2 size={17} className="text-gold" />
+                {currentCubby ? SHELF_CUBBIES[currentCubby]?.title : 'Every shelf, top to bottom'}
+              </h4>
+              <p className="mt-0.5 text-xs italic font-serif text-pink-800/75">
+                {currentCubby
+                  ? SHELF_CUBBIES[currentCubby]?.description
+                  : 'Hover a spine to slide it out, click to take it off the shelf.'}
               </p>
             </div>
-
-            {/* Actions: Pin / Copy */}
-            <div className="flex flex-wrap items-center gap-2.5 self-end sm:self-start shrink-0">
-              <div className="flex items-center gap-1">
-                <div className="flex items-center text-pink-500">
-                  {Array.from({ length: 5 }).map((_, i) =>
-                    i < activeBook.rating ? (
-                      <IconStarFilled key={i} size={15} className="text-pink-500 fill-pink-500" />
-                    ) : (
-                      <IconStar key={i} size={15} className="text-pink-200" />
-                    )
-                  )}
-                </div>
-                <span className="text-pink-900/70 text-xs ml-1 font-bold font-mono">
-                  {activeBook.rating}/5
-                </span>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => handleCopyTitle(activeBook.title)}
-                className="flex items-center gap-1 rounded-md px-3 py-1.5 text-xs font-serif font-semibold text-pink-900 bg-white hover:bg-pink-50 border border-pink-300 transition-colors shadow-2xs active:translate-y-[1px]"
-              >
-                {copiedTitle ? (
-                  <>
-                    <IconCheck size={13} className="text-pink-600" />
-                    <span>Copied</span>
-                  </>
-                ) : (
-                  <>
-                    <IconCopy size={13} className="text-pink-600" />
-                    <span>Copy</span>
-                  </>
-                )}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setSelectedBook(null)}
-                className="flex items-center gap-1 rounded-md px-3 py-1.5 text-xs font-serif font-bold text-pink-800 bg-pink-100 hover:bg-pink-200 border border-pink-300 transition-colors active:translate-y-[1px]"
-                title="Put book back on shelf"
-              >
-                <IconX size={13} />
-                <span>Put back</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Tactile Book Spines Drawer */}
-      <div className="border-t border-pink-200/80 bg-pink-50/40 p-5 sm:p-7">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
-          <div>
-            <h4 className="text-sm font-semibold text-pink-900 font-serif flex items-center gap-2">
-              <IconBook2 size={16} className="text-pink-600" />
-              <span>
-                {currentCubby && currentCubby !== 'all'
-                  ? SHELF_CUBBIES[currentCubby]?.title
-                  : 'Books on the Shelves'}
-              </span>
-            </h4>
-            <p className="text-xs text-pink-900/80 mt-0.5">
-              {currentCubby && currentCubby !== 'all'
-                ? `${SHELF_CUBBIES[currentCubby]?.description}`
-                : 'Click any spine below to pull it out and see why it is on my shelf.'}
-            </p>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2">
-            {/* View Mode Toggle: Stack vs Grid */}
-            <div className="flex items-center gap-1 rounded-md bg-white p-0.5 border border-pink-300 text-xs shadow-2xs">
-              <button
-                type="button"
-                onClick={() => setDrawerMode('stack')}
-                className={`flex items-center gap-1.5 rounded-sm px-3 py-1 font-serif font-semibold transition-all ${
-                  drawerMode === 'stack'
-                    ? 'bg-pink-600 text-white shadow-xs'
-                    : 'text-pink-900/70 hover:text-pink-900'
-                }`}
-              >
-                <IconStack2 size={13} />
-                <span>Shelf Stack</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setDrawerMode('grid')}
-                className={`flex items-center gap-1.5 rounded-sm px-3 py-1 font-serif font-semibold transition-all ${
-                  drawerMode === 'grid'
-                    ? 'bg-pink-600 text-white shadow-xs'
-                    : 'text-pink-900/70 hover:text-pink-900'
-                }`}
-              >
-                <IconLayoutGrid size={13} />
-                <span>Grid</span>
-              </button>
-            </div>
-
-            {/* Quick Drawer Genre Filter */}
-            <div className="flex items-center gap-1.5 overflow-x-auto text-[11px]">
-              <button
-                type="button"
-                onClick={() => setSelectedGenre('all')}
-                className={`rounded-md px-2.5 py-1 font-serif font-semibold transition-colors border ${
-                  selectedGenre === 'all'
-                    ? 'bg-pink-600 text-white border-pink-700 shadow-xs'
-                    : 'bg-white text-pink-900 border-pink-300/80 hover:bg-pink-50'
-                }`}
-              >
-                All ({activeBooks.length})
-              </button>
-              {availableGenres.slice(0, 4).map((g) => (
+            <div className="flex shrink-0 items-center rounded-sm border border-gold/40 bg-white/70 p-0.5 text-xs">
+              {(
+                [
+                  { id: 'shelf', label: 'On the shelf', Icon: IconBooks },
+                  { id: 'cards', label: 'Card catalogue', Icon: IconCards },
+                ] as const
+              ).map(({ id, label, Icon }) => (
                 <button
-                  key={g}
+                  key={id}
                   type="button"
-                  onClick={() => setSelectedGenre(selectedGenre === g ? 'all' : g)}
-                  className={`rounded-md px-2.5 py-1 font-serif font-semibold transition-colors border ${
-                    selectedGenre === g
-                      ? 'bg-pink-600 text-white border-pink-700 shadow-xs'
-                      : 'bg-white text-pink-900 border-pink-300/80 hover:bg-pink-50'
+                  onClick={() => setDrawerMode(id)}
+                  className={`flex items-center gap-1.5 rounded-[2px] px-3 py-1.5 font-serif ${
+                    drawerMode === id ? 'brass-plate font-semibold' : 'text-pink-800 hover:text-pink-950'
                   }`}
                 >
-                  {g.split(' ')[0]}
+                  <Icon size={13} />
+                  <span>{label}</span>
                 </button>
               ))}
             </div>
           </div>
-        </div>
 
-        {/* Physical Stack View (Horizontal spines stacked like the photo) */}
-        {drawerMode === 'stack' ? (
-          <div className="rounded-2xl border border-pink-200 bg-white p-3 sm:p-5 shadow-xs">
-            <div className="flex flex-col md:flex-row items-stretch gap-4">
-              {/* Leaning Vertical Books (e.g. Algorithms, Art of Uncertainty) */}
-              {activeBooks.some((b) => b.orientation === 'vertical') && (
-                <div className="flex items-end gap-2.5 pb-1 border-b md:border-b-0 md:border-r border-pink-200 md:pr-4 shrink-0">
-                  <span className="text-[10px] uppercase tracking-widest font-mono text-pink-600 [writing-mode:vertical-rl] rotate-180 mb-2 hidden md:block">
-                    Leaning
-                  </span>
-                  {activeBooks
-                    .filter((b) => b.orientation === 'vertical')
-                    .map((book) => {
-                      const isSelected = selectedBook?.id === book.id;
-                      return (
-                        <div
-                          key={book.id}
-                          onClick={() => handleBookClick(book)}
-                          className={`group relative flex flex-col justify-between cursor-pointer rounded-lg px-2 py-3 transition-transform duration-150 border w-12 sm:w-14 h-48 sm:h-56 select-none ${
-                            isSelected
-                              ? '-translate-y-2 border-pink-500 shadow-lg shadow-pink-500/25 ring-2 ring-pink-400'
-                              : 'border-pink-200/80 hover:-translate-y-1 hover:border-pink-400'
-                          }`}
-                          style={{
-                            backgroundColor: book.spineColor,
-                            color: book.textColor,
-                            boxShadow: isSelected ? '0 10px 25px rgba(236,72,153,0.3)' : undefined,
-                          }}
-                        >
-                          <div className="text-[9px] font-mono opacity-80">{book.year}</div>
-                          <div className="flex-1 flex items-center justify-center overflow-hidden my-1">
-                            <span className="text-xs font-bold font-serif whitespace-nowrap [writing-mode:vertical-rl] rotate-180 truncate">
-                              {book.title}
-                            </span>
-                          </div>
-                          <div className="text-[9px] font-bold truncate opacity-80">{book.author.split(' ').pop()}</div>
-                        </div>
-                      );
-                    })}
-                </div>
-              )}
-
-              {/* Horizontal Books Stack (Piled from top to bottom) */}
-              <div className="flex-1 flex flex-col gap-2 max-h-[460px] overflow-y-auto pr-1">
-                {activeBooks
-                  .filter((b) => b.orientation !== 'vertical' || !activeBooks.some((x) => x.orientation === 'vertical'))
-                  .map((book, idx) => {
-                    const isSelected = selectedBook?.id === book.id;
-
-                    return (
-                      <div
-                        key={book.id}
-                        onClick={() => handleBookClick(book)}
-                        className={`group relative flex cursor-pointer items-center justify-between rounded-xl px-4 py-2.5 sm:py-3 transition-transform duration-150 border ${
-                          isSelected
-                            ? 'translate-x-3 sm:translate-x-4 border-pink-500 shadow-md shadow-pink-500/20 ring-2 ring-pink-400 z-10'
-                            : 'border-pink-200/70 hover:translate-x-2 hover:border-pink-400'
-                        }`}
-                        style={{
-                          backgroundColor: book.spineColor === '#F5F5F3' ? '#FBF9F4' : book.spineColor,
-                          color: book.textColor === '#1A1A1A' && book.spineColor === '#F5F5F3' ? '#2A141E' : book.textColor,
-                          borderLeftWidth: '8px',
-                          borderLeftColor: book.accentColor || '#EC4899',
-                        }}
-                      >
-                        <div className="flex items-center gap-3 truncate">
-                          <span className="font-mono text-[10px] opacity-60 w-4 text-center">
-                            #{idx + 1}
-                          </span>
-                          <div className="truncate">
-                            <p className="truncate text-xs sm:text-sm font-bold font-serif group-hover:underline">
-                              {book.title}
-                            </p>
-                            <p className="truncate text-[11px] opacity-80">
-                              {book.author}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center gap-2.5 shrink-0 ml-2">
-                          <span className="hidden sm:inline-block rounded px-1.5 py-0.5 text-[9px] font-mono bg-pink-100/90 border border-pink-300/80 text-pink-900">
-                            {book.pages} pp
-                          </span>
-                          <span className="text-[10px] font-mono opacity-80">
-                            {book.year > 0 ? book.year : `${Math.abs(book.year)} BC`}
-                          </span>
-                          <div className="flex items-center gap-0.5 text-pink-500">
-                            {Array.from({ length: book.rating }).map((_, i) => (
-                              <IconStarFilled key={i} size={11} className="fill-pink-500" />
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-              </div>
-            </div>
+          {/* Genre filter */}
+          <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-serif">
+            <span className="mr-1 italic text-pink-800/70">Subject:</span>
+            {['all', ...availableGenres].map((g) => (
+              <button
+                key={g}
+                type="button"
+                onClick={() => setSelectedGenre(selectedGenre === g ? 'all' : g)}
+                className={`rounded-sm px-2 py-0.5 border ${
+                  selectedGenre === g
+                    ? 'bg-pink-700 text-white border-pink-800'
+                    : 'bg-white/60 text-pink-900 border-gold/25 hover:border-gold/60'
+                }`}
+              >
+                {g === 'all' ? 'Everything' : g}
+              </button>
+            ))}
           </div>
-        ) : (
-          /* Spines Grid View with Light Theme */
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 max-h-[420px] overflow-y-auto pr-1">
-            {activeBooks.map((book) => {
-              const isSelected = selectedBook?.id === book.id;
 
-              return (
-                <div
-                  key={book.id}
-                  onClick={() => handleBookClick(book)}
-                  className={`group relative flex cursor-pointer items-center justify-between rounded-xl p-3 transition-transform duration-150 border ${
-                    isSelected
-                      ? '-translate-y-1 scale-[1.01] border-pink-500 bg-pink-50/80 shadow-md shadow-pink-500/15 ring-2 ring-pink-400'
-                      : 'border-pink-200/80 bg-white hover:-translate-y-0.5 hover:border-pink-400 hover:bg-pink-50/40'
-                  }`}
-                  style={{
-                    borderLeftWidth: '5px',
-                    borderLeftColor: book.spineColor === '#F5F5F3' ? '#D4D4D8' : book.spineColor,
-                  }}
-                >
-                  <div className="flex items-center gap-2.5 truncate">
-                    <div className="truncate">
-                      <p className="truncate text-xs font-semibold text-pink-900 font-serif group-hover:text-pink-700 transition-colors">
-                        {book.title}
-                      </p>
-                      <p className="truncate text-[11px] text-pink-900/70">
-                        {book.author}
-                      </p>
-                    </div>
-                  </div>
+          {shelfRows.length === 0 && (
+            <p className="py-10 text-center font-serif italic text-sm text-pink-800/70">
+              Nothing on this shelf matches that subject.
+            </p>
+          )}
 
-                  <div className="flex items-center gap-2 shrink-0 ml-2">
-                    <span className="text-[10px] font-mono text-pink-900/60">
-                      {book.year > 0 ? book.year : `${Math.abs(book.year)} BC`}
+          {drawerMode === 'shelf' ? (
+            <div className="space-y-7">
+              {shelfRows.map(({ cubby, books }) => (
+                <div key={cubby.id}>
+                  <div className="mb-2 flex items-center justify-between gap-3">
+                    <button
+                      type="button"
+                      onClick={() => handleCubbyClick(cubby.id)}
+                      className="brass-plate rounded-[2px] px-2.5 py-0.5 text-[10px] font-serif font-semibold tracking-wide"
+                    >
+                      {CUBBY_HOTSPOTS[cubby.id]?.roman} · {cubby.title}
+                    </button>
+                    <span className="font-serif italic text-[11px] text-pink-800/60">
+                      {books.length} {books.length === 1 ? 'volume' : 'volumes'}
                     </span>
-                    <div className="flex items-center gap-0.5 text-pink-500">
-                      {Array.from({ length: book.rating }).map((_, i) => (
-                        <IconStarFilled key={i} size={11} className="fill-pink-500" />
+                  </div>
+                  <div className="cubby-back overflow-x-auto rounded-t-[3px] px-4 pt-7">
+                    <div className="flex min-w-max items-end gap-[3px]">
+                      {books.map((book) => (
+                        <BookSpine
+                          key={book.id}
+                          book={book}
+                          selected={selectedBook?.id === book.id}
+                          onClick={() => handleBookClick(book)}
+                        />
                       ))}
                     </div>
                   </div>
+                  <div className="shelf-plank rounded-b-[2px]" />
                 </div>
-              );
-            })}
-          </div>
-        )}
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+              {shelfRows.flatMap(({ books }) => books).map((book, idx) => {
+                const isSelected = selectedBook?.id === book.id;
+                return (
+                  <button
+                    key={book.id}
+                    type="button"
+                    onClick={() => handleBookClick(book)}
+                    className={`group relative text-left rounded-[2px] border bg-[#FFFCF7] px-4 pt-3 pb-3.5 transition-transform duration-200 hover:-translate-y-0.5 ${
+                      isSelected ? 'border-gold shadow-[0_0_0_1px_#E9CD86]' : 'border-[#E8D9C8]'
+                    }`}
+                    style={{
+                      backgroundImage:
+                        'repeating-linear-gradient(180deg, transparent 0 21px, rgba(166,69,91,0.12) 21px 22px)',
+                      backgroundPosition: '0 30px',
+                    }}
+                  >
+                    {/* catalogue card punch hole */}
+                    <span className="absolute bottom-1.5 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-[#E8D9C8]" />
+                    <div className="flex items-center justify-between font-mono text-[9px] text-pink-700/80">
+                      <span>{CUBBY_HOTSPOTS[book.cubby]?.roman}.{String(idx + 1).padStart(2, '0')}</span>
+                      <span
+                        className="h-2.5 w-2.5 rounded-[1px]"
+                        style={{ background: vintageTone(book.spineColor), boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.15)' }}
+                      />
+                    </div>
+                    <p className="mt-1.5 font-serif text-sm font-medium leading-snug text-pink-900 line-clamp-2 group-hover:text-pink-700">
+                      {book.title}
+                    </p>
+                    <p className="font-serif italic text-xs text-pink-800/75 truncate">{book.author}</p>
+                    <div className="mt-2 flex items-center justify-between text-[10px] font-serif text-pink-800/70">
+                      <span>
+                        {book.year > 0 ? book.year : `${Math.abs(book.year)} BC`} · {book.pages} pp
+                      </span>
+                      <span className="flex text-gold">
+                        {Array.from({ length: book.rating }).map((_, i) => (
+                          <IconStarFilled key={i} size={9} />
+                        ))}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

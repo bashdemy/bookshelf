@@ -2,25 +2,32 @@
 
 :root {
   color-scheme: light;
-  --background: #FFF7F9;
-  --paper: #FFFFFF;
-  --foreground: #7E1A47;
-  --foreground-secondary: #9D174D;
-  --color-border: #FBCFE8;
-  --color-divider: #FCE7F3;
+  /* Blush paper, rose ink and gilt — a real old library, but pink */
+  --background: #F6E8E2;
+  --paper: #FFFAF5;
+  --foreground: #5A2232;
+  --foreground-secondary: #8A4B58;
+  --color-border: #E9CFC7;
+  --color-divider: #F0DCD5;
 
-  --color-primary: #E11D48;
-  --color-primary-hover: #BE123C;
-  --color-primary-soft: #FDF2F8;
-  --color-primary-text: #9D174D;
+  --gold: #B88A3E;
+  --gold-light: #E9CD86;
+  --gold-dark: #7A5523;
+  --gold-gradient: linear-gradient(180deg, #F6E7B4 0%, #D9B266 28%, #A9792F 52%, #E9CD86 74%, #9C6D2A 100%);
+  --gold-rule: linear-gradient(90deg, transparent, #B88A3E 15%, #F3DFA2 50%, #B88A3E 85%, transparent);
 
-  --color-secondary: #BE185D;
-  --color-secondary-hover: #9D174D;
-  --color-secondary-soft: #FCE7F3;
-  --color-secondary-text: #700B33;
+  --color-primary: #A8435A;
+  --color-primary-hover: #8A3449;
+  --color-primary-soft: #F9E6E9;
+  --color-primary-text: #6E2A3B;
 
-  --color-tag-bg: #FCE7F3;
-  --color-tag-text: #831843;
+  --color-secondary: #C25A70;
+  --color-secondary-hover: #A8435A;
+  --color-secondary-soft: #F2CDD3;
+  --color-secondary-text: #5A2232;
+
+  --color-tag-bg: #F9E6E9;
+  --color-tag-text: #6E2A3B;
 
   --shadow-sm: 0 1px 2px rgba(131, 24, 67, 0.04), 0 1px 1px rgba(131, 24, 67, 0.02);
   --shadow-md: 0 1px 3px rgba(131, 24, 67, 0.06), 0 4px 12px rgba(131, 24, 67, 0.04);
@@ -53,6 +60,25 @@
   --color-primary: var(--color-primary);
   --color-secondary: var(--color-secondary);
   --color-divider: var(--color-divider);
+
+  /* Re-tone the whole pink scale into dusty, antique rose so it feels real rather than neon */
+  --color-pink-50: #FDF5F4;
+  --color-pink-100: #F9E6E6;
+  --color-pink-200: #F1CFD0;
+  --color-pink-300: #E5AEB3;
+  --color-pink-400: #D3838F;
+  --color-pink-500: #BF5D70;
+  --color-pink-600: #A6455B;
+  --color-pink-700: #88354A;
+  --color-pink-800: #6D2A3C;
+  --color-pink-900: #5A2232;
+  --color-pink-950: #3A1520;
+  --color-rose-600: #A6455B;
+  --color-white: #FFFAF5;
+
+  --color-gold: #B88A3E;
+  --color-gold-light: #E9CD86;
+  --color-gold-dark: #7A5523;
   
   --color-info: #3D628D;
   --color-success: #2C6B5E;
@@ -75,7 +101,13 @@
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
+  /* Laid paper grain + soft window light from above */
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.16 0 0 0 0 0.14 0 0 0 0.09 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255, 246, 240, 0.9), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(214, 160, 150, 0.18), transparent 70%);
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -92,7 +124,7 @@ h1, h2, h3, h4 {
 /* Subtle, realistic tactile interaction */
 button, a, input, select, textarea {
   transition-property: color, background-color, border-color, box-shadow, transform, opacity;
-  transition-timing-function: cubic-bezier(0.2, 0, 1);
+  transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
   transition-duration: 150ms;
 }
 
@@ -141,4 +173,110 @@ button, a, input, select, textarea {
 .tactile-button-secondary:active {
   transform: translateY(1px);
   background: #FCE7F3;
+}
+
+/* ================= Antique library details ================= */
+
+/* Gold-leaf lettering */
+.gold-text {
+  background-image: var(--gold-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Hairline gilt rule with a fleuron in the middle */
+.gilt-rule {
+  height: 1px;
+  background: var(--gold-rule);
+}
+
+.ornament {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--gold);
+}
+.ornament::before,
+.ornament::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--gold-rule);
+}
+
+/* Cream paper card with a gilt inner border, like a bookplate */
+.bookplate {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(255, 250, 245, 0.96), rgba(250, 238, 230, 0.96));
+  border: 1px solid rgba(184, 138, 62, 0.45);
+  box-shadow:
+    inset 0 0 0 4px #FFFAF5,
+    inset 0 0 0 5px rgba(184, 138, 62, 0.35),
+    0 1px 2px rgba(90, 34, 50, 0.06),
+    0 10px 30px -12px rgba(90, 34, 50, 0.22);
+}
+
+/* Gilded picture frame for the real photograph */
+.gilt-frame {
+  padding: 10px;
+  background:
+    linear-gradient(135deg, #8A6428 0%, #E9CD86 22%, #A9792F 45%, #F3DFA2 62%, #8A6428 85%, #C9A15A 100%);
+  box-shadow:
+    0 0 0 1px rgba(90, 50, 20, 0.5),
+    0 24px 50px -18px rgba(90, 34, 50, 0.45),
+    0 6px 14px rgba(90, 34, 50, 0.12);
+}
+.gilt-frame > .frame-mat {
+  padding: 8px;
+  background: #F4E3DA;
+  box-shadow: inset 0 0 0 1px rgba(122, 85, 35, 0.4), inset 0 2px 8px rgba(90, 34, 50, 0.25);
+}
+
+/* The physical shelf: back wall of a cubby + painted plank */
+.cubby-back {
+  background-color: #EFD9D2;
+  background-image:
+    linear-gradient(180deg, rgba(60, 20, 25, 0.28) 0%, rgba(60, 20, 25, 0.05) 18%, transparent 40%),
+    linear-gradient(90deg, rgba(60, 20, 25, 0.16), transparent 6%, transparent 94%, rgba(60, 20, 25, 0.16)),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 2px, transparent 2px 7px);
+}
+.shelf-plank {
+  height: 14px;
+  background: linear-gradient(180deg, #F7E7E1 0%, #EBCFC7 45%, #D9B3AA 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 6px 10px -4px rgba(60, 20, 25, 0.35);
+  border-bottom: 1px solid rgba(122, 60, 60, 0.25);
+}
+
+/* Spines slide off the shelf a little on hover — transform only, no flashing */
+.book-spine {
+  transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+.book-spine:hover {
+  transform: translateY(-8px);
+}
+.book-spine:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* Brass label plate */
+.brass-plate {
+  background: linear-gradient(180deg, #F3DFA2 0%, #C9A15A 45%, #A9792F 100%);
+  color: #3D2610;
+  border: 1px solid #7A5523;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 2px rgba(60, 30, 10, 0.35);
+  text-shadow: 0 1px 0 rgba(255, 240, 200, 0.6);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn {
+  animation: fadeIn 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
