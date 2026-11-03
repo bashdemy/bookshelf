@@ -29,37 +29,30 @@ export default async function PublicProfilePage({
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 space-y-10">
-      <div
-        className="bookplate mb-8 flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center"
-        style={{
-          boxShadow: 'var(--shadow-card)',
-        }}
-      >
+      <div className="whimsical-card mb-8 flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center">
         <div className="flex items-center gap-4">
           {profileUser.avatar_url ? (
             <img
               src={profileUser.avatar_url}
               alt={profileUser.display_name}
-              className="h-14 w-14 rounded-full object-cover"
-              style={{ border: '2px solid rgba(212, 175, 55, 0.5)' }}
+              className="h-14 w-14 rounded-full object-cover ring-2 ring-pink-300 shadow-xs"
             />
           ) : (
             <div
-              className="brass-plate flex h-14 w-14 items-center justify-center rounded-full text-xl font-bold font-serif text-[#FFF8DC]"
+              className="flex h-14 w-14 items-center justify-center rounded-full text-xl font-bold font-serif text-white bg-gradient-to-tr from-pink-500 to-rose-400 shadow-md"
             >
               {profileUser.display_name.charAt(0).toUpperCase()}
             </div>
           )}
           <div>
-            <p className="text-[10px] font-serif uppercase tracking-widest text-[#8A4B58] flex items-center gap-1.5 mb-1">
-              <span className="gold-text select-none">❦</span>
-              <span>Ex Libris</span>
-            </p>
-            <h1 className="text-2xl font-bold font-serif tracking-tight text-[#5A2232]">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-pink-100 text-pink-700 text-xs font-semibold mb-1">
+              <span>✦ Reader Shelf ✦</span>
+            </div>
+            <h1 className="text-2xl font-bold font-serif tracking-tight text-pink-950">
               {profileUser.display_name}&apos;s Bookshelf
             </h1>
             {profileUser.username && (
-              <p className="text-xs font-serif text-[#8A4B58]">
+              <p className="text-xs font-sans text-pink-700/80">
                 @{profileUser.username}
               </p>
             )}
@@ -67,9 +60,9 @@ export default async function PublicProfilePage({
         </div>
 
         <div
-          className="brass-plate rounded px-3.5 py-1 text-xs font-serif font-bold uppercase tracking-wider text-white shadow-xs"
+          className="rounded-full px-4 py-1 text-xs font-sans font-semibold uppercase tracking-wider text-white bg-gradient-to-r from-pink-500 to-rose-500 shadow-xs"
         >
-          {isOwner ? 'Your Archive' : 'Public Library'}
+          {isOwner ? 'Your Bookshelf' : 'Public Shelf'}
         </div>
       </div>
 

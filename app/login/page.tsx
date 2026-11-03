@@ -80,37 +80,24 @@ function LoginForm() {
   };
 
   return (
-    <div
-      className="bookplate w-full max-w-sm p-8"
-      style={{
-        boxShadow: '0 12px 36px rgba(90, 34, 50, 0.14), 0 2px 8px rgba(197, 160, 89, 0.2)',
-      }}
-    >
+    <div className="whimsical-card w-full max-w-sm p-8 sm:p-9">
       <div className="mb-6 text-center">
-        <p className="text-[10px] font-serif uppercase tracking-widest text-[#8A4B58] flex items-center justify-center gap-2 mb-1">
-          <span className="gold-text select-none">❦</span>
-          <span>Ex Libris • Reader Access</span>
-          <span className="gold-text select-none">❦</span>
-        </p>
-        <h1 className="text-2xl font-bold font-serif tracking-tight text-[#5A2232]">
-          Library Register
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100/80 text-pink-700 text-xs font-semibold mb-2 shadow-2xs">
+          <span>✦ Welcome Reader ✦</span>
+        </div>
+        <h1 className="text-2xl font-bold font-serif tracking-tight text-pink-950">
+          Reader Sign In
         </h1>
-        <p className="mt-1 text-xs font-serif text-[#8A4B58]">
+        <p className="mt-1 text-xs font-sans text-pink-700/80">
           {mode === 'signin'
-            ? 'Sign in to catalogue or edit volumes'
+            ? 'Sign in to log and catalog your own reads'
             : mode === 'register'
-            ? 'Register a new librarian profile'
+            ? 'Create your reader profile'
             : 'Reset access key credentials'}
         </p>
       </div>
 
-      <div
-        className="mb-5 flex rounded p-1"
-        style={{
-          background: 'rgba(233, 207, 199, 0.35)',
-          border: '1px solid var(--color-border)',
-        }}
-      >
+      <div className="mb-5 flex rounded-full p-1 bg-pink-100/70 border border-pink-200/80">
         <button
           type="button"
           onClick={() => {
@@ -118,8 +105,10 @@ function LoginForm() {
             setError(null);
             setSuccessMsg(null);
           }}
-          className={`flex-1 rounded py-1.5 text-xs font-serif font-bold transition-all ${
-            mode === 'signin' ? 'brass-plate text-white shadow-xs' : 'text-[#8A4B58] hover:text-[#5A2232]'
+          className={`flex-1 rounded-full py-1.5 text-xs font-sans font-semibold transition-all ${
+            mode === 'signin'
+              ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-xs'
+              : 'text-pink-700 hover:text-pink-950'
           }`}
         >
           Sign In
@@ -131,11 +120,13 @@ function LoginForm() {
             setError(null);
             setSuccessMsg(null);
           }}
-          className={`flex-1 rounded py-1.5 text-xs font-serif font-bold transition-all ${
-            mode === 'register' ? 'brass-plate text-white shadow-xs' : 'text-[#8A4B58] hover:text-[#5A2232]'
+          className={`flex-1 rounded-full py-1.5 text-xs font-sans font-semibold transition-all ${
+            mode === 'register'
+              ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-xs'
+              : 'text-pink-700 hover:text-pink-950'
           }`}
         >
-          New Reader
+          New User
         </button>
         <button
           type="button"
@@ -144,8 +135,10 @@ function LoginForm() {
             setError(null);
             setSuccessMsg(null);
           }}
-          className={`flex-1 rounded py-1.5 text-xs font-serif font-bold transition-all ${
-            mode === 'reset' ? 'brass-plate text-white shadow-xs' : 'text-[#8A4B58] hover:text-[#5A2232]'
+          className={`flex-1 rounded-full py-1.5 text-xs font-sans font-semibold transition-all ${
+            mode === 'reset'
+              ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-xs'
+              : 'text-pink-700 hover:text-pink-950'
           }`}
         >
           Reset
@@ -153,27 +146,13 @@ function LoginForm() {
       </div>
 
       {successMsg && (
-        <div
-          className="mb-4 rounded border p-2.5 text-xs font-serif"
-          style={{
-            borderColor: '#A7F3D0',
-            background: '#ECFDF5',
-            color: '#065F46',
-          }}
-        >
+        <div className="mb-4 rounded-xl border border-emerald-200 bg-emerald-50/90 p-2.5 text-xs font-sans text-emerald-800">
           {successMsg}
         </div>
       )}
 
       {error && (
-        <div
-          className="mb-4 rounded border p-2.5 text-xs font-serif"
-          style={{
-            borderColor: '#F5C6CB',
-            background: '#FFF5F5',
-            color: '#9E384D',
-          }}
-        >
+        <div className="mb-4 rounded-xl border border-rose-200 bg-rose-50/90 p-2.5 text-xs font-sans text-rose-700">
           {error}
         </div>
       )}
@@ -182,7 +161,7 @@ function LoginForm() {
         <div>
           <label
             htmlFor="username"
-            className="mb-1 block text-xs font-serif font-semibold text-[#5A2232]"
+            className="mb-1.5 block text-xs font-sans font-semibold text-pink-950"
           >
             Username *
           </label>
@@ -194,13 +173,8 @@ function LoginForm() {
             autoCorrect="off"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            placeholder="e.g., bashdemy"
-            className="w-full bg-[#FFFAF5] px-3 py-2 text-xs font-serif focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
-            style={{
-              borderRadius: 'var(--radius-base)',
-              border: '1px solid var(--color-border)',
-              color: 'var(--foreground)',
-            }}
+            placeholder="e.g., maria"
+            className="w-full bg-white/95 px-3.5 py-2 text-xs font-sans rounded-xl border border-pink-200 text-pink-950 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-200"
           />
         </div>
 
@@ -208,7 +182,7 @@ function LoginForm() {
           <div>
             <label
               htmlFor="displayName"
-              className="mb-1 block text-xs font-serif font-semibold text-[#5A2232]"
+              className="mb-1.5 block text-xs font-sans font-semibold text-pink-950"
             >
               Display Name (optional)
             </label>
@@ -218,12 +192,7 @@ function LoginForm() {
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
               placeholder="e.g., Maria"
-              className="w-full bg-[#FFFAF5] px-3 py-2 text-xs font-serif focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
-              style={{
-                borderRadius: 'var(--radius-base)',
-                border: '1px solid var(--color-border)',
-                color: 'var(--foreground)',
-              }}
+              className="w-full bg-white/95 px-3.5 py-2 text-xs font-sans rounded-xl border border-pink-200 text-pink-950 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-200"
             />
           </div>
         )}
@@ -231,7 +200,7 @@ function LoginForm() {
         <div>
           <label
             htmlFor="password"
-            className="mb-1 block text-xs font-serif font-semibold text-[#5A2232]"
+            className="mb-1.5 block text-xs font-sans font-semibold text-pink-950"
           >
             Password *
           </label>
@@ -242,37 +211,32 @@ function LoginForm() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder={mode === 'register' ? 'At least 6 characters' : 'Enter your password'}
-            className="w-full bg-[#FFFAF5] px-3 py-2 text-xs font-serif focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
-            style={{
-              borderRadius: 'var(--radius-base)',
-              border: '1px solid var(--color-border)',
-              color: 'var(--foreground)',
-            }}
+            className="w-full bg-white/95 px-3.5 py-2 text-xs font-sans rounded-xl border border-pink-200 text-pink-950 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-200"
           />
         </div>
 
         <button
           type="submit"
           disabled={isSubmitting || !username.trim() || !password}
-          className="brass-plate mt-2 w-full rounded py-2.5 text-xs font-serif font-bold text-white transition-all active:translate-y-[1px] disabled:opacity-50"
+          className="whimsical-btn-primary mt-2 w-full text-xs py-2.5 disabled:opacity-50"
         >
           {isSubmitting
             ? mode === 'signin'
               ? 'Authenticating...'
               : mode === 'register'
-              ? 'Creating register entry...'
+              ? 'Creating account...'
               : 'Updating key...'
             : mode === 'signin'
-              ? 'Sign Into Archive'
+              ? 'Sign In'
               : mode === 'register'
-              ? 'Register Reader Profile'
+              ? 'Create Reader Profile'
               : 'Reset & Sign In'}
         </button>
       </form>
 
       <div className="mt-5 text-center text-xs">
-        <Link href="/" className="font-serif text-[#8A4B58] hover:text-[#5A2232] transition-colors">
-          ← Return to reading room
+        <Link href="/" className="font-sans text-pink-700 hover:text-pink-950 transition-colors">
+          ← Return to reading nook
         </Link>
       </div>
     </div>

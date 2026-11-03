@@ -67,32 +67,20 @@ export default function OnboardingPage() {
 
   return (
     <main className="mx-auto flex max-w-lg flex-col items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-      <div
-        className="bookplate w-full p-8"
-        style={{
-          boxShadow: '0 12px 36px rgba(90, 34, 50, 0.14), 0 2px 8px rgba(197, 160, 89, 0.2)',
-        }}
-      >
-        <p className="text-[10px] font-serif uppercase tracking-widest text-[#8A4B58] flex items-center gap-2 mb-1.5">
-          <span className="gold-text select-none">❦</span>
-          <span>Ex Libris • Reader Registry</span>
-          <span className="gold-text select-none">❦</span>
-        </p>
-        <h1 className="mb-1 text-2xl font-bold font-serif tracking-tight text-[#5A2232]">
-          Librarian Profile Setup
+      <div className="whimsical-card w-full p-8 sm:p-9">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100 text-pink-700 text-xs font-semibold mb-2 shadow-2xs">
+          <span>✦ Profile Setup ✦</span>
+        </div>
+        <h1 className="mb-1 text-2xl font-bold font-serif tracking-tight text-pink-950">
+          Reader Profile Setup
         </h1>
-        <p className="mb-6 text-xs font-serif text-[#8A4B58]">
+        <p className="mb-6 text-xs font-sans text-pink-700/80">
           Choose your reader handle and public bookshelf display name
         </p>
 
         {error && (
           <div
-            className="mb-4 rounded border p-2.5 text-xs font-serif"
-            style={{
-              borderColor: '#F5C6CB',
-              background: '#FFF5F5',
-              color: '#9E384D',
-            }}
+            className="mb-4 rounded-xl border border-rose-200 bg-rose-50/90 p-2.5 text-xs font-sans text-rose-700"
           >
             {error}
           </div>
@@ -100,7 +88,7 @@ export default function OnboardingPage() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="username" className="mb-1 block text-xs font-serif font-semibold text-[#5A2232]">
+            <label htmlFor="username" className="mb-1.5 block text-xs font-sans font-semibold text-pink-950">
               Reader Handle *
             </label>
             <input
@@ -110,22 +98,17 @@ export default function OnboardingPage() {
               onChange={(e) => setUsername(e.target.value.toLowerCase())}
               required
               pattern="[a-z0-9_-]{3,20}"
-              className="w-full bg-[#FFFAF5] px-3 py-2 text-xs font-serif focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
-              style={{ 
-                borderRadius: 'var(--radius-base)',
-                border: '1px solid var(--color-border)',
-                color: 'var(--foreground)',
-              }}
+              className="w-full bg-white/95 px-3.5 py-2 text-xs font-sans rounded-xl border border-pink-200 text-pink-950 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-200"
               placeholder="e.g., maria"
             />
-            <p className="mt-1 text-[11px] font-serif text-[#8A4B58]">
+            <p className="mt-1 text-[11px] font-sans text-pink-500">
               3–20 characters: lowercase letters, numbers, hyphens, underscores
             </p>
           </div>
 
           <div>
-            <label htmlFor="displayName" className="mb-1 block text-xs font-serif font-semibold text-[#5A2232]">
-              Public Inscription Name *
+            <label htmlFor="displayName" className="mb-1.5 block text-xs font-sans font-semibold text-pink-950">
+              Display Name *
             </label>
             <input
               id="displayName"
@@ -133,25 +116,20 @@ export default function OnboardingPage() {
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
               required
-              className="w-full bg-[#FFFAF5] px-3 py-2 text-xs font-serif focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
-              style={{ 
-                borderRadius: 'var(--radius-base)',
-                border: '1px solid var(--color-border)',
-                color: 'var(--foreground)',
-              }}
+              className="w-full bg-white/95 px-3.5 py-2 text-xs font-sans rounded-xl border border-pink-200 text-pink-950 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-200"
               placeholder="e.g., Maria K."
             />
-            <p className="mt-1 text-[11px] font-serif text-[#8A4B58]">
-              How your name will be inscribed upon your bookcase
+            <p className="mt-1 text-[11px] font-sans text-pink-500">
+              How your name will appear on your bookshelf
             </p>
           </div>
 
           <button
             type="submit"
             disabled={isSubmitting || !isValidUsername(username) || !displayName.trim()}
-            className="brass-plate w-full rounded py-2.5 text-xs font-serif font-bold text-white transition-all active:translate-y-[1px] disabled:opacity-50"
+            className="whimsical-btn-primary w-full text-xs py-2.5 disabled:opacity-50"
           >
-            {isSubmitting ? 'Inscribing Ledger...' : 'Inscribe Profile'}
+            {isSubmitting ? 'Saving...' : 'Complete Profile'}
           </button>
         </form>
       </div>

@@ -1,31 +1,30 @@
 'use client';
 
 import Link from 'next/link';
-import { IconLogin } from '@tabler/icons-react';
+import { IconLogin, IconSparkles } from '@tabler/icons-react';
 
 export default function AuthPrompt() {
   return (
     <aside
       aria-label="Public viewer mode notice"
-      className="fixed bottom-5 left-5 z-40 hidden sm:block"
+      className="fixed bottom-5 left-5 z-40 hidden sm:block animate-fadeIn"
     >
       <div 
-        className="bookplate flex items-center gap-3 rounded-lg py-2 pl-3.5 pr-2"
+        className="flex items-center gap-3 rounded-full py-1.5 pl-4 pr-1.5 bg-white/95 backdrop-blur-md"
         style={{ 
-          background: 'var(--paper)',
-          border: '1px solid var(--color-border)',
-          boxShadow: '0 8px 24px rgba(90, 34, 50, 0.12), 0 2px 6px rgba(197, 160, 89, 0.15)',
+          border: '1px solid rgba(244, 114, 182, 0.35)',
+          boxShadow: '0 10px 25px -4px rgba(236, 72, 153, 0.18), 0 2px 6px rgba(236, 72, 153, 0.08)',
         }}
       >
-        <span className="flex items-center gap-1.5 text-xs font-serif" style={{ color: 'var(--foreground-secondary)' }}>
-          <span className="gold-text select-none">❦</span>
-          <span>Browsing <strong className="font-semibold" style={{ color: 'var(--foreground)' }}>bashdemy</strong>&apos;s library</span>
+        <span className="flex items-center gap-1.5 text-xs font-sans text-pink-900/80">
+          <IconSparkles size={14} className="text-pink-500 animate-pulse" />
+          <span>Visiting <strong className="font-semibold text-pink-950">bashdemy</strong>&apos;s shelf</span>
         </span>
         <Link
           href="/login"
-          className="brass-plate inline-flex items-center gap-1.5 rounded px-3 py-1 text-xs font-serif font-bold text-white transition-all shadow-xs active:translate-y-[1px]"
+          className="whimsical-btn-primary text-xs py-1.5 px-3.5"
         >
-          <IconLogin size={13} className="text-[#FFE58F]" />
+          <IconLogin size={13} />
           <span>Sign In</span>
         </Link>
       </div>

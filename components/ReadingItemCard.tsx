@@ -408,21 +408,21 @@ export default function ReadingItemCard({
   }
 
   return (
-    <article className="bookplate group relative flex h-full flex-col rounded-sm p-4 sm:p-5 transition-transform duration-200 hover:-translate-y-1">
+    <article className="whimsical-card group relative flex h-full flex-col p-5 sm:p-6">
       <div className="relative flex flex-1 flex-col">
         {/* Header bar: badge + rating + actions */}
-        <div className="mb-3 flex items-center justify-between gap-2">
+        <div className="mb-3.5 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <span
-              className="inline-flex items-center gap-1 rounded-[2px] px-2 py-0.5 text-[10px] font-serif uppercase tracking-wider border border-gold/40 text-pink-900 bg-white/70 shadow-2xs"
+              className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-sans font-semibold text-pink-700 bg-pink-100/80 border border-pink-200/80 shadow-2xs"
             >
-              {isBook ? <IconBook size={12} className="text-gold" /> : <IconArticle size={12} className="text-gold" />}
+              {isBook ? <IconBook size={12} className="text-pink-500" /> : <IconArticle size={12} className="text-pink-500" />}
               <span>{isBook ? 'Book' : 'Article'}</span>
             </span>
             {item.rating && (
-              <div className="flex items-center gap-0.5 text-gold" title={`${item.rating}/5 stars`}>
+              <div className="flex items-center gap-0.5 text-amber-400" title={`${item.rating}/5 stars`}>
                 {Array.from({ length: item.rating }).map((_, i) => (
-                  <IconStarFilled key={i} size={11} />
+                  <IconStarFilled key={i} size={12} />
                 ))}
               </div>
             )}
@@ -435,7 +435,7 @@ export default function ReadingItemCard({
                 onClick={() => setIsEditing(true)}
                 title="Edit item"
                 aria-label={`Edit ${item.title}`}
-                className="inline-flex items-center gap-1 rounded-sm px-2 py-0.5 text-xs font-serif text-pink-800 hover:bg-pink-100/70 border border-gold/30"
+                className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-sans text-pink-700 hover:bg-pink-100 border border-pink-200 transition-all"
               >
                 <IconEdit size={12} />
                 <span>Edit</span>
@@ -445,7 +445,7 @@ export default function ReadingItemCard({
                 onClick={() => setIsConfirmingDelete(true)}
                 title="Delete item"
                 aria-label={`Delete ${item.title}`}
-                className="inline-flex items-center gap-1 rounded-sm px-2 py-0.5 text-xs font-serif text-pink-800 hover:bg-red-50 hover:text-red-700 border border-gold/30"
+                className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-sans text-pink-700 hover:bg-red-50 hover:text-red-700 hover:border-red-200 border border-pink-200 transition-all"
               >
                 <IconTrash size={12} />
                 <span>Delete</span>
@@ -456,9 +456,9 @@ export default function ReadingItemCard({
 
         {isConfirmingDelete && (
           <div
-            className="mb-3 flex items-center justify-between gap-2 rounded-sm p-2.5 text-xs border border-pink-300 bg-pink-50"
+            className="mb-3 flex items-center justify-between gap-2 rounded-xl p-2.5 text-xs border border-pink-300 bg-pink-50/90"
           >
-            <span className="font-serif font-semibold text-pink-900">
+            <span className="font-sans font-semibold text-pink-900">
               Remove this item?
             </span>
             <div className="flex gap-1.5">
@@ -466,7 +466,7 @@ export default function ReadingItemCard({
                 type="button"
                 onClick={() => setIsConfirmingDelete(false)}
                 disabled={isDeleting}
-                className="rounded-sm px-2.5 py-1 font-serif text-pink-900 bg-white border border-pink-300 hover:bg-pink-100/70"
+                className="rounded-full px-3 py-1 font-sans text-pink-800 bg-white border border-pink-300 hover:bg-pink-100/70"
               >
                 Cancel
               </button>
@@ -474,7 +474,7 @@ export default function ReadingItemCard({
                 type="button"
                 onClick={handleDelete}
                 disabled={isDeleting}
-                className="rounded-sm bg-pink-700 px-2.5 py-1 font-serif font-semibold text-white hover:bg-pink-800"
+                className="rounded-full bg-rose-600 px-3 py-1 font-sans font-semibold text-white hover:bg-rose-700 shadow-xs"
               >
                 {isDeleting ? 'Deleting...' : 'Delete'}
               </button>
@@ -483,12 +483,12 @@ export default function ReadingItemCard({
         )}
 
         {error && (
-          <p className="mb-2 text-xs text-red-700">
+          <p className="mb-2 text-xs text-rose-600 font-sans">
             {error}
           </p>
         )}
 
-        {/* Content layout: if book, show miniature vintage cover alongside details */}
+        {/* Content layout: miniature cover alongside details */}
         <div className="flex gap-4">
           {isBook && (
             <div className="hidden xs:block sm:block shrink-0 pt-0.5">
@@ -497,16 +497,16 @@ export default function ReadingItemCard({
           )}
 
           <div className="flex-1 min-w-0">
-            <h3 className="font-serif font-semibold text-base sm:text-lg leading-snug tracking-tight text-pink-900">
+            <h3 className="font-serif font-bold text-base sm:text-lg leading-snug tracking-tight text-pink-950 group-hover:text-pink-600 transition-colors">
               {item.url ? (
                 <a
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 hover:text-pink-700"
+                  className="inline-flex items-center gap-1 hover:text-pink-600"
                 >
                   <span>{item.title}</span>
-                  <IconExternalLink size={13} className="text-gold shrink-0 opacity-80" />
+                  <IconExternalLink size={13} className="text-pink-400 shrink-0 opacity-80" />
                 </a>
               ) : (
                 item.title
@@ -514,26 +514,26 @@ export default function ReadingItemCard({
             </h3>
 
             {item.author && (
-              <p className="mt-1 font-serif italic text-xs text-pink-800/85">
+              <p className="mt-1 font-sans text-xs text-pink-700 font-medium">
                 by {item.author}
               </p>
             )}
 
             {item.publication && (
-              <p className="mt-0.5 font-serif text-[11px] text-pink-800/70">
-                Published in <span className="italic">{item.publication}</span>
+              <p className="mt-0.5 font-sans text-xs text-pink-600/80">
+                Published in <span className="font-medium">{item.publication}</span>
               </p>
             )}
 
             {yearAndPages && (
-              <p className="mt-1 text-[11px] font-serif text-pink-800/70">
+              <p className="mt-1 text-xs font-sans text-pink-600/70">
                 {yearAndPages}
-                {item.genre && <> · <span className="italic">{item.genre}</span></>}
+                {item.genre && <> · <span className="font-medium text-pink-700">{item.genre}</span></>}
               </p>
             )}
 
             {item.description && (
-              <p className="mt-2.5 border-l-2 border-gold/50 pl-2.5 text-xs font-serif italic leading-relaxed text-pink-900/80 line-clamp-3">
+              <p className="mt-3 rounded-xl bg-pink-50/70 p-3 text-xs font-sans leading-relaxed text-pink-900/80 border border-pink-100/80 line-clamp-3">
                 &ldquo;{item.description}&rdquo;
               </p>
             )}
@@ -541,24 +541,24 @@ export default function ReadingItemCard({
         </div>
 
         {/* Card footer: Read on date + Tags */}
-        <div className="mt-auto pt-3 border-t border-gold/25">
-          <div className="flex items-center justify-between text-[11px] font-serif text-pink-800/75">
+        <div className="mt-auto pt-3.5 border-t border-pink-100/80">
+          <div className="flex items-center justify-between text-xs font-sans text-pink-600/80">
             <span>
-              Read on <span className="font-semibold text-pink-900">{formatReadDate(item.readDate)}</span>
+              Finished on <span className="font-semibold text-pink-900">{formatReadDate(item.readDate)}</span>
             </span>
             {item.url && (
               <a
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-serif italic text-pink-800 hover:text-pink-950 hover:underline"
+                className="font-sans font-medium text-pink-600 hover:text-pink-900 hover:underline"
               >
                 Source ↗
               </a>
             )}
           </div>
           {item.tags && item.tags.length > 0 && (
-            <div className="mt-2.5 flex flex-wrap gap-1">
+            <div className="mt-2.5 flex flex-wrap gap-1.5">
               {item.tags.map((tag) => {
                 const isSelected = activeTag === tag;
                 return (
@@ -566,10 +566,10 @@ export default function ReadingItemCard({
                     key={tag}
                     type="button"
                     onClick={() => onTagClick && onTagClick(tag)}
-                    className={`rounded-xs px-2 py-0.5 text-[11px] font-serif transition-all border ${
+                    className={`rounded-full px-2.5 py-0.5 text-xs font-sans font-medium transition-all ${
                       isSelected
-                        ? 'bg-[#9E384D] text-white border-[#8A2F42] shadow-xs'
-                        : 'bg-[#FFFAF5] text-[#5A2232] border-[rgba(212,175,55,0.35)] hover:border-[#D4AF37]'
+                        ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-xs'
+                        : 'bg-white/80 text-pink-700 border border-pink-200/80 hover:bg-pink-100/60 hover:text-pink-900'
                     }`}
                   >
                     #{tag}

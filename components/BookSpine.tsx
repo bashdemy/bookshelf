@@ -3,47 +3,42 @@
 import React from 'react';
 import type { PhysicalBook } from '@/lib/shelf-data';
 
-/* ---------- colour helpers: turn modern flat colours into aged clothbound tones ---------- */
-
-function hexToRgb(hex: string): [number, number, number] {
-  const h = hex.replace('#', '');
-  const full = h.length === 3 ? h.split('').map((c) => c + c).join('') : h;
-  const n = parseInt(full, 16);
-  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
-}
-
-function rgbToHex([r, g, b]: [number, number, number]): string {
-  return '#' + [r, g, b].map((v) => Math.round(Math.max(0, Math.min(255, v))).toString(16).padStart(2, '0')).join('');
-}
-
-function mix(a: string, b: string, t: number): string {
-  const A = hexToRgb(a);
-  const B = hexToRgb(b);
-  return rgbToHex([A[0] + (B[0] - A[0]) * t, A[1] + (B[1] - A[1]) * t, A[2] + (B[2] - A[2]) * t]);
-}
-
-function luminance(hex: string): number {
-  const [r, g, b] = hexToRgb(hex);
-  return (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-}
-
-/** Ages a colour: pulls it toward warm leather/parchment so it reads as an antique binding. */
-export function vintageTone(hex: string): string {
-  const lum = luminance(hex);
-  if (lum > 0.82) return mix(hex, '#E8D5B5', 0.75); // white covers → parchment / vellum
-  if (lum < 0.14) return mix(hex, '#3A1F1C', 0.55); // black covers → aged oxblood-black leather
-  return mix(hex, '#6E3B2E', 0.32); // everything else → warmed, dusted cloth
-}
-
 function hashString(s: string): number {
   let h = 0;
   for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
   return Math.abs(h);
 }
 
+/* ================================================================
+   WHIMSICAL PASTEL COLLECTOR PALETTE
+   ================================================================ */
+export const PASTEL_PALETTE = [
+  '#F472B6', // Rose Macaron
+  '#FB7185', // Strawberry Cream
+  '#C084FC', // Lavender Dream
+  '#7DD3FC', // Robin's Egg Sky
+  '#6EE7B7', // Pistachio Mint
+  '#FDBA74', // Peach Blossom
+  '#FDE047', // Buttercup Lemon
+  '#D8B4FE', // Sweet Lilac
+  '#FDA4AF', // Spun Sugar
+  '#A78BFA', // Periwinkle
+  '#E879F9', // Orchid Pink
+  '#2DD4BF', // Mint Glaze
+];
+
 export const GOLD_GRADIENT =
-  'linear-gradient(180deg, #F6E7B4 0%, #D9B266 28%, #A9792F 52%, #E9CD86 74%, #9C6D2A 100%)';
-const GOLD_RULE = 'linear-gradient(90deg, #7A5523, #E9CD86 30%, #B88A3E 55%, #F3DFA2 75%, #7A5523)';
+  'linear-gradient(135deg, #FEF3C7 0%, #F59E0B 45%, #D97706 75%, #FDE68A 100%)';
+export const GOLD_RULE =
+  'linear-gradient(90deg, transparent, #F59E0B 20%, #FDE68A 50%, #F59E0B 80%, transparent)';
+
+export function getBookSpineColor(book: { spineColor?: string; title: string; id?: string }): string {
+  if (book.spineColor && !book.spineColor.startsWith('#2') && !book.spineColor.startsWith('#3')) {
+    return book.spineColor;
+  }
+  const hash = hashString((book.id || '') + book.title);
+  return PASTEL_PALETTE[hash % PASTEL_PALETTE.length];
+}
 
 interface BookSpineProps {
   book: PhysicalBook;
@@ -53,16 +48,11 @@ interface BookSpineProps {
 
 export default function BookSpine({ book, selected = false, onClick }: BookSpineProps) {
   const seed = hashString(book.id);
-  const base = vintageTone(book.spineColor);
-  const isLight = luminance(base) > 0.62;
+  const base = getBookSpineColor(book);
 
-  // Physical proportions: thickness from page count, height varies like a real shelf
-  const width = Math.round(Math.max(30, Math.min(58, 24 + book.pages / 22)));
-  const height = 168 + (seed % 6) * 9;
-  const style = seed % 3; // 0: gilt bands, 1: leather title label, 2: raised ribs
-
-  const inkTitle = isLight ? '#5A1E24' : undefined;
-  const labelColor = isLight ? mix(base, '#5A1E24', 0.82) : mix(base, '#1A0B0A', 0.45);
+  // Proportions: playful height & thickness
+  const width = Math.round(Math.max(30, Math.min(56, 26 + book.pages / 22)));
+  const height = 168 + (seed % 6) * 8;
   const author = book.author.split(' ').pop() ?? '';
 
   return (
@@ -71,111 +61,63 @@ export default function BookSpine({ book, selected = false, onClick }: BookSpine
       onClick={onClick}
       title={`${book.title} — ${book.author}`}
       aria-pressed={selected}
-      className="book-spine group relative shrink-0 select-none focus:outline-none"
+      className="book-spine group relative shrink-0 select-none focus:outline-none cursor-pointer"
       style={{
         width,
         height,
-        transform: selected ? 'translateY(-16px)' : undefined,
+        transform: selected ? 'translateY(-14px) scale(1.03)' : undefined,
       }}
     >
       <span
-        className="absolute inset-0 overflow-hidden rounded-[3px_3px_2px_2px]"
+        className="absolute inset-0 overflow-hidden rounded-[4px_4px_2px_2px]"
         style={{
           backgroundColor: base,
           backgroundImage: [
-            // rounded spine curvature
-            'linear-gradient(90deg, rgba(0,0,0,0.42) 0%, rgba(255,255,255,0.14) 16%, rgba(255,255,255,0.05) 38%, rgba(0,0,0,0.06) 70%, rgba(0,0,0,0.45) 100%)',
-            // book-cloth weave
-            'repeating-linear-gradient(0deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 3px)',
-            'repeating-linear-gradient(90deg, rgba(0,0,0,0.05) 0 1px, transparent 1px 2px)',
-            // sun-fading toward the top
-            'linear-gradient(180deg, rgba(255,240,220,0.14), transparent 40%, rgba(0,0,0,0.12))',
+            // Spine rounded highlight & shadow
+            'linear-gradient(90deg, rgba(0,0,0,0.25) 0%, rgba(255,255,255,0.4) 18%, rgba(255,255,255,0.1) 40%, rgba(0,0,0,0.05) 75%, rgba(0,0,0,0.3) 100%)',
+            // Pearlescent gloss
+            'radial-gradient(ellipse at 50% 15%, rgba(255,255,255,0.4), transparent 60%)',
+            // Dainty cloth weave
+            'repeating-linear-gradient(0deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 3px)',
           ].join(','),
           boxShadow: selected
-            ? '0 0 0 2px #E9CD86, 0 18px 28px -8px rgba(90, 30, 40, 0.55)'
-            : 'inset 0 -2px 0 rgba(0,0,0,0.25), 2px 0 3px rgba(60, 20, 20, 0.25)',
+            ? '0 0 0 2px #F472B6, 0 16px 28px -6px rgba(236, 72, 153, 0.45)'
+            : 'inset 0 -2px 0 rgba(0,0,0,0.15), 2px 0 4px rgba(236, 72, 153, 0.15)',
         }}
       >
-        {/* Top & bottom gilt bands */}
-        <span className="absolute left-1 right-1 top-2 h-[2px]" style={{ background: GOLD_RULE }} />
-        <span className="absolute left-1 right-1 top-[13px] h-px opacity-80" style={{ background: GOLD_RULE }} />
-        <span className="absolute left-1 right-1 bottom-[13px] h-px opacity-80" style={{ background: GOLD_RULE }} />
-        <span className="absolute left-1 right-1 bottom-2 h-[2px]" style={{ background: GOLD_RULE }} />
+        {/* Top & bottom dainty gold foil bands */}
+        <span className="absolute left-1 right-1 top-2.5 h-[1.5px]" style={{ background: GOLD_RULE }} />
+        <span className="absolute left-1 right-1 top-4 h-px opacity-75" style={{ background: GOLD_RULE }} />
+        <span className="absolute left-1 right-1 bottom-4 h-px opacity-75" style={{ background: GOLD_RULE }} />
+        <span className="absolute left-1 right-1 bottom-2.5 h-[1.5px]" style={{ background: GOLD_RULE }} />
 
-        {style === 2 && (
-          <>
-            <span className="absolute left-0 right-0 top-[24%] h-[5px] bg-black/20 shadow-[0_1px_0_rgba(255,255,255,0.18)]" />
-            <span className="absolute left-0 right-0 bottom-[24%] h-[5px] bg-black/20 shadow-[0_1px_0_rgba(255,255,255,0.18)]" />
-          </>
-        )}
+        {/* Little whimsical star at head */}
+        <span className="absolute left-0 right-0 top-5 text-center text-[8px] text-[#FEF3C7] opacity-90 select-none">
+          ✦
+        </span>
 
         {/* Title panel */}
-        <span
-          className="absolute left-[3px] right-[3px] top-[22px] bottom-[34px] flex items-center justify-center overflow-hidden"
-          style={
-            style === 1
-              ? {
-                  background: labelColor,
-                  boxShadow: 'inset 0 0 0 1px rgba(233,205,134,0.75), inset 0 0 0 3px rgba(0,0,0,0.25)',
-                  borderRadius: 1,
-                }
-              : undefined
-          }
-        >
+        <span className="absolute left-[3px] right-[3px] top-[30px] bottom-[30px] flex items-center justify-center overflow-hidden">
           <span
-            className="spine-title font-serif uppercase whitespace-nowrap [writing-mode:vertical-rl] rotate-180 overflow-hidden text-ellipsis max-h-full"
+            className="spine-title font-serif uppercase tracking-widest whitespace-nowrap [writing-mode:vertical-rl] rotate-180 overflow-hidden text-ellipsis max-h-full font-bold text-[10px]"
             style={{
-              fontSize: width > 40 ? 11 : 10,
-              letterSpacing: '0.12em',
-              fontWeight: 600,
-              ...(inkTitle && style !== 1
-                ? { color: inkTitle }
-                : {
-                    backgroundImage: GOLD_GRADIENT,
-                    WebkitBackgroundClip: 'text',
-                    backgroundClip: 'text',
-                    color: 'transparent',
-                  }),
+              textShadow: '0 1px 2px rgba(0,0,0,0.3)',
+              color: '#FFFFFF',
             }}
           >
             {book.title}
           </span>
         </span>
 
-        {/* Author tooled at the foot */}
+        {/* Author tooled at foot */}
         <span
-          className="absolute left-0 right-0 bottom-[17px] text-center font-serif italic truncate px-0.5"
-          style={{
-            fontSize: 8,
-            color: isLight ? '#7A4A2A' : '#E3C47E',
-            opacity: 0.9,
-          }}
+          className="absolute left-0 right-0 bottom-[14px] text-center font-serif italic truncate px-0.5 text-[8.5px] text-[#FFFFFF]/90"
         >
-          {author.slice(0, 7)}
+          {author.slice(0, 8)}
         </span>
       </span>
     </button>
   );
-}
-
-/** Front cover of an antique clothbound edition — used across bookplates, cards, and inspections. */
-const VINTAGE_PALETTE = [
-  '#8B263E', // deep antique rose / wine
-  '#C85A32', // vintage orange cloth
-  '#2C4A52', // deep prussian teal
-  '#4A3B32', // worn leather brown
-  '#8C7A3E', // antique ochre / olive
-  '#3D314A', // aged plum
-  '#A8435A', // dusty raspberry
-  '#5C3A21', // tobacco leather
-  '#3E503C', // aged moss green
-  '#6D2A3C', // oxblood
-];
-
-export function getBookSpineColor(book: { spineColor?: string; title: string; id?: string }): string {
-  if (book.spineColor) return book.spineColor;
-  const hash = hashString((book.id || '') + book.title);
-  return VINTAGE_PALETTE[hash % VINTAGE_PALETTE.length];
 }
 
 export function BookCover({
@@ -187,70 +129,76 @@ export function BookCover({
   size?: 'sm' | 'md' | 'lg';
   className?: string;
 }) {
-  const spine = getBookSpineColor(book);
-  const base = vintageTone(spine);
-  const isLight = luminance(base) > 0.62;
-  const ink = isLight ? '#5A1E24' : undefined;
+  const base = getBookSpineColor(book);
 
   const dims =
     size === 'sm'
-      ? { width: 84, height: 120, titleSize: 9, authorSize: 7.5, pad: 'px-2 py-2', inset: 'inset-[6px] left-[10px]' }
+      ? { width: 84, height: 120, titleSize: 9.5, authorSize: 8, pad: 'p-2', inset: 'inset-[6px]' }
       : size === 'lg'
-      ? { width: 160, height: 230, titleSize: 14, authorSize: 11, pad: 'px-6 py-4', inset: 'inset-[12px] left-[18px]' }
-      : { width: 128, height: 184, titleSize: 12, authorSize: 9, pad: 'px-5 py-3', inset: 'inset-[9px] left-[14px]' };
+      ? { width: 160, height: 230, titleSize: 14, authorSize: 11, pad: 'p-5', inset: 'inset-[12px]' }
+      : { width: 128, height: 184, titleSize: 12, authorSize: 9.5, pad: 'p-4', inset: 'inset-[9px]' };
 
   return (
     <div
-      className={`relative shrink-0 overflow-hidden select-none transition-transform duration-200 group-hover:scale-[1.02] ${className}`}
+      className={`relative shrink-0 overflow-hidden select-none transition-all duration-300 group-hover:scale-[1.03] group-hover:-translate-y-1 ${className}`}
       style={{
         width: dims.width,
         height: dims.height,
-        borderRadius: '2px 5px 5px 2px',
+        borderRadius: '3px 8px 8px 3px',
         backgroundColor: base,
         backgroundImage: [
-          'linear-gradient(90deg, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.12) 5%, rgba(255,255,255,0.08) 8%, transparent 15%)',
-          'radial-gradient(ellipse at 70% 20%, rgba(255,240,220,0.18), transparent 60%)',
-          'repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0 1px, transparent 1px 3px)',
-          'repeating-linear-gradient(90deg, rgba(0,0,0,0.05) 0 1px, transparent 1px 2px)',
-          'linear-gradient(180deg, transparent 70%, rgba(0,0,0,0.22))',
+          // Spine hinge crease
+          'linear-gradient(90deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 4%, rgba(255,255,255,0.35) 7%, transparent 14%)',
+          // Pearlescent diagonal gleam
+          'linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 50%, rgba(0,0,0,0.15) 100%)',
+          // Delicate cloth weave
+          'repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 3px)',
         ].join(','),
         boxShadow:
           size === 'sm'
-            ? '3px 5px 12px -3px rgba(60, 20, 25, 0.45), inset -1px 0 0 rgba(255,255,255,0.15)'
-            : '6px 8px 18px -6px rgba(60, 20, 25, 0.55), inset -1px 0 0 rgba(255,255,255,0.12)',
+            ? '0 6px 16px -2px rgba(236, 72, 153, 0.25), 0 2px 6px rgba(0,0,0,0.06)'
+            : '0 12px 28px -4px rgba(236, 72, 153, 0.3), 0 4px 12px rgba(0,0,0,0.08)',
       }}
     >
-      {/* double gilt frame */}
-      <div className={`absolute ${dims.inset} border`} style={{ borderColor: 'rgba(233,205,134,0.85)' }} />
+      {/* Delicate inner gold foil frame */}
       <div
-        className="absolute inset-0 left-[6px] flex flex-col items-center justify-between text-center"
-        style={{ padding: dims.pad.replace('px-', '').replace('py-', '') }}
-      >
-        <span className="text-[10px]" style={{ color: ink ?? '#D9B266' }}>❦</span>
+        className={`absolute ${dims.inset} rounded-[2px] border pointer-events-none`}
+        style={{
+          borderColor: 'rgba(254, 243, 199, 0.75)',
+          boxShadow: 'inset 0 0 0 1px rgba(245, 158, 11, 0.25)',
+        }}
+      />
+
+      {/* Sweet satin bookmark ribbon peeking at bottom */}
+      <div
+        className="absolute bottom-0 right-4 w-3.5 h-4 bg-gradient-to-b from-[#F472B6] to-[#DB2777] rounded-b-xs shadow-xs"
+        style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 50% 75%, 0 100%)' }}
+      />
+
+      <div className={`relative h-full flex flex-col items-center justify-between text-center ${dims.pad} z-10`}>
+        {/* Whimsical sparkle icon */}
+        <span className="text-[#FEF3C7] text-xs leading-none drop-shadow-xs">✦</span>
+
+        {/* Title */}
         <span
-          className="font-serif font-semibold leading-tight line-clamp-4 px-1"
+          className="font-serif font-bold leading-tight line-clamp-4 px-1 text-white"
           style={{
             fontSize: dims.titleSize,
-            ...(ink
-              ? { color: ink }
-              : {
-                  backgroundImage: GOLD_GRADIENT,
-                  WebkitBackgroundClip: 'text',
-                  backgroundClip: 'text',
-                  color: 'transparent',
-                }),
+            textShadow: '0 1px 3px rgba(0,0,0,0.35)',
           }}
         >
           {book.title}
         </span>
-        <div className="flex flex-col items-center">
-          <span className="h-px w-6" style={{ background: GOLD_RULE }} />
+
+        {/* Author */}
+        <div className="flex flex-col items-center w-full">
+          <span className="h-px w-6 mb-1 opacity-70" style={{ background: GOLD_RULE }} />
           {book.author && (
             <span
-              className="mt-1 font-serif italic truncate max-w-[90%] leading-tight"
+              className="font-serif italic truncate max-w-[90%] text-white/95 leading-tight"
               style={{
                 fontSize: dims.authorSize,
-                color: ink ?? '#E3C47E',
+                textShadow: '0 1px 2px rgba(0,0,0,0.3)',
               }}
             >
               {book.author}

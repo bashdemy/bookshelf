@@ -2,48 +2,84 @@
 
 :root {
   color-scheme: light;
-  /* Blush paper, rose ink and gilt — a real old library, but pink */
-  --background: #F6E8E2;
-  --paper: #FFFAF5;
-  --foreground: #5A2232;
-  --foreground-secondary: #8A4B58;
-  --color-border: #E9CFC7;
-  --color-divider: #F0DCD5;
+  
+  /* ================================================================
+     DREAMY GIRLY WHIMSICAL DESIGN SYSTEM
+     Palette: Strawberry Milk, Marshmallow White, Velvet Berry, Fairy Gold & Lavender
+     ================================================================ */
+  --background: #FFF5F7;
+  --background-secondary: #FDF2F6;
+  --paper: #FFFFFF;
+  --paper-soft: #FFF9FA;
+  
+  /* Velvet Berry & Plum Typography (Crisp, High-Contrast, Rich & Feminine) */
+  --foreground: #4A0E23;
+  --foreground-secondary: #8B3A5A;
+  --foreground-muted: #AF6A84;
+  
+  /* Pastel Borders & Dividers */
+  --color-border: #FCE1E8;
+  --color-border-hover: #F9A8D4;
+  --color-divider: #FDE8EF;
+  
+  /* Girly Accent Shades */
+  --pink-50: #FFF5F7;
+  --pink-100: #FCE7F3;
+  --pink-200: #FBCFE8;
+  --pink-300: #F9A8D4;
+  --pink-400: #F472B6;
+  --pink-500: #EC4899;
+  --pink-600: #DB2777;
+  --pink-700: #BE185D;
+  --pink-800: #9D174D;
+  --pink-900: #701A35;
+  --pink-950: #4A0E23;
 
-  --gold: #B88A3E;
-  --gold-light: #E9CD86;
-  --gold-dark: #7A5523;
-  --gold-gradient: linear-gradient(180deg, #F6E7B4 0%, #D9B266 28%, #A9792F 52%, #E9CD86 74%, #9C6D2A 100%);
-  --gold-rule: linear-gradient(90deg, transparent, #B88A3E 15%, #F3DFA2 50%, #B88A3E 85%, transparent);
+  /* Fairy Champagne & Shimmer */
+  --gold-fairylight: #FFFBEB;
+  --gold-champagne: #FDE68A;
+  --gold-warm: #F59E0B;
+  --gold-text: #D97706;
+  --fairy-shimmer: linear-gradient(135deg, #F472B6 0%, #FB7185 30%, #FBBF24 70%, #F472B6 100%);
+  
+  /* Dreamy Gradients */
+  --gradient-primary: linear-gradient(135deg, #F472B6 0%, #EC4899 50%, #DB2777 100%);
+  --gradient-primary-hover: linear-gradient(135deg, #F9A8D4 0%, #F472B6 50%, #EC4899 100%);
+  --gradient-soft: linear-gradient(135deg, #FFF0F5 0%, #FCE7F3 100%);
+  --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 245, 248, 0.85) 100%);
+  --gradient-lavender: linear-gradient(135deg, #F3E8FF 0%, #FCE7F3 100%);
 
-  --color-primary: #A8435A;
-  --color-primary-hover: #8A3449;
-  --color-primary-soft: #F9E6E9;
-  --color-primary-text: #6E2A3B;
+  /* Primary Action Tokens */
+  --color-primary: #EC4899;
+  --color-primary-hover: #DB2777;
+  --color-primary-soft: #FCE7F3;
+  --color-primary-text: #BE185D;
 
-  --color-secondary: #C25A70;
-  --color-secondary-hover: #A8435A;
-  --color-secondary-soft: #F2CDD3;
-  --color-secondary-text: #5A2232;
+  --color-secondary: #F472B6;
+  --color-secondary-hover: #EC4899;
+  --color-secondary-soft: #FDF2F7;
+  --color-secondary-text: #9D174D;
 
-  --color-tag-bg: #F9E6E9;
-  --color-tag-text: #6E2A3B;
+  --color-tag-bg: #FCE7F3;
+  --color-tag-text: #9D174D;
 
-  --shadow-sm: 0 1px 2px rgba(131, 24, 67, 0.04), 0 1px 1px rgba(131, 24, 67, 0.02);
-  --shadow-md: 0 1px 3px rgba(131, 24, 67, 0.06), 0 4px 12px rgba(131, 24, 67, 0.04);
-  --shadow-lg: 0 4px 16px rgba(131, 24, 67, 0.08), 0 1px 3px rgba(131, 24, 67, 0.03);
-  --shadow-xl: 0 8px 24px rgba(131, 24, 67, 0.12), 0 2px 6px rgba(131, 24, 67, 0.05);
+  /* Dreamy Ethereal Shadows */
+  --shadow-sm: 0 2px 4px rgba(236, 72, 153, 0.04), 0 1px 2px rgba(236, 72, 153, 0.02);
+  --shadow-md: 0 4px 12px rgba(236, 72, 153, 0.08), 0 2px 4px rgba(236, 72, 153, 0.03);
+  --shadow-lg: 0 12px 28px -6px rgba(236, 72, 153, 0.15), 0 4px 10px rgba(236, 72, 153, 0.05);
+  --shadow-xl: 0 20px 40px -12px rgba(236, 72, 153, 0.22), 0 8px 16px rgba(236, 72, 153, 0.08);
+  --shadow-glow: 0 0 20px rgba(244, 114, 182, 0.35);
 
-  --shadow-card: 0 1px 4px rgba(131, 24, 67, 0.05), 0 1px 1px rgba(131, 24, 67, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.95);
-  --shadow-card-hover: 0 8px 25px rgba(225, 29, 72, 0.12), 0 2px 5px rgba(225, 29, 72, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  --shadow-card: 0 4px 20px -2px rgba(236, 72, 153, 0.07), 0 1px 3px rgba(236, 72, 153, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --shadow-card-hover: 0 16px 36px -6px rgba(236, 72, 153, 0.18), 0 4px 12px rgba(236, 72, 153, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1);
+  --shadow-button-primary: 0 4px 14px rgba(236, 72, 153, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 
-  --shadow-button-primary: 0 2px 6px rgba(225, 29, 72, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-  --shadow-button-secondary: 0 1px 2px rgba(131, 24, 67, 0.05), inset 0 1px 0 rgba(255, 255, 255, 1);
-
-  --radius-sm: 6px;
-  --radius-base: 10px;
-  --radius-lg: 14px;
-  --radius-xl: 18px;
+  /* Soft Rounded Radii */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-base: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
   --radius-full: 9999px;
 }
 
@@ -54,59 +90,39 @@
   --color-foreground-secondary: var(--foreground-secondary);
   
   --font-sans: var(--font-outfit), "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-serif: var(--font-newsreader), "Newsreader", Charter, "Bitstream Charter", Georgia, serif;
+  --font-serif: var(--font-newsreader), "Newsreader", Charter, Georgia, serif;
   --font-mono: var(--font-geist-mono);
   
   --color-primary: var(--color-primary);
   --color-secondary: var(--color-secondary);
   --color-divider: var(--color-divider);
 
-  /* Re-tone the whole pink scale into dusty, antique rose so it feels real rather than neon */
-  --color-pink-50: #FDF5F4;
-  --color-pink-100: #F9E6E6;
-  --color-pink-200: #F1CFD0;
-  --color-pink-300: #E5AEB3;
-  --color-pink-400: #D3838F;
-  --color-pink-500: #BF5D70;
-  --color-pink-600: #A6455B;
-  --color-pink-700: #88354A;
-  --color-pink-800: #6D2A3C;
-  --color-pink-900: #5A2232;
-  --color-pink-950: #3A1520;
-  --color-rose-600: #A6455B;
-  --color-white: #FFFAF5;
+  --color-pink-50: var(--pink-50);
+  --color-pink-100: var(--pink-100);
+  --color-pink-200: var(--pink-200);
+  --color-pink-300: var(--pink-300);
+  --color-pink-400: var(--pink-400);
+  --color-pink-500: var(--pink-500);
+  --color-pink-600: var(--pink-600);
+  --color-pink-700: var(--pink-700);
+  --color-pink-800: var(--pink-800);
+  --color-pink-900: var(--pink-900);
+  --color-pink-950: var(--pink-950);
 
-  --color-gold: #B88A3E;
-  --color-gold-light: #E9CD86;
-  --color-gold-dark: #7A5523;
-  
-  --color-info: #3D628D;
-  --color-success: #2C6B5E;
-  --color-warning: #B37424;
-  --color-error: #B53A42;
-  
-  --color-accent-lavender: var(--color-secondary-soft);
-  --color-accent-blush: var(--color-primary-soft);
-  --color-accent-plum: var(--color-primary-text);
-  
   --shadow-sm: var(--shadow-sm);
   --shadow-md: var(--shadow-md);
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
-  
-  --radius-base: var(--radius-base);
-  --radius-lg: var(--radius-lg);
-  --radius-xl: var(--radius-xl);
-  --radius-full: var(--radius-full);
 }
 
 body {
   background-color: var(--background);
-  /* Laid paper grain + soft window light from above */
+  /* Dreamy floating pastel lights: strawberry milk, warm peach & soft lavender */
   background-image:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.16 0 0 0 0 0.14 0 0 0 0.09 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
-    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255, 246, 240, 0.9), transparent 70%),
-    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(214, 160, 150, 0.18), transparent 70%);
+    radial-gradient(circle 800px at 10% -10%, rgba(252, 231, 243, 0.8), transparent),
+    radial-gradient(circle 700px at 90% 10%, rgba(254, 243, 199, 0.5), transparent),
+    radial-gradient(circle 900px at 50% 110%, rgba(243, 232, 255, 0.6), transparent),
+    radial-gradient(circle 600px at 85% 60%, rgba(252, 231, 243, 0.6), transparent);
   background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-sans);
@@ -121,162 +137,224 @@ h1, h2, h3, h4 {
   letter-spacing: -0.015em;
 }
 
-/* Subtle, realistic tactile interaction */
-button, a, input, select, textarea {
-  transition-property: color, background-color, border-color, box-shadow, transform, opacity;
-  transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
-  transition-duration: 150ms;
-}
+/* ================================================================
+   WHIMSICAL GIRLY DESIGN SYSTEM PRIMITIVES
+   ================================================================ */
 
-/* Realistic tactile card styling */
-.tactile-card {
-  background: var(--paper);
-  border: 1px solid var(--color-border);
+/* Whimsical Frosted Marshmallow Card */
+.whimsical-card {
+  position: relative;
+  background: var(--gradient-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(244, 114, 182, 0.28);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+              border-color 220ms ease;
 }
 
-.tactile-card:hover {
-  border-color: #F472B6;
+.whimsical-card:hover {
+  border-color: rgba(244, 114, 182, 0.55);
   box-shadow: var(--shadow-card-hover);
+  transform: translateY(-3px);
 }
 
-/* Realistic button styling */
-.tactile-button-primary {
-  background: var(--color-primary);
+/* Compatibility alias for existing .bookplate */
+.bookplate {
+  position: relative;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(244, 114, 182, 0.3);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 20px -2px rgba(236, 72, 153, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+  transition: all 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.bookplate:hover {
+  border-color: rgba(244, 114, 182, 0.6);
+  box-shadow: 0 12px 30px -4px rgba(236, 72, 153, 0.16), inset 0 0 0 1px rgba(255, 255, 255, 1);
+  transform: translateY(-2px);
+}
+
+/* Primary Whimsical Button: Dreamy Strawberry Shimmer Pill */
+.whimsical-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--gradient-primary);
   color: #FFFFFF;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  padding: 0.625rem 1.25rem;
   box-shadow: var(--shadow-button-primary);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transition: all 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.tactile-button-primary:hover {
-  background: var(--color-primary-hover);
+.whimsical-btn-primary:hover {
+  background: var(--gradient-primary-hover);
+  box-shadow: 0 6px 20px rgba(236, 72, 153, 0.45);
+  transform: translateY(-1.5px) scale(1.02);
 }
 
-.tactile-button-primary:active {
-  transform: translateY(1px);
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(0, 0, 0, 0.15);
+.whimsical-btn-primary:active {
+  transform: translateY(0.5px) scale(0.99);
+  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.3);
 }
 
-.tactile-button-secondary {
+/* Secondary Whimsical Button: Marshmallow White with Soft Rose Rim */
+.whimsical-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   background: #FFFFFF;
-  color: var(--foreground);
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-button-secondary);
+  color: #BE185D;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  padding: 0.625rem 1.25rem;
+  border: 1px solid #FBCFE8;
+  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.06);
+  cursor: pointer;
+  transition: all 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.tactile-button-secondary:hover {
-  background: #FDF2F8;
+.whimsical-btn-secondary:hover {
+  background: #FFF5F8;
   border-color: #F472B6;
+  color: #9D174D;
+  box-shadow: 0 4px 14px rgba(236, 72, 153, 0.12);
+  transform: translateY(-1px);
 }
 
-.tactile-button-secondary:active {
-  transform: translateY(1px);
-  background: #FCE7F3;
+/* Compatibility alias for existing .brass-plate -> now a dreamy strawberry rose plate */
+.brass-plate {
+  background: var(--gradient-primary);
+  color: #FFFFFF;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 2px 10px rgba(236, 72, 153, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition: all 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* ================= Antique library details ================= */
+.brass-plate:hover {
+  background: var(--gradient-primary-hover);
+  box-shadow: 0 4px 16px rgba(236, 72, 153, 0.4);
+  transform: translateY(-1px);
+}
 
-/* Gold-leaf lettering */
+/* Shimmer & Gold / Fairy Text */
 .gold-text {
-  background-image: var(--gold-gradient);
+  background: linear-gradient(135deg, #EC4899 0%, #D97706 50%, #EC4899 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 600;
+}
+
+.fairy-sparkle {
+  display: inline-block;
+  background: var(--fairy-shimmer);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-/* Hairline gilt rule with a fleuron in the middle */
-.gilt-rule {
-  height: 1px;
-  background: var(--gold-rule);
-}
-
-.ornament {
-  display: flex;
+/* Sweet Pastel Pill Badge */
+.pastel-pill {
+  display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
-  color: var(--gold);
-}
-.ornament::before,
-.ornament::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--gold-rule);
-}
-
-/* Cream paper card with a gilt inner border, like a bookplate */
-.bookplate {
-  position: relative;
-  background:
-    linear-gradient(180deg, rgba(255, 250, 245, 0.96), rgba(250, 238, 230, 0.96));
-  border: 1px solid rgba(184, 138, 62, 0.45);
-  box-shadow:
-    inset 0 0 0 4px #FFFAF5,
-    inset 0 0 0 5px rgba(184, 138, 62, 0.35),
-    0 1px 2px rgba(90, 34, 50, 0.06),
-    0 10px 30px -12px rgba(90, 34, 50, 0.22);
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  background: #FFF0F5;
+  color: #BE185D;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  border: 1px solid #FBCFE8;
+  box-shadow: 0 1px 3px rgba(236, 72, 153, 0.05);
+  transition: all 180ms ease;
 }
 
-/* Gilded picture frame for the real photograph */
+.pastel-pill:hover {
+  background: #FCE7F3;
+  border-color: #F472B6;
+  transform: translateY(-0.5px);
+}
+
+/* Cute Fairy Picture Frame (replaces heavy museum frame) */
 .gilt-frame {
-  padding: 10px;
-  background:
-    linear-gradient(135deg, #8A6428 0%, #E9CD86 22%, #A9792F 45%, #F3DFA2 62%, #8A6428 85%, #C9A15A 100%);
-  box-shadow:
-    0 0 0 1px rgba(90, 50, 20, 0.5),
-    0 24px 50px -18px rgba(90, 34, 50, 0.45),
-    0 6px 14px rgba(90, 34, 50, 0.12);
-}
-.gilt-frame > .frame-mat {
+  position: relative;
   padding: 8px;
-  background: #F4E3DA;
-  box-shadow: inset 0 0 0 1px rgba(122, 85, 35, 0.4), inset 0 2px 8px rgba(90, 34, 50, 0.25);
+  background: linear-gradient(135deg, #FFE4E6 0%, #FFF1F2 30%, #FEF3C7 60%, #FCE7F3 100%);
+  border-radius: 24px;
+  box-shadow: 0 16px 40px -10px rgba(236, 72, 153, 0.22),
+              0 0 0 1px rgba(251, 207, 232, 0.8),
+              inset 0 1px 1px rgba(255, 255, 255, 0.9);
 }
 
-/* The physical shelf: back wall of a cubby + painted plank */
+.gilt-frame > .frame-mat {
+  padding: 6px;
+  background: #FFFFFF;
+  border-radius: 18px;
+  box-shadow: inset 0 2px 6px rgba(236, 72, 153, 0.06);
+}
+
+/* Cute Fairy Shelf Backwall & Plank */
 .cubby-back {
-  background-color: #EFD9D2;
+  background: linear-gradient(180deg, #FFF0F5 0%, #FDE8EF 100%);
   background-image:
-    linear-gradient(180deg, rgba(60, 20, 25, 0.28) 0%, rgba(60, 20, 25, 0.05) 18%, transparent 40%),
-    linear-gradient(90deg, rgba(60, 20, 25, 0.16), transparent 6%, transparent 94%, rgba(60, 20, 25, 0.16)),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 2px, transparent 2px 7px);
-}
-.shelf-plank {
-  height: 14px;
-  background: linear-gradient(180deg, #F7E7E1 0%, #EBCFC7 45%, #D9B3AA 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    0 6px 10px -4px rgba(60, 20, 25, 0.35);
-  border-bottom: 1px solid rgba(122, 60, 60, 0.25);
+    radial-gradient(circle 200px at 50% 30%, rgba(255, 255, 255, 0.8), transparent),
+    repeating-linear-gradient(90deg, rgba(244, 114, 182, 0.04) 0 1px, transparent 1px 12px);
 }
 
-/* Spines slide off the shelf a little on hover — transform only, no flashing */
+.shelf-plank {
+  height: 12px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FCE7F3 60%, #F9A8D4 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 4px 8px -2px rgba(236, 72, 153, 0.2);
+  border-bottom: 1px solid rgba(244, 114, 182, 0.3);
+  border-radius: 2px;
+}
+
+/* Book Spines with playful bounce */
 .book-spine {
-  transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: transform 240ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 240ms ease;
   will-change: transform;
 }
+
 .book-spine:hover {
-  transform: translateY(-8px);
+  transform: translateY(-10px) scale(1.02);
+  filter: drop-shadow(0 8px 12px rgba(236, 72, 153, 0.25));
 }
+
 .book-spine:focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid #EC4899;
   outline-offset: 3px;
 }
 
-/* Brass label plate */
-.brass-plate {
-  background: linear-gradient(180deg, #F3DFA2 0%, #C9A15A 45%, #A9792F 100%);
-  color: #3D2610;
-  border: 1px solid #7A5523;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 2px rgba(60, 30, 10, 0.35);
-  text-shadow: 0 1px 0 rgba(255, 240, 200, 0.6);
+@keyframes floatGentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.animate-float {
+  animation: floatGentle 3s ease-in-out infinite;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
+  from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
 .animate-fadeIn {
-  animation: fadeIn 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: fadeIn 280ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }

@@ -24,7 +24,7 @@ const navigationItems: NavigationItem[] = [
   { href: '/books', label: 'Books', icon: IconBooks },
   { href: '/articles', label: 'Articles', icon: IconArticle },
   { href: '/stats', label: 'Stats', icon: IconChartBar },
-  { href: '/add', label: 'Add', icon: IconPlus, requiresAuth: true },
+  { href: '/add', label: 'Log Read', icon: IconPlus, requiresAuth: true },
 ];
 
 export default function Navigation() {
@@ -33,27 +33,27 @@ export default function Navigation() {
   const isAuthenticated = !!session;
 
   return (
-    <nav className="flex items-center gap-1 rounded-sm p-0.5 border border-gold/35 bg-white/70 shadow-2xs">
+    <nav className="flex items-center gap-1 rounded-full p-1 border border-pink-200/80 bg-white/80 backdrop-blur-md shadow-xs">
       {navigationItems.map((item) => {
         const isActive = pathname === item.href;
         const isDisabled = !!(item.requiresAuth && !isAuthenticated);
         const Icon = item.icon;
         const tooltipText = isDisabled
-          ? 'Sign in to log and catalog your own reads.'
+          ? 'Sign in to log and catalog your own reads 💖'
           : undefined;
 
         if (isDisabled) {
           return (
             <div key={item.href} className="group relative inline-block">
               <span
-                className="inline-flex items-center gap-1.5 cursor-not-allowed rounded-[2px] px-3 py-1.5 text-xs font-serif font-medium opacity-40 text-pink-800"
+                className="inline-flex items-center gap-1.5 cursor-not-allowed rounded-full px-3 py-1.5 text-xs font-sans font-medium opacity-40 text-pink-700"
               >
                 <Icon size={14} />
                 <span>{item.label}</span>
               </span>
               {tooltipText && (
                 <div
-                  className="absolute top-full left-1/2 z-50 mt-2 hidden -translate-x-1/2 whitespace-nowrap rounded-[2px] px-2.5 py-1 text-xs font-serif group-hover:block bg-pink-900 text-white shadow-lg border border-gold/40"
+                  className="absolute top-full left-1/2 z-50 mt-2 hidden -translate-x-1/2 whitespace-nowrap rounded-xl px-3 py-1.5 text-xs font-sans group-hover:block bg-pink-950 text-pink-100 shadow-xl border border-pink-300/30 animate-fadeIn"
                 >
                   {tooltipText}
                 </div>
@@ -66,13 +66,13 @@ export default function Navigation() {
           <Link
             key={item.href}
             href={item.href}
-            className={`inline-flex items-center gap-1.5 rounded-[2px] px-3.5 py-1.5 text-xs font-serif transition-all ${
+            className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-sans transition-all duration-200 ${
               isActive
-                ? 'brass-plate font-semibold'
-                : 'text-pink-800/80 hover:text-pink-950 hover:bg-white/60'
+                ? 'bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white font-semibold shadow-xs shadow-pink-500/30 scale-[1.02]'
+                : 'text-pink-900/70 hover:text-pink-950 hover:bg-pink-100/60 font-medium'
             }`}
           >
-            <Icon size={14} className={isActive ? 'text-gold-dark' : 'text-gold'} />
+            <Icon size={14} className={isActive ? 'text-white' : 'text-pink-400 group-hover:text-pink-600'} />
             <span>{item.label}</span>
           </Link>
         );

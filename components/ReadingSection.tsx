@@ -129,12 +129,15 @@ export default function ReadingSection({
     <section className="mb-14">
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl sm:text-3xl font-semibold font-serif tracking-tight text-pink-900">
-            {title}
+          <h2 className="text-2xl sm:text-3xl font-bold font-serif tracking-tight text-pink-950 flex items-center gap-2.5">
+            <span>{title}</span>
+            <span className="text-xs font-sans font-semibold px-2.5 py-0.5 rounded-full bg-pink-100 text-pink-700">
+              {filteredAndSortedItems.length}
+            </span>
           </h2>
-          <p className="text-xs font-serif text-pink-900/70">
+          <p className="text-xs font-sans text-pink-700/80 mt-1">
             {hasActiveFilters
-              ? `Showing ${filteredAndSortedItems.length} of ${formatItemCount(items.length, singularLabel, pluralLabel)}`
+              ? `Filtered view: ${filteredAndSortedItems.length} of ${formatItemCount(items.length, singularLabel, pluralLabel)}`
               : formatItemCount(items.length, singularLabel, pluralLabel)}
           </p>
         </div>
@@ -142,7 +145,7 @@ export default function ReadingSection({
         {canEdit && (
           <Link
             href="/add"
-            className="inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-serif font-bold text-white transition-all bg-pink-600 hover:bg-pink-700 border border-pink-700 shadow-xs active:translate-y-[1px]"
+            className="whimsical-btn-primary text-xs py-2 px-4 self-start sm:self-auto"
           >
             <IconPlus size={14} />
             <span>Add {singularLabel.charAt(0).toUpperCase() + singularLabel.slice(1)}</span>
@@ -151,17 +154,17 @@ export default function ReadingSection({
       </div>
 
       {items.length > 0 && (
-        <div className="bookplate mb-7 p-4 sm:p-5 rounded-sm">
+        <div className="whimsical-card mb-8 p-5 sm:p-6">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
             <div className="sm:col-span-2 relative flex items-center">
-              <IconSearch size={14} className="absolute left-3 text-gold pointer-events-none" />
+              <IconSearch size={15} className="absolute left-3.5 text-pink-400 pointer-events-none" />
               <input
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={`Search ${pluralLabel} by title, author, tag...`}
                 aria-label={`Search ${pluralLabel}`}
-                className="w-full bg-white/80 pl-8 pr-3.5 py-2 text-xs font-serif italic text-pink-900 placeholder:text-pink-800/50 rounded-sm border border-gold/40 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold/50"
+                className="w-full bg-white/90 pl-9 pr-3.5 py-2 text-xs font-sans text-pink-950 placeholder:text-pink-300 rounded-full border border-pink-200 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-200/60 shadow-xs transition-all"
               />
             </div>
 
@@ -171,7 +174,7 @@ export default function ReadingSection({
                   value={selectedGenre}
                   onChange={(e) => setSelectedGenre(e.target.value)}
                   aria-label="Filter by genre"
-                  className="w-full bg-white/80 px-3 py-2 text-xs font-serif text-pink-900 rounded-sm border border-gold/40 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold/50"
+                  className="w-full bg-white/90 px-3.5 py-2 text-xs font-sans text-pink-950 rounded-full border border-pink-200 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-200/60 shadow-xs transition-all"
                 >
                   <option value="">All Genres ({items.length})</option>
                   {genres.map((genre) => {
@@ -192,7 +195,7 @@ export default function ReadingSection({
                   value={selectedTag}
                   onChange={(e) => setSelectedTag(e.target.value)}
                   aria-label="Filter by tag"
-                  className="w-full bg-white/80 px-3 py-2 text-xs font-serif text-pink-900 rounded-sm border border-gold/40 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold/50"
+                  className="w-full bg-white/90 px-3.5 py-2 text-xs font-sans text-pink-950 rounded-full border border-pink-200 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-200/60 shadow-xs transition-all"
                 >
                   <option value="">All Tags</option>
                   {tags.map((tag) => (
@@ -209,11 +212,11 @@ export default function ReadingSection({
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as SortOption)}
                 aria-label="Sort items"
-                className="w-full bg-white/80 px-3 py-2 text-xs font-serif text-pink-900 rounded-sm border border-gold/40 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold/50"
+                className="w-full bg-white/90 px-3.5 py-2 text-xs font-sans text-pink-950 rounded-full border border-pink-200 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-200/60 shadow-xs transition-all"
               >
                 <option value="date-desc">Newest Read</option>
                 <option value="date-asc">Oldest Read</option>
-                <option value="rating-desc">Highest Rated</option>
+                <option value="rating-desc">Highest Rated ⭐</option>
                 <option value="title-asc">Title (A–Z)</option>
                 {hasBooks && <option value="pages-desc">Most Pages</option>}
               </select>
@@ -222,15 +225,15 @@ export default function ReadingSection({
 
           {/* Quick Category Filter Pills */}
           {genres.length > 0 && (
-            <div className="mt-3.5 flex flex-wrap items-center gap-1.5 pt-3 border-t border-gold/25">
-              <span className="text-[11px] font-serif italic text-pink-800/70 mr-1">Categories:</span>
+            <div className="mt-4 flex flex-wrap items-center gap-1.5 pt-3.5 border-t border-pink-100">
+              <span className="text-[11px] font-sans font-semibold text-pink-700 mr-1">Categories:</span>
               <button
                 type="button"
                 onClick={() => setSelectedGenre('')}
-                className={`rounded-sm px-2.5 py-1 text-[11px] font-serif transition-all border ${
+                className={`rounded-full px-3 py-1 text-xs font-sans transition-all ${
                   !selectedGenre
-                    ? 'brass-plate font-semibold'
-                    : 'bg-white/60 text-pink-900 border-gold/30 hover:border-gold'
+                    ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold shadow-xs'
+                    : 'bg-white/90 text-pink-800 border border-pink-200/70 hover:bg-pink-100/60'
                 }`}
               >
                 All ({items.length})
@@ -243,10 +246,10 @@ export default function ReadingSection({
                     key={genre}
                     type="button"
                     onClick={() => setSelectedGenre(isSelected ? '' : genre)}
-                    className={`rounded-sm px-2.5 py-1 text-[11px] font-serif transition-all border ${
+                    className={`rounded-full px-3 py-1 text-xs font-sans transition-all ${
                       isSelected
-                        ? 'brass-plate font-semibold'
-                        : 'bg-white/60 text-pink-900 border-gold/30 hover:border-gold'
+                        ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold shadow-xs'
+                        : 'bg-white/90 text-pink-800 border border-pink-200/70 hover:bg-pink-100/60'
                     }`}
                   >
                     {genre} <span className="opacity-60 text-[10px]">({count})</span>
