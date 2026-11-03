@@ -302,9 +302,6 @@ export default function InteractiveBookshelf({
               </div>
             </div>
           </div>
-          <p className="mt-3 text-center font-serif italic text-[11px] text-pink-800/70">
-            The real photograph · {zoomedCubby ? `Cubby ${CUBBY_HOTSPOTS[zoomedCubby]?.roman}` : 'the whole case'}
-          </p>
         </div>
 
         {/* Right column: pulled book + shelves */}
