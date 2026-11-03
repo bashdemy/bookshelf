@@ -21,29 +21,26 @@ export default function Header() {
       <header
         className="sticky top-0 z-20 border-b backdrop-blur-md"
         style={{
-          borderColor: '#FBCFE8',
-          background: 'rgba(255, 247, 249, 0.94)',
-          boxShadow: '0 2px 8px rgba(190, 24, 93, 0.06)',
+          borderColor: 'rgba(184, 138, 62, 0.35)',
+          background: 'rgba(255, 250, 245, 0.94)',
+          boxShadow: '0 1px 3px rgba(90, 34, 50, 0.05), 0 6px 16px -6px rgba(90, 34, 50, 0.08)',
         }}
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-18 items-center justify-between">
+          <div className="flex h-16 items-center justify-between">
             <div className="flex items-center gap-8">
               <Link
                 href="/"
-                className="flex items-center gap-2.5 text-2xl font-bold tracking-tight transition-opacity hover:opacity-85 font-serif"
-                style={{ color: 'var(--color-foreground)' }}
+                className="flex items-center gap-2 text-2xl font-serif italic tracking-tight text-pink-900 transition-opacity hover:opacity-85"
               >
-                <span className="flex items-center justify-center h-8 w-8 rounded-full bg-pink-100 text-pink-600 border border-pink-200 shadow-2xs">
-                  <IconFlower size={18} />
-                </span>
+                <span className="text-gold text-xl">❦</span>
                 <span>Bookshelf</span>
               </Link>
               <Navigation />
             </div>
 
             {status === 'loading' ? (
-              <div className="px-4 py-2 text-xs font-medium" style={{ color: 'var(--color-foreground-secondary)' }}>
+              <div className="px-4 py-2 text-xs font-serif italic text-pink-800/70">
                 Loading...
               </div>
             ) : isAuthenticated ? (
@@ -52,17 +49,17 @@ export default function Header() {
                   <Link
                     href={profileHref}
                     title="View your public bookshelf"
-                    className="flex items-center gap-2 rounded-lg px-3 py-1.5 transition-colors hover:bg-pink-100/70 border border-pink-300/80 bg-white shadow-2xs"
+                    className="flex items-center gap-2 rounded-sm px-3 py-1.5 transition-colors hover:bg-white border border-gold/40 bg-white/70 shadow-2xs"
                   >
                     {session.user?.image ? (
                       <img
                         src={session.user.image}
                         alt={session.user.name || 'User'}
-                        className="h-6 w-6 rounded-md object-cover"
+                        className="h-6 w-6 rounded-sm object-cover"
                       />
                     ) : (
                       <span
-                        className="flex h-6 w-6 items-center justify-center rounded-md text-xs font-bold text-white bg-pink-600"
+                        className="flex h-6 w-6 items-center justify-center rounded-sm text-xs font-serif font-bold text-white bg-pink-700"
                       >
                         {(session.user?.displayName || session.user?.username || 'U').charAt(0).toUpperCase()}
                       </span>
@@ -81,16 +78,16 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={handleSignOut}
-                  className="flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-serif font-semibold transition-colors hover:bg-pink-100/70 border border-pink-300 bg-white text-pink-900 shadow-2xs active:translate-y-[1px]"
+                  className="flex items-center gap-1.5 rounded-sm px-3.5 py-1.5 text-xs font-serif text-pink-900 bg-white/70 hover:bg-white border border-gold/40 shadow-2xs active:translate-y-[1px]"
                 >
-                  <IconLogout size={13} />
+                  <IconLogout size={13} className="text-gold-dark" />
                   <span>Sign Out</span>
                 </button>
               </div>
             ) : (
               <Link
                 href="/login"
-                className="flex items-center gap-1.5 rounded-lg px-4.5 py-1.5 text-xs font-serif font-bold text-white transition-all bg-pink-600 hover:bg-pink-700 border border-pink-700 shadow-xs active:translate-y-[1px]"
+                className="flex items-center gap-1.5 rounded-sm px-4 py-1.5 text-xs font-serif font-semibold text-white bg-pink-700 hover:bg-pink-800 border border-pink-900/40 shadow-xs active:translate-y-[1px]"
               >
                 <IconLogin size={14} />
                 <span>Sign In</span>

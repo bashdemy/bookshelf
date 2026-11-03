@@ -12,27 +12,25 @@ interface StatsCardProps {
 export default function StatsCard({ title, value, subtitle, icon }: StatsCardProps) {
   return (
     <div 
-      className="p-5 transition-all"
+      className="bookplate p-5 transition-all hover:-translate-y-0.5"
       style={{ 
-        borderRadius: 'var(--radius-lg)',
-        border: '1px solid var(--color-border)',
-        background: 'var(--paper)',
         boxShadow: 'var(--shadow-card)',
       }}
     >
       <div className="mb-2 flex items-center justify-between">
-        <p className="text-[11px] font-serif font-bold uppercase tracking-wider text-pink-700">
-          {title}
+        <p className="text-[10px] font-serif font-bold uppercase tracking-widest text-[#8A4B58] flex items-center gap-1.5">
+          <span className="gold-text select-none">❦</span>
+          <span>{title}</span>
         </p>
         {icon && (
-          <span className="text-xl opacity-80">{icon}</span>
+          <span className="opacity-80">{icon}</span>
         )}
       </div>
-      <p className="mb-1 text-3xl font-bold tracking-tight font-serif text-pink-900">
+      <p className="mb-1 text-3xl font-bold tracking-tight font-serif text-[#5A2232]">
         {value}
       </p>
       {subtitle && (
-        <p className="text-xs text-pink-900/70">
+        <p className="text-xs font-serif text-[#8A4B58]/80">
           {subtitle}
         </p>
       )}

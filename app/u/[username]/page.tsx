@@ -28,13 +28,10 @@ export default async function PublicProfilePage({
   ]);
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 space-y-10">
       <div
-        className="mb-8 flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center"
+        className="bookplate mb-8 flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center"
         style={{
-          borderRadius: 'var(--radius-lg)',
-          border: '1px solid var(--color-border)',
-          background: 'var(--paper)',
           boxShadow: 'var(--shadow-card)',
         }}
       >
@@ -44,22 +41,25 @@ export default async function PublicProfilePage({
               src={profileUser.avatar_url}
               alt={profileUser.display_name}
               className="h-14 w-14 rounded-full object-cover"
-              style={{ border: '2px solid var(--color-border)' }}
+              style={{ border: '2px solid rgba(212, 175, 55, 0.5)' }}
             />
           ) : (
             <div
-              className="flex h-14 w-14 items-center justify-center rounded-full text-xl font-bold text-white"
-              style={{ background: 'var(--color-primary)' }}
+              className="brass-plate flex h-14 w-14 items-center justify-center rounded-full text-xl font-bold font-serif text-[#FFF8DC]"
             >
               {profileUser.display_name.charAt(0).toUpperCase()}
             </div>
           )}
           <div>
-            <h1 className="text-2xl font-semibold font-serif tracking-tight text-pink-900">
+            <p className="text-[10px] font-serif uppercase tracking-widest text-[#8A4B58] flex items-center gap-1.5 mb-1">
+              <span className="gold-text select-none">❦</span>
+              <span>Ex Libris</span>
+            </p>
+            <h1 className="text-2xl font-bold font-serif tracking-tight text-[#5A2232]">
               {profileUser.display_name}&apos;s Bookshelf
             </h1>
             {profileUser.username && (
-              <p className="text-xs font-serif text-pink-900/70">
+              <p className="text-xs font-serif text-[#8A4B58]">
                 @{profileUser.username}
               </p>
             )}
@@ -67,11 +67,7 @@ export default async function PublicProfilePage({
         </div>
 
         <div
-          className="rounded-md px-3.5 py-1 text-xs font-serif font-bold uppercase tracking-wider border border-pink-300/80 shadow-2xs"
-          style={{
-            background: isOwner ? 'var(--color-primary-soft)' : '#FCE7F3',
-            color: isOwner ? 'var(--color-primary-text)' : '#9D174D',
-          }}
+          className="brass-plate rounded px-3.5 py-1 text-xs font-serif font-bold uppercase tracking-wider text-white shadow-xs"
         >
           {isOwner ? 'Your Archive' : 'Public Library'}
         </div>
@@ -86,7 +82,7 @@ export default async function PublicProfilePage({
       </div>
 
       <ReadingSection
-        title="Books"
+        title="Books on the Shelf"
         items={books}
         singularLabel="book"
         pluralLabel="books"
@@ -94,7 +90,7 @@ export default async function PublicProfilePage({
       />
 
       <ReadingSection
-        title="Articles"
+        title="Cataloged Articles"
         items={articles}
         singularLabel="article"
         pluralLabel="articles"

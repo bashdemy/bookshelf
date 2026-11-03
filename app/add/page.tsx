@@ -8,6 +8,8 @@ import {
   IconArrowRight,
   IconSparkles,
   IconPencil,
+  IconStarFilled,
+  IconStar,
 } from '@tabler/icons-react';
 import { ReadingItem, ReadingItemType } from '@/types';
 
@@ -189,45 +191,54 @@ export default function AddPage() {
   };
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
-      <div className="mb-6">
-        <h1 className="text-2xl font-semibold font-serif tracking-tight text-pink-900">
-          Log a New Book or Article
+    <main className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8 space-y-8">
+      <div className="border-b pb-6" style={{ borderColor: 'var(--color-divider)' }}>
+        <p className="text-[11px] font-serif uppercase tracking-widest text-[#8A4B58] flex items-center gap-2 mb-1.5">
+          <span className="gold-text select-none">❦</span>
+          <span>Ex Libris • Accession Ledger</span>
+          <span className="gold-text select-none">❦</span>
+        </p>
+        <h1 className="text-3xl font-bold font-serif tracking-tight text-[#5A2232]">
+          Catalog a New Volume or Article
         </h1>
-        <p className="mt-1 text-xs font-serif text-pink-900/70">
-          Add a volume to the shelves, paste a link, or enter details manually
+        <p className="mt-1 text-xs font-serif text-[#8A4B58] max-w-2xl">
+          Enter bibliographic details manually or paste an essay link to automatically extract accession records.
         </p>
       </div>
 
       {error && (
-        <div className="mb-5 rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-800">
+        <div
+          className="rounded border p-3 text-xs font-serif"
+          style={{
+            borderColor: '#F5C6CB',
+            background: '#FFF5F5',
+            color: '#9E384D',
+          }}
+        >
           {error}
         </div>
       )}
 
       {!formData && suggestions.length === 0 ? (
         <div
-          className="p-6"
+          className="bookplate p-6"
           style={{
-            borderRadius: 'var(--radius-lg)',
-            border: '1px solid var(--color-border)',
-            background: 'var(--paper)',
             boxShadow: 'var(--shadow-card)',
           }}
         >
-          <label htmlFor="description" className="mb-2 block text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--color-foreground)' }}>
-            Describe what you read or paste a link
+          <label htmlFor="description" className="mb-2 block text-xs font-serif font-bold uppercase tracking-widest text-[#5A2232]">
+            Describe the volume or paste an article URL
           </label>
           <textarea
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="e.g., Designing Data-Intensive Applications by Martin Kleppmann OR paste an article URL..."
-            className="min-h-[110px] w-full bg-white p-3 text-xs leading-relaxed focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
+            className="min-h-[120px] w-full bg-[#FFFAF5] p-3 text-xs font-serif leading-relaxed focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
             style={{ 
               borderRadius: 'var(--radius-base)',
               border: '1px solid var(--color-border)',
-              color: 'var(--color-foreground)',
+              color: 'var(--foreground)',
             }}
             disabled={isProcessing}
           />
@@ -235,43 +246,36 @@ export default function AddPage() {
             <button
               type="button"
               onClick={handleManualEntry}
-              className="flex-1 rounded-md px-4 py-2.5 text-xs font-semibold transition-all active:translate-y-[1px]"
+              className="flex-1 rounded py-2.5 text-xs font-serif font-semibold transition-all hover:bg-[#FFFAF5] active:translate-y-[1px]"
               style={{ 
-                background: '#FFFFFF',
+                background: 'rgba(255, 250, 245, 0.7)',
                 border: '1px solid var(--color-border)',
-                color: 'var(--color-foreground)',
-                boxShadow: 'var(--shadow-button-secondary)',
+                color: 'var(--foreground)',
+                boxShadow: '0 1px 2px rgba(90, 34, 50, 0.05)',
               }}
             >
-              Manual Entry
+              Manual Folio Entry
             </button>
             <button
               type="button"
               onClick={handleAIProcess}
               disabled={isProcessing || !description.trim()}
-              className="flex-1 rounded-md px-4 py-2.5 text-xs font-serif font-bold text-white transition-all active:translate-y-[1px] disabled:opacity-50"
-              style={{ 
-                background: 'var(--color-primary)',
-                boxShadow: 'var(--shadow-button-primary)',
-              }}
+              className="brass-plate flex-1 rounded py-2.5 text-xs font-serif font-bold text-white transition-all active:translate-y-[1px] disabled:opacity-50"
             >
-              {isProcessing ? 'Looking up...' : 'Auto-Fill Details'}
+              {isProcessing ? 'Consulting Index...' : 'Auto-Extract Folio Details'}
             </button>
           </div>
         </div>
       ) : suggestions.length > 0 ? (
         <div className="space-y-4">
           <div
-            className="p-5"
+            className="bookplate p-6"
             style={{
-              borderRadius: 'var(--radius-lg)',
-              border: '1px solid var(--color-border)',
-              background: 'var(--paper)',
               boxShadow: 'var(--shadow-card)',
             }}
           >
-            <h2 className="mb-3 text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--color-foreground)' }}>
-              Extracted Suggestion
+            <h2 className="mb-3 text-xs font-serif font-bold uppercase tracking-widest text-[#5A2232]">
+              Extracted Catalog Record
             </h2>
             <div className="space-y-2.5">
               {suggestions.map((suggestion, index) => (
@@ -279,31 +283,31 @@ export default function AddPage() {
                   key={index}
                   type="button"
                   onClick={() => handleSelectSuggestion(suggestion)}
-                  className="w-full text-left p-3.5 transition-all hover:bg-[#F9F7F4]"
+                  className="w-full text-left p-4 transition-all hover:bg-[#FFFAF5] group"
                   style={{ 
                     borderRadius: 'var(--radius-base)',
                     border: '1px solid var(--color-border)',
-                    background: '#FFFFFF',
+                    background: 'rgba(255, 250, 245, 0.6)',
                   }}
                 >
                   <div className="flex items-start justify-between">
                     <div>
-                      <div className="mb-1 flex items-center gap-1.5">
-                        <span className="text-pink-600">
-                          {suggestion.type === 'book' ? <IconBook size={15} /> : <IconArticle size={15} />}
+                      <div className="mb-1 flex items-center gap-2">
+                        <span className="text-[#9E384D]">
+                          {suggestion.type === 'book' ? <IconBook size={16} /> : <IconArticle size={16} />}
                         </span>
-                        <span className="text-sm font-bold" style={{ color: 'var(--color-foreground)' }}>
+                        <span className="text-sm font-serif font-bold text-[#5A2232]">
                           {suggestion.title}
                         </span>
                       </div>
                       {suggestion.author && (
-                        <p className="text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>by {suggestion.author}</p>
+                        <p className="text-xs font-serif text-[#8A4B58]">by {suggestion.author}</p>
                       )}
                       {suggestion.publication && (
-                        <p className="text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>in {suggestion.publication}</p>
+                        <p className="text-xs font-serif text-[#8A4B58]">in {suggestion.publication}</p>
                       )}
                     </div>
-                    <span className="inline-flex items-center gap-1 text-xs font-bold" style={{ color: 'var(--color-primary)' }}>
+                    <span className="inline-flex items-center gap-1 text-xs font-serif font-bold gold-text group-hover:translate-x-0.5 transition-transform">
                       <span>Select</span>
                       <IconArrowRight size={13} />
                     </span>
@@ -318,10 +322,9 @@ export default function AddPage() {
               setSuggestions([]);
               setDescription('');
             }}
-            className="w-full rounded-md bg-white py-2.5 text-xs font-semibold"
+            className="w-full rounded bg-[#FFFAF5] py-2.5 text-xs font-serif font-semibold text-[#8A4B58] hover:text-[#5A2232] transition-colors"
             style={{ 
               border: '1px solid var(--color-border)',
-              color: 'var(--color-foreground-secondary)',
             }}
           >
             Try Another Description
@@ -330,36 +333,33 @@ export default function AddPage() {
       ) : formData ? (
         <form onSubmit={handleSubmit} className="space-y-5">
           <div
-            className="space-y-4 p-6"
+            className="bookplate space-y-4 p-6"
             style={{
-              borderRadius: 'var(--radius-lg)',
-              border: '1px solid var(--color-border)',
-              background: 'var(--paper)',
               boxShadow: 'var(--shadow-card)',
             }}
           >
             <div>
-              <label htmlFor="type" className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-foreground)' }}>
-                Item Type
+              <label htmlFor="type" className="mb-1 block text-xs font-serif font-semibold text-[#5A2232]">
+                Accession Type
               </label>
               <select
                 id="type"
                 value={formData.type}
                 onChange={(e) => handleInputChange('type', e.target.value as ReadingItemType)}
-                className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
+                className="w-full bg-[#FFFAF5] px-3 py-2 text-xs font-serif focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
                 style={{ 
                   borderRadius: 'var(--radius-base)',
                   border: '1px solid var(--color-border)',
-                  color: 'var(--color-foreground)',
+                  color: 'var(--foreground)',
                 }}
               >
-                <option value="book">📖 Book</option>
-                <option value="article">✨ Article</option>
+                <option value="book">📖 Physical Tome / Book</option>
+                <option value="article">✨ Digital Essay / Article</option>
               </select>
             </div>
 
             <div>
-              <label htmlFor="title" className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-foreground)' }}>
+              <label htmlFor="title" className="mb-1 block text-xs font-serif font-semibold text-[#5A2232]">
                 Title *
               </label>
               <input
@@ -368,18 +368,18 @@ export default function AddPage() {
                 value={formData.title}
                 onChange={(e) => handleInputChange('title', e.target.value)}
                 required
-                className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
+                className="w-full bg-[#FFFAF5] px-3 py-2 text-xs font-serif focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
                 style={{ 
                   borderRadius: 'var(--radius-base)',
                   border: '1px solid var(--color-border)',
-                  color: 'var(--color-foreground)',
+                  color: 'var(--foreground)',
                 }}
               />
             </div>
 
             <div className={formData.type === 'article' ? 'grid grid-cols-1 gap-3 sm:grid-cols-2' : ''}>
               <div>
-                <label htmlFor="author" className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-foreground)' }}>
+                <label htmlFor="author" className="mb-1 block text-xs font-serif font-semibold text-[#5A2232]">
                   Author
                 </label>
                 <input
@@ -387,30 +387,30 @@ export default function AddPage() {
                   type="text"
                   value={formData.author}
                   onChange={(e) => handleInputChange('author', e.target.value)}
-                  className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
+                  className="w-full bg-[#FFFAF5] px-3 py-2 text-xs font-serif focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
                   style={{ 
                     borderRadius: 'var(--radius-base)',
                     border: '1px solid var(--color-border)',
-                    color: 'var(--color-foreground)',
+                    color: 'var(--foreground)',
                   }}
                 />
               </div>
 
               {formData.type === 'article' && (
                 <div>
-                  <label htmlFor="publication" className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-foreground)' }}>
-                    Publication
+                  <label htmlFor="publication" className="mb-1 block text-xs font-serif font-semibold text-[#5A2232]">
+                    Publication / Source
                   </label>
                   <input
                     id="publication"
                     type="text"
                     value={formData.publication}
                     onChange={(e) => handleInputChange('publication', e.target.value)}
-                    className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
+                    className="w-full bg-[#FFFAF5] px-3 py-2 text-xs font-serif focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
                     style={{ 
                       borderRadius: 'var(--radius-base)',
                       border: '1px solid var(--color-border)',
-                      color: 'var(--color-foreground)',
+                      color: 'var(--foreground)',
                     }}
                   />
                 </div>
@@ -418,8 +418,8 @@ export default function AddPage() {
             </div>
 
             <div>
-              <label htmlFor="url" className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-foreground)' }}>
-                Link / URL (optional)
+              <label htmlFor="url" className="mb-1 block text-xs font-serif font-semibold text-[#5A2232]">
+                Accession Link / URL (optional)
               </label>
               <input
                 id="url"
@@ -427,49 +427,49 @@ export default function AddPage() {
                 value={formData.url}
                 onChange={(e) => handleInputChange('url', e.target.value)}
                 placeholder="https://..."
-                className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
+                className="w-full bg-[#FFFAF5] px-3 py-2 text-xs font-serif focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
                 style={{ 
                   borderRadius: 'var(--radius-base)',
                   border: '1px solid var(--color-border)',
-                  color: 'var(--color-foreground)',
+                  color: 'var(--foreground)',
                 }}
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label htmlFor="year" className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-foreground)' }}>
-                  Year
+                <label htmlFor="year" className="mb-1 block text-xs font-serif font-semibold text-[#5A2232]">
+                  Publication Year
                 </label>
                 <input
                   id="year"
                   type="number"
                   value={formData.year}
                   onChange={(e) => handleInputChange('year', e.target.value)}
-                  className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
+                  className="w-full bg-[#FFFAF5] px-3 py-2 text-xs font-serif focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
                   style={{ 
                     borderRadius: 'var(--radius-base)',
                     border: '1px solid var(--color-border)',
-                    color: 'var(--color-foreground)',
+                    color: 'var(--foreground)',
                   }}
                 />
               </div>
 
               {formData.type === 'book' && (
                 <div>
-                  <label htmlFor="pages" className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-foreground)' }}>
-                    Pages
+                  <label htmlFor="pages" className="mb-1 block text-xs font-serif font-semibold text-[#5A2232]">
+                    Page Count
                   </label>
                   <input
                     id="pages"
                     type="number"
                     value={formData.pages}
                     onChange={(e) => handleInputChange('pages', e.target.value)}
-                    className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
+                    className="w-full bg-[#FFFAF5] px-3 py-2 text-xs font-serif focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
                     style={{ 
                       borderRadius: 'var(--radius-base)',
                       border: '1px solid var(--color-border)',
-                      color: 'var(--color-foreground)',
+                      color: 'var(--foreground)',
                     }}
                   />
                 </div>
@@ -477,26 +477,26 @@ export default function AddPage() {
             </div>
 
             <div>
-              <label htmlFor="genre" className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-foreground)' }}>
-                Genre
+              <label htmlFor="genre" className="mb-1 block text-xs font-serif font-semibold text-[#5A2232]">
+                Genre / Classification
               </label>
               <input
                 id="genre"
                 type="text"
                 value={formData.genre}
                 onChange={(e) => handleInputChange('genre', e.target.value)}
-                className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
+                className="w-full bg-[#FFFAF5] px-3 py-2 text-xs font-serif focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
                 style={{ 
                   borderRadius: 'var(--radius-base)',
                   border: '1px solid var(--color-border)',
-                  color: 'var(--color-foreground)',
+                  color: 'var(--foreground)',
                 }}
               />
             </div>
 
             <div>
-              <label htmlFor="readDate" className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-foreground)' }}>
-                Read Date *
+              <label htmlFor="readDate" className="mb-1 block text-xs font-serif font-semibold text-[#5A2232]">
+                Completion Date *
               </label>
               <input
                 id="readDate"
@@ -504,18 +504,18 @@ export default function AddPage() {
                 value={formData.readDate}
                 onChange={(e) => handleInputChange('readDate', e.target.value)}
                 required
-                className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
+                className="w-full bg-[#FFFAF5] px-3 py-2 text-xs font-serif focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
                 style={{ 
                   borderRadius: 'var(--radius-base)',
                   border: '1px solid var(--color-border)',
-                  color: 'var(--color-foreground)',
+                  color: 'var(--foreground)',
                 }}
               />
             </div>
 
             <div>
-              <label className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-foreground)' }}>
-                Rating
+              <label className="mb-1 block text-xs font-serif font-semibold text-[#5A2232]">
+                Archive Rating
               </label>
               <div className="flex items-center gap-1.5">
                 {[1, 2, 3, 4, 5].map((value) => {
@@ -526,15 +526,19 @@ export default function AddPage() {
                       key={value}
                       type="button"
                       onClick={() => handleInputChange('rating', String(value === currentRating ? '' : value))}
-                      className="text-2xl transition-transform active:scale-90"
-                      aria-label={`Rate ${value} out of 5`}
+                      className="transition-transform active:scale-90"
+                      aria-label={`Rate ${value} out of 5 stars`}
                     >
-                      {isFilled ? '❤️' : '🤍'}
+                      {isFilled ? (
+                        <IconStarFilled size={20} className="text-[#D4AF37] fill-[#D4AF37]" />
+                      ) : (
+                        <IconStar size={20} className="text-[#C5A059]/40 hover:text-[#D4AF37]" />
+                      )}
                     </button>
                   );
                 })}
                 {formData.rating && (
-                  <span className="ml-2 text-xs font-medium" style={{ color: 'var(--color-foreground-secondary)' }}>
+                  <span className="ml-2 text-xs font-mono font-bold text-[#8A4B58]">
                     ({formData.rating}/5)
                   </span>
                 )}
@@ -542,7 +546,7 @@ export default function AddPage() {
             </div>
 
             <div>
-              <label htmlFor="tags" className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-foreground)' }}>
+              <label htmlFor="tags" className="mb-1 block text-xs font-serif font-semibold text-[#5A2232]">
                 Tags (comma-separated)
               </label>
               <input
@@ -551,28 +555,28 @@ export default function AddPage() {
                 value={formData.tags}
                 onChange={(e) => handleInputChange('tags', e.target.value)}
                 placeholder="e.g., programming, architecture, databases"
-                className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
+                className="w-full bg-[#FFFAF5] px-3 py-2 text-xs font-serif focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
                 style={{ 
                   borderRadius: 'var(--radius-base)',
                   border: '1px solid var(--color-border)',
-                  color: 'var(--color-foreground)',
+                  color: 'var(--foreground)',
                 }}
               />
             </div>
 
             <div>
-              <label htmlFor="description" className="mb-1 block text-xs font-semibold" style={{ color: 'var(--color-foreground)' }}>
-                Description / Notes
+              <label htmlFor="description" className="mb-1 block text-xs font-serif font-semibold text-[#5A2232]">
+                Marginalia & Notes
               </label>
               <textarea
                 id="description"
                 value={formData.description}
                 onChange={(e) => handleInputChange('description', e.target.value)}
-                className="min-h-[90px] w-full bg-white p-3 text-xs leading-relaxed focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
+                className="min-h-[100px] w-full bg-[#FFFAF5] p-3 text-xs font-serif leading-relaxed focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
                 style={{ 
                   borderRadius: 'var(--radius-base)',
                   border: '1px solid var(--color-border)',
-                  color: 'var(--color-foreground)',
+                  color: 'var(--foreground)',
                 }}
               />
             </div>
@@ -586,10 +590,9 @@ export default function AddPage() {
                 setDescription('');
                 setError(null);
               }}
-              className="flex-1 rounded-md bg-white py-2.5 text-xs font-semibold"
+              className="flex-1 rounded bg-[#FFFAF5] py-2.5 text-xs font-serif font-semibold text-[#8A4B58] hover:text-[#5A2232] transition-colors"
               style={{ 
                 border: '1px solid var(--color-border)',
-                color: 'var(--color-foreground-secondary)',
               }}
             >
               Start Over
@@ -597,13 +600,9 @@ export default function AddPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 rounded-md py-2.5 text-xs font-bold text-white transition-all active:translate-y-[1px] disabled:opacity-50"
-              style={{ 
-                background: 'var(--color-primary)',
-                boxShadow: 'var(--shadow-button-primary)',
-              }}
+              className="brass-plate flex-1 rounded py-2.5 text-xs font-serif font-bold text-white transition-all active:translate-y-[1px] disabled:opacity-50"
             >
-              {isSubmitting ? 'Cataloging...' : 'Add to Collection'}
+              {isSubmitting ? 'Inscribing in Ledger...' : 'Preserve to Archive'}
             </button>
           </div>
         </form>

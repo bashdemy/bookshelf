@@ -151,30 +151,17 @@ export default function ReadingSection({
       </div>
 
       {items.length > 0 && (
-        <div
-          className="mb-7 p-4"
-          style={{
-            borderRadius: 'var(--radius-lg)',
-            border: '1px solid var(--color-border)',
-            background: 'var(--paper)',
-            boxShadow: 'var(--shadow-card)',
-          }}
-        >
+        <div className="bookplate mb-7 p-4 sm:p-5 rounded-sm">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
             <div className="sm:col-span-2 relative flex items-center">
-              <IconSearch size={14} className="absolute left-3 text-pink-400 pointer-events-none" />
+              <IconSearch size={14} className="absolute left-3 text-gold pointer-events-none" />
               <input
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={`Search ${pluralLabel} by title, author, tag...`}
                 aria-label={`Search ${pluralLabel}`}
-                className="w-full bg-white pl-8 pr-3.5 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
-                style={{
-                  borderRadius: 'var(--radius-base)',
-                  border: '1px solid var(--color-border)',
-                  color: 'var(--color-foreground)',
-                }}
+                className="w-full bg-white/80 pl-8 pr-3.5 py-2 text-xs font-serif italic text-pink-900 placeholder:text-pink-800/50 rounded-sm border border-gold/40 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold/50"
               />
             </div>
 
@@ -184,12 +171,7 @@ export default function ReadingSection({
                   value={selectedGenre}
                   onChange={(e) => setSelectedGenre(e.target.value)}
                   aria-label="Filter by genre"
-                  className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
-                  style={{
-                    borderRadius: 'var(--radius-base)',
-                    border: '1px solid var(--color-border)',
-                    color: 'var(--color-foreground)',
-                  }}
+                  className="w-full bg-white/80 px-3 py-2 text-xs font-serif text-pink-900 rounded-sm border border-gold/40 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold/50"
                 >
                   <option value="">All Genres ({items.length})</option>
                   {genres.map((genre) => {
@@ -210,12 +192,7 @@ export default function ReadingSection({
                   value={selectedTag}
                   onChange={(e) => setSelectedTag(e.target.value)}
                   aria-label="Filter by tag"
-                  className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
-                  style={{
-                    borderRadius: 'var(--radius-base)',
-                    border: '1px solid var(--color-border)',
-                    color: 'var(--color-foreground)',
-                  }}
+                  className="w-full bg-white/80 px-3 py-2 text-xs font-serif text-pink-900 rounded-sm border border-gold/40 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold/50"
                 >
                   <option value="">All Tags</option>
                   {tags.map((tag) => (
@@ -232,12 +209,7 @@ export default function ReadingSection({
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as SortOption)}
                 aria-label="Sort items"
-                className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
-                style={{
-                  borderRadius: 'var(--radius-base)',
-                  border: '1px solid var(--color-border)',
-                  color: 'var(--color-foreground)',
-                }}
+                className="w-full bg-white/80 px-3 py-2 text-xs font-serif text-pink-900 rounded-sm border border-gold/40 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold/50"
               >
                 <option value="date-desc">Newest Read</option>
                 <option value="date-asc">Oldest Read</option>
@@ -250,15 +222,15 @@ export default function ReadingSection({
 
           {/* Quick Category Filter Pills */}
           {genres.length > 0 && (
-            <div className="mt-3 flex flex-wrap items-center gap-1.5 pt-2.5 border-t" style={{ borderColor: 'var(--color-divider)' }}>
-              <span className="text-[11px] font-serif font-semibold text-pink-900 mr-1">Categories:</span>
+            <div className="mt-3.5 flex flex-wrap items-center gap-1.5 pt-3 border-t border-gold/25">
+              <span className="text-[11px] font-serif italic text-pink-800/70 mr-1">Categories:</span>
               <button
                 type="button"
                 onClick={() => setSelectedGenre('')}
-                className={`rounded-md px-2.5 py-1 text-[11px] font-serif transition-all border ${
+                className={`rounded-sm px-2.5 py-1 text-[11px] font-serif transition-all border ${
                   !selectedGenre
-                    ? 'bg-pink-600 text-white font-bold border-pink-700 shadow-xs'
-                    : 'bg-white text-pink-900 border-pink-300/80 hover:bg-pink-50'
+                    ? 'brass-plate font-semibold'
+                    : 'bg-white/60 text-pink-900 border-gold/30 hover:border-gold'
                 }`}
               >
                 All ({items.length})
@@ -271,13 +243,13 @@ export default function ReadingSection({
                     key={genre}
                     type="button"
                     onClick={() => setSelectedGenre(isSelected ? '' : genre)}
-                    className={`rounded-md px-2.5 py-1 text-[11px] font-serif transition-all border ${
+                    className={`rounded-sm px-2.5 py-1 text-[11px] font-serif transition-all border ${
                       isSelected
-                        ? 'bg-pink-600 text-white font-bold border-pink-700 shadow-xs'
-                        : 'bg-white text-pink-900 border-pink-300/80 hover:bg-pink-50'
+                        ? 'brass-plate font-semibold'
+                        : 'bg-white/60 text-pink-900 border-gold/30 hover:border-gold'
                     }`}
                   >
-                    {genre} <span className="opacity-70 text-[10px]">({count})</span>
+                    {genre} <span className="opacity-60 text-[10px]">({count})</span>
                   </button>
                 );
               })}

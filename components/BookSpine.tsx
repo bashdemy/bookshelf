@@ -158,50 +158,105 @@ export default function BookSpine({ book, selected = false, onClick }: BookSpine
   );
 }
 
-/** Front cover of an antique clothbound edition — used in the "pulled from the shelf" card. */
-export function BookCover({ book, className = '' }: { book: PhysicalBook; className?: string }) {
-  const base = vintageTone(book.spineColor);
+/** Front cover of an antique clothbound edition — used across bookplates, cards, and inspections. */
+const VINTAGE_PALETTE = [
+  '#8B263E', // deep antique rose / wine
+  '#C85A32', // vintage orange cloth
+  '#2C4A52', // deep prussian teal
+  '#4A3B32', // worn leather brown
+  '#8C7A3E', // antique ochre / olive
+  '#3D314A', // aged plum
+  '#A8435A', // dusty raspberry
+  '#5C3A21', // tobacco leather
+  '#3E503C', // aged moss green
+  '#6D2A3C', // oxblood
+];
+
+export function getBookSpineColor(book: { spineColor?: string; title: string; id?: string }): string {
+  if (book.spineColor) return book.spineColor;
+  const hash = hashString((book.id || '') + book.title);
+  return VINTAGE_PALETTE[hash % VINTAGE_PALETTE.length];
+}
+
+export function BookCover({
+  book,
+  size = 'md',
+  className = '',
+}: {
+  book: { title: string; author?: string; spineColor?: string; id?: string };
+  size?: 'sm' | 'md' | 'lg';
+  className?: string;
+}) {
+  const spine = getBookSpineColor(book);
+  const base = vintageTone(spine);
   const isLight = luminance(base) > 0.62;
   const ink = isLight ? '#5A1E24' : undefined;
 
+  const dims =
+    size === 'sm'
+      ? { width: 84, height: 120, titleSize: 9, authorSize: 7.5, pad: 'px-2 py-2', inset: 'inset-[6px] left-[10px]' }
+      : size === 'lg'
+      ? { width: 160, height: 230, titleSize: 14, authorSize: 11, pad: 'px-6 py-4', inset: 'inset-[12px] left-[18px]' }
+      : { width: 128, height: 184, titleSize: 12, authorSize: 9, pad: 'px-5 py-3', inset: 'inset-[9px] left-[14px]' };
+
   return (
     <div
-      className={`relative shrink-0 overflow-hidden ${className}`}
+      className={`relative shrink-0 overflow-hidden select-none transition-transform duration-200 group-hover:scale-[1.02] ${className}`}
       style={{
-        width: 128,
-        height: 184,
+        width: dims.width,
+        height: dims.height,
         borderRadius: '2px 5px 5px 2px',
         backgroundColor: base,
         backgroundImage: [
-          'linear-gradient(90deg, rgba(0,0,0,0.38) 0%, rgba(0,0,0,0.1) 5%, rgba(255,255,255,0.08) 8%, transparent 14%)',
+          'linear-gradient(90deg, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.12) 5%, rgba(255,255,255,0.08) 8%, transparent 15%)',
           'radial-gradient(ellipse at 70% 20%, rgba(255,240,220,0.18), transparent 60%)',
           'repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0 1px, transparent 1px 3px)',
           'repeating-linear-gradient(90deg, rgba(0,0,0,0.05) 0 1px, transparent 1px 2px)',
-          'linear-gradient(180deg, transparent 70%, rgba(0,0,0,0.18))',
+          'linear-gradient(180deg, transparent 70%, rgba(0,0,0,0.22))',
         ].join(','),
-        boxShadow: '6px 8px 18px -6px rgba(60, 20, 25, 0.55), inset -1px 0 0 rgba(255,255,255,0.12)',
+        boxShadow:
+          size === 'sm'
+            ? '3px 5px 12px -3px rgba(60, 20, 25, 0.45), inset -1px 0 0 rgba(255,255,255,0.15)'
+            : '6px 8px 18px -6px rgba(60, 20, 25, 0.55), inset -1px 0 0 rgba(255,255,255,0.12)',
       }}
     >
       {/* double gilt frame */}
-      <div className="absolute inset-[9px] left-[14px] border" style={{ borderColor: 'rgba(233,205,134,0.85)' }} />
-      <div className="absolute inset-[13px] left-[18px] border" style={{ borderColor: 'rgba(233,205,134,0.45)' }} />
-      <div className="absolute inset-0 left-[6px] flex flex-col items-center justify-center px-6 text-center">
-        <span className="mb-2 text-[10px]" style={{ color: ink ?? '#D9B266' }}>❦</span>
+      <div className={`absolute ${dims.inset} border`} style={{ borderColor: 'rgba(233,205,134,0.85)' }} />
+      <div
+        className="absolute inset-0 left-[6px] flex flex-col items-center justify-between text-center"
+        style={{ padding: dims.pad.replace('px-', '').replace('py-', '') }}
+      >
+        <span className="text-[10px]" style={{ color: ink ?? '#D9B266' }}>❦</span>
         <span
-          className="font-serif font-semibold leading-tight line-clamp-4"
+          className="font-serif font-semibold leading-tight line-clamp-4 px-1"
           style={{
-            fontSize: book.title.length > 28 ? 11 : 13,
+            fontSize: dims.titleSize,
             ...(ink
               ? { color: ink }
-              : { backgroundImage: GOLD_GRADIENT, WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }),
+              : {
+                  backgroundImage: GOLD_GRADIENT,
+                  WebkitBackgroundClip: 'text',
+                  backgroundClip: 'text',
+                  color: 'transparent',
+                }),
           }}
         >
           {book.title}
         </span>
-        <span className="mt-2 h-px w-8" style={{ background: GOLD_RULE }} />
-        <span className="mt-2 font-serif italic text-[9px] leading-tight" style={{ color: ink ?? '#E3C47E' }}>
-          {book.author}
-        </span>
+        <div className="flex flex-col items-center">
+          <span className="h-px w-6" style={{ background: GOLD_RULE }} />
+          {book.author && (
+            <span
+              className="mt-1 font-serif italic truncate max-w-[90%] leading-tight"
+              style={{
+                fontSize: dims.authorSize,
+                color: ink ?? '#E3C47E',
+              }}
+            >
+              {book.author}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );

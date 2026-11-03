@@ -81,32 +81,35 @@ function LoginForm() {
 
   return (
     <div
-      className="w-full max-w-sm p-7"
+      className="bookplate w-full max-w-sm p-8"
       style={{
-        borderRadius: 'var(--radius-lg)',
-        border: '1px solid var(--color-border)',
-        background: 'var(--paper)',
-        boxShadow: 'var(--shadow-card)',
+        boxShadow: '0 12px 36px rgba(90, 34, 50, 0.14), 0 2px 8px rgba(197, 160, 89, 0.2)',
       }}
     >
       <div className="mb-6 text-center">
-        <h1 className="flex items-center justify-center gap-2.5 text-2xl font-bold font-serif tracking-tight" style={{ color: 'var(--color-foreground)' }}>
-          <span className="flex items-center justify-center h-8 w-8 rounded-full bg-pink-100 text-pink-600 border border-pink-200 shadow-2xs">
-            <IconFlower size={18} />
-          </span>
-          <span>Bookshelf</span>
+        <p className="text-[10px] font-serif uppercase tracking-widest text-[#8A4B58] flex items-center justify-center gap-2 mb-1">
+          <span className="gold-text select-none">❦</span>
+          <span>Ex Libris • Reader Access</span>
+          <span className="gold-text select-none">❦</span>
+        </p>
+        <h1 className="text-2xl font-bold font-serif tracking-tight text-[#5A2232]">
+          Library Register
         </h1>
-        <p className="mt-1 text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
+        <p className="mt-1 text-xs font-serif text-[#8A4B58]">
           {mode === 'signin'
-            ? 'Sign in to your personal archive'
+            ? 'Sign in to catalogue or edit volumes'
             : mode === 'register'
-            ? 'Create your reading profile'
-            : 'Set or update your password'}
+            ? 'Register a new librarian profile'
+            : 'Reset access key credentials'}
         </p>
       </div>
 
       <div
-        className="mb-5 flex rounded-lg p-1 border border-pink-300/80 bg-pink-100/70"
+        className="mb-5 flex rounded p-1"
+        style={{
+          background: 'rgba(233, 207, 199, 0.35)',
+          border: '1px solid var(--color-border)',
+        }}
       >
         <button
           type="button"
@@ -115,13 +118,9 @@ function LoginForm() {
             setError(null);
             setSuccessMsg(null);
           }}
-          className="flex-1 rounded-md py-1.5 text-xs font-serif font-bold transition-all"
-          style={{
-            background: mode === 'signin' ? '#FFFFFF' : 'transparent',
-            color: '#9D174D',
-            border: mode === 'signin' ? '1px solid #FBCFE8' : '1px solid transparent',
-            boxShadow: mode === 'signin' ? '0 1px 2px rgba(190, 24, 93, 0.12)' : 'none',
-          }}
+          className={`flex-1 rounded py-1.5 text-xs font-serif font-bold transition-all ${
+            mode === 'signin' ? 'brass-plate text-white shadow-xs' : 'text-[#8A4B58] hover:text-[#5A2232]'
+          }`}
         >
           Sign In
         </button>
@@ -132,15 +131,11 @@ function LoginForm() {
             setError(null);
             setSuccessMsg(null);
           }}
-          className="flex-1 rounded-md py-1.5 text-xs font-serif font-bold transition-all"
-          style={{
-            background: mode === 'register' ? '#FFFFFF' : 'transparent',
-            color: '#9D174D',
-            border: mode === 'register' ? '1px solid #FBCFE8' : '1px solid transparent',
-            boxShadow: mode === 'register' ? '0 1px 2px rgba(190, 24, 93, 0.12)' : 'none',
-          }}
+          className={`flex-1 rounded py-1.5 text-xs font-serif font-bold transition-all ${
+            mode === 'register' ? 'brass-plate text-white shadow-xs' : 'text-[#8A4B58] hover:text-[#5A2232]'
+          }`}
         >
-          New User
+          New Reader
         </button>
         <button
           type="button"
@@ -149,13 +144,9 @@ function LoginForm() {
             setError(null);
             setSuccessMsg(null);
           }}
-          className="flex-1 rounded-md py-1.5 text-xs font-serif font-bold transition-all"
-          style={{
-            background: mode === 'reset' ? '#FFFFFF' : 'transparent',
-            color: '#9D174D',
-            border: mode === 'reset' ? '1px solid #FBCFE8' : '1px solid transparent',
-            boxShadow: mode === 'reset' ? '0 1px 2px rgba(190, 24, 93, 0.12)' : 'none',
-          }}
+          className={`flex-1 rounded py-1.5 text-xs font-serif font-bold transition-all ${
+            mode === 'reset' ? 'brass-plate text-white shadow-xs' : 'text-[#8A4B58] hover:text-[#5A2232]'
+          }`}
         >
           Reset
         </button>
@@ -163,10 +154,11 @@ function LoginForm() {
 
       {successMsg && (
         <div
-          className="mb-4 rounded-md border p-2.5 text-xs text-emerald-800"
+          className="mb-4 rounded border p-2.5 text-xs font-serif"
           style={{
             borderColor: '#A7F3D0',
             background: '#ECFDF5',
+            color: '#065F46',
           }}
         >
           {successMsg}
@@ -175,22 +167,22 @@ function LoginForm() {
 
       {error && (
         <div
-          className="mb-4 rounded-md border p-2.5 text-xs text-red-800"
+          className="mb-4 rounded border p-2.5 text-xs font-serif"
           style={{
             borderColor: '#F5C6CB',
             background: '#FFF5F5',
+            color: '#9E384D',
           }}
         >
           {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-3.5">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label
             htmlFor="username"
-            className="mb-1 block text-xs font-semibold"
-            style={{ color: 'var(--color-foreground)' }}
+            className="mb-1 block text-xs font-serif font-semibold text-[#5A2232]"
           >
             Username *
           </label>
@@ -203,11 +195,11 @@ function LoginForm() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="e.g., bashdemy"
-            className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
+            className="w-full bg-[#FFFAF5] px-3 py-2 text-xs font-serif focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
             style={{
               borderRadius: 'var(--radius-base)',
               border: '1px solid var(--color-border)',
-              color: 'var(--color-foreground)',
+              color: 'var(--foreground)',
             }}
           />
         </div>
@@ -216,8 +208,7 @@ function LoginForm() {
           <div>
             <label
               htmlFor="displayName"
-              className="mb-1 block text-xs font-semibold"
-              style={{ color: 'var(--color-foreground)' }}
+              className="mb-1 block text-xs font-serif font-semibold text-[#5A2232]"
             >
               Display Name (optional)
             </label>
@@ -227,11 +218,11 @@ function LoginForm() {
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
               placeholder="e.g., Maria"
-              className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
+              className="w-full bg-[#FFFAF5] px-3 py-2 text-xs font-serif focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
               style={{
                 borderRadius: 'var(--radius-base)',
                 border: '1px solid var(--color-border)',
-                color: 'var(--color-foreground)',
+                color: 'var(--foreground)',
               }}
             />
           </div>
@@ -240,8 +231,7 @@ function LoginForm() {
         <div>
           <label
             htmlFor="password"
-            className="mb-1 block text-xs font-semibold"
-            style={{ color: 'var(--color-foreground)' }}
+            className="mb-1 block text-xs font-serif font-semibold text-[#5A2232]"
           >
             Password *
           </label>
@@ -252,11 +242,11 @@ function LoginForm() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder={mode === 'register' ? 'At least 6 characters' : 'Enter your password'}
-            className="w-full bg-white px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#9E384D]"
+            className="w-full bg-[#FFFAF5] px-3 py-2 text-xs font-serif focus:outline-none focus:ring-1 focus:ring-[#C5A059]"
             style={{
               borderRadius: 'var(--radius-base)',
               border: '1px solid var(--color-border)',
-              color: 'var(--color-foreground)',
+              color: 'var(--foreground)',
             }}
           />
         </div>
@@ -264,29 +254,25 @@ function LoginForm() {
         <button
           type="submit"
           disabled={isSubmitting || !username.trim() || !password}
-          className="mt-2 w-full rounded-md py-2.5 text-xs font-bold text-white transition-all active:translate-y-[1px] disabled:opacity-50"
-          style={{
-            background: 'var(--color-primary)',
-            boxShadow: 'var(--shadow-button-primary)',
-          }}
+          className="brass-plate mt-2 w-full rounded py-2.5 text-xs font-serif font-bold text-white transition-all active:translate-y-[1px] disabled:opacity-50"
         >
           {isSubmitting
             ? mode === 'signin'
               ? 'Authenticating...'
               : mode === 'register'
-              ? 'Creating account...'
-              : 'Updating password...'
+              ? 'Creating register entry...'
+              : 'Updating key...'
             : mode === 'signin'
-              ? 'Sign In'
+              ? 'Sign Into Archive'
               : mode === 'register'
-              ? 'Create Account'
+              ? 'Register Reader Profile'
               : 'Reset & Sign In'}
         </button>
       </form>
 
-      <div className="mt-5 text-center text-xs" style={{ color: 'var(--color-foreground-secondary)' }}>
-        <Link href="/" className="hover:underline" style={{ color: 'var(--color-foreground-secondary)' }}>
-          ← Back to library
+      <div className="mt-5 text-center text-xs">
+        <Link href="/" className="font-serif text-[#8A4B58] hover:text-[#5A2232] transition-colors">
+          ← Return to reading room
         </Link>
       </div>
     </div>

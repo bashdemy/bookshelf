@@ -33,7 +33,7 @@ export default function Navigation() {
   const isAuthenticated = !!session;
 
   return (
-    <nav className="flex items-center gap-1 rounded-lg p-1 border border-pink-300/80" style={{ background: '#FCE7F3' }}>
+    <nav className="flex items-center gap-1 rounded-sm p-0.5 border border-gold/35 bg-white/70 shadow-2xs">
       {navigationItems.map((item) => {
         const isActive = pathname === item.href;
         const isDisabled = !!(item.requiresAuth && !isAuthenticated);
@@ -46,20 +46,14 @@ export default function Navigation() {
           return (
             <div key={item.href} className="group relative inline-block">
               <span
-                className="inline-flex items-center gap-1.5 cursor-not-allowed rounded-md px-3 py-1.5 text-xs font-serif font-medium opacity-50"
-                style={{ color: '#9D174D' }}
+                className="inline-flex items-center gap-1.5 cursor-not-allowed rounded-[2px] px-3 py-1.5 text-xs font-serif font-medium opacity-40 text-pink-800"
               >
                 <Icon size={14} />
                 <span>{item.label}</span>
               </span>
               {tooltipText && (
                 <div
-                  className="absolute top-full left-1/2 z-50 mt-2 hidden -translate-x-1/2 whitespace-nowrap rounded-md px-2.5 py-1 text-xs group-hover:block"
-                  style={{
-                    background: '#831843',
-                    color: '#FFFFFF',
-                    boxShadow: '0 4px 12px rgba(131, 24, 67, 0.2)',
-                  }}
+                  className="absolute top-full left-1/2 z-50 mt-2 hidden -translate-x-1/2 whitespace-nowrap rounded-[2px] px-2.5 py-1 text-xs font-serif group-hover:block bg-pink-900 text-white shadow-lg border border-gold/40"
                 >
                   {tooltipText}
                 </div>
@@ -72,16 +66,13 @@ export default function Navigation() {
           <Link
             key={item.href}
             href={item.href}
-            className="inline-flex items-center gap-1.5 rounded-md px-3.5 py-1.5 text-xs font-serif transition-all"
-            style={{
-              background: isActive ? '#FFFFFF' : 'transparent',
-              color: isActive ? '#9D174D' : '#9D174D',
-              fontWeight: isActive ? 700 : 500,
-              border: isActive ? '1px solid #FBCFE8' : '1px solid transparent',
-              boxShadow: isActive ? '0 1px 3px rgba(190, 24, 93, 0.12)' : 'none',
-            }}
+            className={`inline-flex items-center gap-1.5 rounded-[2px] px-3.5 py-1.5 text-xs font-serif transition-all ${
+              isActive
+                ? 'brass-plate font-semibold'
+                : 'text-pink-800/80 hover:text-pink-950 hover:bg-white/60'
+            }`}
           >
-            <Icon size={14} className={isActive ? 'text-pink-600' : 'text-pink-700/80'} />
+            <Icon size={14} className={isActive ? 'text-gold-dark' : 'text-gold'} />
             <span>{item.label}</span>
           </Link>
         );
