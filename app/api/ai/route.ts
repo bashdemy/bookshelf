@@ -1,38 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
 import { isURL, fetchPage } from '@/utils/url';
 import { extractMetaTags, extractContentPreview, findTLDRSourceLink } from '@/utils/html';
 import { heuristicExtract } from '@/lib/ai/heuristics';
 import { llmExtract } from '@/lib/ai/llm';
 import { getAIBinding } from '@/lib/ai/binding';
 
-function getAIBindingFromRequest(request: NextRequest): any {
-  const headers = request.headers;
-  
-  const cfEnvHeader = headers.get('x-cloudflare-env');
+export const dynamic = 'force-dynamic';
+
+function getAIBindingFromRequest(request: NextRequest) {
+  const cfEnvHeader = request.headers.get('x-cloudflare-env');
   if (cfEnvHeader) {
     try {
       const env = JSON.parse(cfEnvHeader);
       if (env.AI) return env.AI;
     } catch {}
   }
-  
   return null;
 }
 
-export const dynamic = 'force-dynamic';
-
-function formatSuggestion(result: { 
-  kind?: string; 
-  title?: string; 
-  author?: string; 
+function formatSuggestion(result: {
+  kind?: string;
+  title?: string;
+  author?: string;
   publication?: string;
-  year?: number | undefined;
-  pages?: number | undefined;
-  genre?: string | undefined;
-  tags?: string[] | undefined;
-  description?: string | undefined;
-  url?: string | undefined;
+  year?: number;
+  pages?: number;
+  genre?: string;
+  tags?: string[];
+  description?: string;
+  url?: string;
 }) {
   return {
     type: result.kind || 'article',
@@ -96,10 +92,7 @@ export async function POST(request: NextRequest) {
       contentPreview = description;
     }
 
-    let ai = getAIBindingFromRequest(request);
-    if (!ai) {
-      ai = await getAIBinding();
-    }
+    let ai = getAIBindingFromRequest(request) || (await getAIBinding());
 
     if (!ai || typeof ai.run !== 'function') {
       if (heuristicCandidate && heuristicCandidate.title) {
@@ -107,12 +100,11 @@ export async function POST(request: NextRequest) {
           suggestions: [formatSuggestion(heuristicCandidate)],
         });
       }
-      
-      console.error('AI binding not available. This is a known limitation with OpenNext and Cloudflare Workers AI in local development.');
-      console.error('AI will work in production deployment. For local testing, use URL-based heuristic extraction or manual entry.');
+
       return NextResponse.json(
-        { 
-          error: 'AI service not available in local development (OpenNext limitation). AI will work in production. For now, use manual entry or provide a URL for automatic extraction.' 
+        {
+          error:
+            'AI service not available in local environment. Please use manual entry or provide a URL for automatic extraction.',
         },
         { status: 503 }
       );
@@ -133,26 +125,7 @@ export async function POST(request: NextRequest) {
       throw llmError;
     }
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      console.error('Zod validation error details:', {
-        errors: error.errors,
-        issues: error.issues.map((issue) => ({
-          path: issue.path.join('.'),
-          message: issue.message,
-          code: issue.code,
-          received: issue.code === 'invalid_type' ? (issue as any).received : undefined,
-        })),
-      });
-      return NextResponse.json(
-        { 
-          error: 'AI returned data in unexpected format. Please try a more specific description or use manual entry.',
-          details: process.env.NODE_ENV === 'development' ? error.errors : undefined,
-        },
-        { status: 500 }
-      );
-    }
-
-    console.error('Processing error:', error);
+    console.error('AI extraction error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Internal server error' },
       { status: 500 }

@@ -18,35 +18,24 @@ export async function llmExtract(
     throw new Error('AI service not available');
   }
 
-  const systemPrompt = `You output ONLY JSON. Use this type:
-
-type Work = {
-  kind: "book" | "article";
-  title: string;
-  authors: string[];            // Use your knowledge to infer if not provided
-  year?: number;                // Use your knowledge to infer if not provided
-  pages?: number;               // For books, estimate page count if known
-  genre?: "fantasy"|"sci-fi"|"romance"|"mystery"|"nonfiction"|"history"|"biography"|"self-help"|"business"|"technology"|"unknown";
-  tags?: string[];              // from: ["ai","programming","webdev","security","cloud","databases","startups","product","research"]
-  description?: string;         // Brief summary or description of the work
-  url?: string;
-  source: "heuristic"|"llm"|"mixed";
-};
+  const systemPrompt = `You output ONLY JSON. Use this structure:
+{
+  "kind": "book" | "article",
+  "title": string,
+  "authors": string[],
+  "year": number,
+  "pages": number,
+  "genre": "fantasy"|"sci-fi"|"romance"|"mystery"|"nonfiction"|"history"|"biography"|"self-help"|"business"|"technology"|"unknown",
+  "tags": string[],
+  "description": string,
+  "url": string
+}
 
 Rules:
-- IMPORTANT: If a URL is provided, it's almost always an ARTICLE unless it's from amazon/goodreads/book-related sites.
-- For articles: Extract publication name from URL domain (e.g., "techcrunch.com" → "TechCrunch", "medium.com" → "Medium", "arxiv.org" → "arXiv").
-- For articles: The year is the publication date, not when you read it. Extract from URL path, meta tags, or use your knowledge.
-- For books: year is publication year, pages is page count if known.
-- Use the provided text/meta as primary source, but you may use your knowledge to fill in missing information.
-- For missing author/year/pages: Use your knowledge of the work to infer these values when possible.
-- For pages: Estimate for books if you know the approximate length (e.g., 200-300 pages for typical novels).
-- For description: Provide a brief 1-2 sentence summary of what the work is about.
-- Keep authors as plain names (array of strings).
-- No prose, no backticks—JSON only.
-- For genre: use only the provided list. Infer from title/content if not specified.
-- For tags: use only from the provided list. Infer from content if not specified.
-- When you infer information, ensure it's accurate based on your knowledge of the work.`;
+- URLs are articles unless from book review/retail domains (amazon, goodreads).
+- Publication name from domain (e.g. medium.com -> Medium).
+- For genre/tags: pick strictly from standard literary genres and tech tags.
+- Output pure JSON only.`;
 
   const userPrompt = JSON.stringify({
     url: url || null,
@@ -59,7 +48,6 @@ Rules:
     },
     contentPreview: contentPreview.substring(0, 2000),
     heuristicCandidate,
-    hint: url ? 'This is a URL - likely an ARTICLE unless from book-related sites. Extract publication name from domain.' : 'This is text description - determine if book or article based on content.',
   });
 
   const response = await ai.run('@cf/meta/llama-3.1-8b-instruct', {
@@ -71,18 +59,13 @@ Rules:
     temperature: 0.2,
   });
 
-  console.log('Full AI response object:', JSON.stringify(response, null, 2));
-
   const content = response?.response || response?.text || response?.content || response?.description || '';
 
   if (!content) {
-    console.error('Empty AI response. Full response object:', JSON.stringify(response, null, 2));
     throw new Error('No response from AI');
   }
 
-  console.log('Raw AI response content (first 1000 chars):', content.substring(0, 1000));
-
-  let parsed;
+  let parsed: any;
   try {
     const cleaned = content.trim();
     const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
@@ -90,88 +73,53 @@ Rules:
       parsed = JSON.parse(jsonMatch[0]);
     } else if (cleaned.startsWith('[')) {
       const arrayMatch = cleaned.match(/\[[\s\S]*\]/);
-      if (arrayMatch) {
-        const array = JSON.parse(arrayMatch[0]);
-        parsed = Array.isArray(array) && array.length > 0 ? array[0] : array;
-      }
+      parsed = arrayMatch ? JSON.parse(arrayMatch[0])[0] : null;
     } else {
       parsed = JSON.parse(cleaned);
     }
   } catch (parseError) {
-    console.error('Failed to parse AI response. Raw content:', content.substring(0, 1000));
-    console.error('Parse error:', parseError);
     throw new Error('Failed to parse AI response');
   }
-
-  console.log('Parsed AI response:', JSON.stringify(parsed, null, 2));
 
   if (!parsed || typeof parsed !== 'object') {
     throw new Error('AI response is not a valid object');
   }
 
-  const sanitized: any = {
-    kind: parsed.kind || parsed.type || 'article',
+  const sanitized = {
+    kind: (parsed.kind === 'book' || parsed.type === 'book') ? 'book' : 'article',
     title: String(parsed.title || parsed.Title || '').trim(),
     authors: Array.isArray(parsed.authors) 
-      ? parsed.authors.map((a: any) => String(a).trim()).filter((a: string) => a.length > 0)
+      ? parsed.authors.map((a: unknown) => String(a).trim()).filter((a: string) => a.length > 0)
       : (parsed.author ? [String(parsed.author).trim()] : []),
-    year: typeof parsed.year === 'number' 
-      ? (parsed.year >= 1900 && parsed.year <= 2100 ? parsed.year : undefined)
-      : (parsed.year ? (() => {
-          const year = parseInt(String(parsed.year), 10);
-          return isNaN(year) || year < 1900 || year > 2100 ? undefined : year;
-        })() : undefined),
-    pages: typeof parsed.pages === 'number'
-      ? (parsed.pages >= 1 && parsed.pages <= 10000 ? parsed.pages : undefined)
-      : (parsed.pages ? (() => {
-          const pages = parseInt(String(parsed.pages), 10);
-          return isNaN(pages) || pages < 1 || pages > 10000 ? undefined : pages;
-        })() : undefined),
+    year: typeof parsed.year === 'number' && parsed.year >= 1900 && parsed.year <= 2100
+      ? parsed.year
+      : undefined,
+    pages: typeof parsed.pages === 'number' && parsed.pages >= 1 && parsed.pages <= 10000
+      ? parsed.pages
+      : undefined,
     genre: parsed.genre && [...BOOK_GENRES, 'unknown'].includes(parsed.genre) ? parsed.genre : undefined,
     tags: Array.isArray(parsed.tags) 
-      ? parsed.tags.map((tag: any) => String(tag).toLowerCase()).filter((tag: string) => ARTICLE_TAGS.includes(tag as any))
+      ? parsed.tags.map((tag: unknown) => String(tag).toLowerCase()).filter((tag: string) => (ARTICLE_TAGS as readonly string[]).includes(tag))
       : undefined,
     description: parsed.description ? String(parsed.description).trim() : undefined,
     url: parsed.url && typeof parsed.url === 'string' ? parsed.url : undefined,
-    source: parsed.source || 'llm',
+    source: 'llm' as const,
   };
 
-  if (!sanitized.title || sanitized.title.length === 0) {
+  if (!sanitized.title) {
     throw new Error('AI response missing title');
-  }
-
-  if (!['book', 'article'].includes(sanitized.kind)) {
-    sanitized.kind = 'article';
   }
 
   let validated;
   try {
     validated = WorkSchema.parse(sanitized);
-  } catch (zodError) {
-    console.error('Zod validation failed. Sanitized data:', JSON.stringify(sanitized, null, 2));
-    if (zodError instanceof z.ZodError) {
-      console.error('Validation errors:', zodError.errors.map((e) => ({
-        path: e.path.join('.'),
-        message: e.message,
-        code: e.code,
-        received: (e as any).received,
-        expected: (e as any).expected,
-      })));
-    }
-    
-    const safeFallback = {
-      kind: sanitized.kind === 'book' ? 'book' : 'article',
+  } catch {
+    validated = WorkSchema.parse({
+      kind: sanitized.kind,
       title: sanitized.title,
-      authors: Array.isArray(sanitized.authors) ? sanitized.authors : [],
-      year: sanitized.year,
-      genre: sanitized.genre,
-      tags: sanitized.tags,
-      url: sanitized.url,
+      authors: sanitized.authors,
       source: 'llm' as const,
-    };
-    
-    console.warn('Using safe fallback instead of validated schema');
-    validated = WorkSchema.parse(safeFallback);
+    });
   }
 
   const publication = 
@@ -179,13 +127,10 @@ Rules:
       ? (heuristicCandidate.publication || extractPublicationFromUrl(url) || '')
       : '';
 
-  const result: ResponseData = {
+  return {
     kind: validated.kind,
     title: validated.title || heuristicCandidate.title || '',
-    author:
-      validated.authors && validated.authors.length > 0
-        ? validated.authors[0]
-        : heuristicCandidate.author || '',
+    author: validated.authors?.[0] || heuristicCandidate.author || '',
     publication: publication || heuristicCandidate.publication || '',
     year: validated.year ?? heuristicCandidate.year,
     pages: validated.pages ?? undefined,
@@ -194,7 +139,4 @@ Rules:
     description: validated.description ?? undefined,
     url: validated.url ?? url ?? undefined,
   };
-  
-  return result;
 }
-
