@@ -65,10 +65,6 @@ export default async function Home() {
           bashdemy&apos;s Bookshelf
         </h1>
 
-        <p className="mt-4 font-sans text-sm text-pink-700/80 max-w-lg mx-auto leading-relaxed">
-          A cozy, whimsical collection of physical volumes, online essays, and favorite late-night rabbit holes.
-        </p>
-
         {/* Floating Stat Pills */}
         <div className="mx-auto mt-8 flex flex-wrap items-center justify-center gap-3 font-sans">
           {[
